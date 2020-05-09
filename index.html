@@ -1,44 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
-<style>
-.container {
-  position: relative;
-  width: 50%;
-}
-
-.image {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.tansition-image {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  opacity: 0;
-  transition: .5s ease;
-}
-
-.container:hover .overlay {
-  opacity: 1;
-}
-
-</style>
-</head>
-<body>
-
-<h2>Fade in Overlay</h2>
-
-<div class="container">
-	<img src="/images/jos.png" alt="Avatar" class="image">
-	<img class="transition-image" src="/images/coco.png" alt="">
-</div>
-
-</body>
+	<head>
+		<link rel="stylesheet" href="main.css">
+		<title>Pei Pei</title>
+	</head>
+	<body>
+		<div class="image-container">
+			<img src="/images/jos.png" alt="">
+			<img class="tansition-image" src="/images/coco.png" alt="">
+		</div><!-- /.container -->
+	</body>
 </html>
