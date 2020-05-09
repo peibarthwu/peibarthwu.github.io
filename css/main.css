@@ -18,6 +18,6 @@
 	opacity: 0;
 	transition: opacity 0.5s ease;
 }
-.transition-image:hover{
+.image-container:hover .transition-image{
 	opacity: 1;
 }
