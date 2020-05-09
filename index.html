@@ -5,7 +5,12 @@
 		<title>Pei Pei</title>
 	</head>
 	<body>
-		<div class="image-container">
+		<div>
+    			<video onmouseover="this.play()" onmouseout="this.pause();this.currentTime=0;">
+    			<source src="/images/ninagif.mp4" type="video/mp4"></source>
+   			</video>    
+		</div>
+	<div class="image-container">
 			<img src="/images/nina2frame.jpg" alt="">
 			<video class="transition-image" src="/images/ninagif.mp4" poster="/images/nina2frame.jpg" controls preload></video>
 		</div><!-- /.container -->
