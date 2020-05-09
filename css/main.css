@@ -5,6 +5,8 @@
 .image-container {
 	height: 500px;
 	width: 800px;
+	left: 60px;
+  	top: 400px;
 	position: relative;
 }
 .image-container img{
