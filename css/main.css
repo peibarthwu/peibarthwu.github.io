@@ -40,7 +40,6 @@
 	top: 0px;
 	left: 0px;
 	height: 500px;
-	width: 800px;
 	opacity: 0;
 	transition: opacity 0.5s ease;
 }
