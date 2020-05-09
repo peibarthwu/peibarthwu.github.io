@@ -1,9 +1,9 @@
-body {
+.body {
 	background: #ffeff6ff;
     	text-align: left;
 }
 .image-container {
-	height 500px;
+	height: 500px;
 	width: 800px;
 	position: relative;
 }
