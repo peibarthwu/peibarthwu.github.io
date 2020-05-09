@@ -1,23 +1,23 @@
-body {
+.body {
 	background: #ffeff6ff;
     	text-align: left;
 }
-image-container {
+.image-container {
 	height: 500px;
 	width: 800px;
 	position: relative;
 }
-image-container img{
+.image-container img{
 	width: 100%;
 	height: 100%;
 }
-transition-image{
+.transition-image{
 	position: absolute;
 	top: 0px;
 	left: 0px;
 	opacity: 0;
 	transition: opacity 0.5s ease;
 }
-transition-image:hover {
+.transition-image:hover {
 	opacity: 1;
 }
