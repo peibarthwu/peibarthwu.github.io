@@ -37,8 +37,9 @@ body {
 	transform: translate(-50%,-50%);
 }
 .transition-image{
-	position: absolute;
-	top: 50%;
+	position: relative;
+	top: 0;
+	left: 0;
 	height: 100%;
 	opacity: 0;
 	transition: opacity 0.5s ease;
