@@ -1,6 +1,7 @@
 body {
 	background-color: #ffeff6ff !important;
     	text-align: left;
+	width: 100%;
 }
 .header {
 	padding: 10px;
