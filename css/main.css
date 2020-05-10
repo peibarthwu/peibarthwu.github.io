@@ -15,16 +15,30 @@ body {
 
 }
 .image-container {
-	height: 100%;
 	align: center;
 	position: relative;
+	width: 100%;
+	height: 100%; 
+	overflow: hidden;
 }
 .image-container img{
-	height: 100%;
+	/* Make video to at least 100% wide and tall */
+	min-width: 100%; 
+	min-height: 100%; 
+
+	/* Setting width & height to auto prevents the browser from stretching or squishing the video */
+	width: auto;
+	height: auto;
+
+	/* Center the video */
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
 }
 .transition-image{
 	position: absolute;
-	top: 0px;
+	top: 50%;
 	height: 100%;
 	opacity: 0;
 	transition: opacity 0.5s ease;
