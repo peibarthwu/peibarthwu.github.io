@@ -15,8 +15,7 @@ body {
 
 }
 .image-container {
-	height: 500px;
-	width: 800px;
+	height: 50%
 	position: relative;
 }
 .image-container img{
@@ -26,7 +25,7 @@ body {
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	height: 500px;
+	height: 50%;
 	opacity: 0;
 	transition: opacity 0.5s ease;
 }
