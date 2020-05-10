@@ -6,12 +6,11 @@ body {
 	padding: 60px;
 	width: 100%;
 	display: block;
-	height: 80px;
-  	text-align: center;
-  	background-color: black;
-  	color: white;
-  	font-size: 30px;
-  	font-family: Impact, Charcoal, sans-serif;
+	text-align: center;
+	background-color: #ffeff6ff;
+	color: white;
+	font-size: 30px;
+	font-family: Impact, Charcoal, sans-serif;
 
 }
 .image-container {
@@ -26,7 +25,7 @@ body {
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	height: 40%;
+	height: 500px;
 	opacity: 0;
 	transition: opacity 0.5s ease;
 }
