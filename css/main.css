@@ -31,6 +31,7 @@ body {
 .image-container {
 	height: 500px;
 	width: 800px;
+	top: 12vw;
 	position: relative;
 }
 .image-container img{
