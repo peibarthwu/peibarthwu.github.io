@@ -29,18 +29,18 @@ body {
 
 }
 .image-container {
-	height: 5vw;
-	width: 8vw;
+	height: 500px;
+	width: 800px;
 	position: relative;
 }
 .image-container img{
-	height: 5vw;
+	height: 100%;
 }
 .transition-image{
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	height: 5vw;
+	height: 500px;
 	opacity: 0;
 	transition: opacity 0.5s ease;
 }
