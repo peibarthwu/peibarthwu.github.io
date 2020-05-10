@@ -2,6 +2,15 @@
 	background-color: #ffeff6ff !important;
     	text-align: left;
 }
+.header {
+  padding: 60px;
+  text-align: center;
+  background: #ffeff6ff;
+  color: white;
+  font-size: 30px;
+  font-family: Impact, Charcoal, sans-serif;
+
+}
 .image-container {
 	height: 500px;
 	width: 800px;
