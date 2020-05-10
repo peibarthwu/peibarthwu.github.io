@@ -6,11 +6,12 @@ body {
 	padding: 60px;
 	width: 100%;
 	display: block;
-	text-align: center;
-	background-color: #ffeff6ff;
-	color: white;
-	font-size: 30px;
-	font-family: Impact, Charcoal, sans-serif;
+	height: 80px;
+  	text-align: left;
+  	background-color: #ffeff6ff;
+  	color: #d0c8ccff;
+  	font-size: 30px;
+  	font-family: Impact, Charcoal, sans-serif;
 
 }
 .image-container {
@@ -32,4 +33,3 @@ body {
 .transition-image:hover {
 	opacity: 1;
 }
-
