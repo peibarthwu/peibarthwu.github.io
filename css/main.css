@@ -6,10 +6,10 @@ body {
 	padding: 10px;
 	width: 100%;
 	display: block;
-	height: 280px;
+	height: 200px;
   	text-align: center;
   	background-color: #ffeff6ff;
-  	font-size: 80px;
+  	font-size: 30px;
   	font-family: Impact, Charcoal, sans-serif;
 	color: #fff;
 	-webkit-animation: header 1s ease-in-out infinite alternate;
@@ -31,7 +31,6 @@ body {
 .image-container {
 	height: 500px;
 	width: 800px;
-	top: 12vw;
 	position: relative;
 }
 .image-container img{
@@ -39,8 +38,7 @@ body {
 }
 .transition-image{
 	position: absolute;
-	top: 0px;
-	left: 0px;
+	height: 500px;
 	opacity: 0;
 	transition: opacity 0.5s ease;
 }
