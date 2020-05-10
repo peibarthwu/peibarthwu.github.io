@@ -6,10 +6,10 @@ body {
 	padding: 10px;
 	width: 100%;
 	display: block;
-	height: 200px;
+	height: 280px;
   	text-align: center;
   	background-color: #ffeff6ff;
-  	font-size: 40px;
+  	font-size: 80px;
   	font-family: Impact, Charcoal, sans-serif;
 	color: #fff;
 	-webkit-animation: header 1s ease-in-out infinite alternate;
