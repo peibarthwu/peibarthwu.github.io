@@ -1,6 +1,6 @@
 body {
 	background-color: #ffeff6ff !important;
-    	text-align: left;
+    	text-align: center;
 }
 .header {
 	padding: 10px;
@@ -15,8 +15,7 @@ body {
 
 }
 .image-container {
-	height: 500px;
-	width: 800px;
+	height: 100%
 	align: center;
 	position: relative;
 }
@@ -27,7 +26,7 @@ body {
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	height: 500px;
+	height: 100%;
 	opacity: 0;
 	transition: opacity 0.5s ease;
 }
