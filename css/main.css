@@ -5,8 +5,6 @@
 .image-container {
 	height: 500px;
 	width: 800px;
-	left: 60px;
-  	top: 400px;
 	position: relative;
 }
 .image-container img{
@@ -23,24 +21,4 @@
 .transition-image:hover {
 	opacity: 1;
 }
-.image-container2 {
-	height: 500px;
-	width: 800px;
-	left: 600px;
-  	top: 30px;
-	position: relative;
-}
-.image-container2 img{
-	height: 100%;
-}
-.transition-image2{
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	height: 500px;
-	opacity: 0;
-	transition: opacity 0.5s ease;
-}
-.transition-image2:hover {
-	opacity: 1;
-}
+
