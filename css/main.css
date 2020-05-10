@@ -17,6 +17,7 @@ body {
 .image-container {
 	height: 500px;
 	width: 800px;
+	align: center;
 	position: relative;
 }
 .image-container img{
