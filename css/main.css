@@ -39,7 +39,6 @@ body {
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	height: 40%;
 	opacity: 0;
 	transition: opacity 0.5s ease;
 }
