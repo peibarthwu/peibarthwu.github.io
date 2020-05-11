@@ -29,7 +29,7 @@ body {
 }
 
 .image-container {
-	height: 25%;
+	height: 40%;
 	position: absolute;
 }
 .image-container img{
@@ -39,7 +39,7 @@ body {
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	height: 25%;
+	height: 40%;
 	opacity: 0;
 	transition: opacity 0.5s ease;
 }
