@@ -1,38 +1,93 @@
+
 <!DOCTYPE html>
-<html>
-	<head>
- 		<meta charSet="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<link rel="stylesheet" href="/css/main.css">
-		<title>Pei Pei</title>
-	</head>
-	<body>
-		<div class="header">
-  			<h1>By Pei Pei</h1>
-  			<p>view on desktop pls<3</p>
-		<div class="image-container" style="left:5%; top:25%;">
-			<img src="/images/nina2frame.jpg" alt="">
-			<a href="https://www.youtube.com/watch?v=E9lvjlJedu4">
-			<video class="transition-image" src="/images/ninagif.mp4" poster="/images/ninacover.jpg" autoplay loop muted playsinline></video>
-			</a>
-		</div><!-- /.container -->
-		<div style="left:60%; top:20%; height:40%; position:absolute;">
-			<a href="https://www.youtube.com/watch?v=Fn71n5PIeEQ&feature=youtu.be">
-			<video src="/images/magic.mp4" style="height:100%" autoplay loop muted playsinline></video>
-			</a>
-		</div>
-		<div class="image-container" style="left:25%; top:60%;" >
-			<img src="/images/simscover.jpeg" alt="">
-			<a href="https://youtu.be/4Lmt8PtkFyo">
-				<video class="transition-image" src="/images/moviesimgif.mp4" poster="/images/simscover.jpeg" autoplay loop muted playsinline></video>
-			</a>
-		</div><!-- /.container -->
-		<div style="left:65%; top:50%; height:15%; position:absolute;">
-			<img src="/images/full2butterfly.png" style="height:100%">
-		</div>
-		<div style="left:5%; top:50%; height:20%; position:absolute;">
-			<img src="/images/full2.png" style="height:100%">
-		</div>
-		</div>
-	</body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="manifest" href="scripts/manifest.json">
+    <link rel="apple-touch-icon" href="scrubber_logo_ios_homescreen.png">
+	<title>Test</title>
+</head>
+<link rel="stylesheet" href="/css/main.css">
+<script>
+	// register service worker
+
+	if ('serviceWorker' in navigator) {
+		navigator.serviceWorker.register('sw.js', { scope: '/image-scrubber/' }).then(function(reg) {
+
+			if(reg.installing) {
+				console.log('Service worker installing');
+			} else if(reg.waiting) {
+				console.log('Service worker installed');
+			} else if(reg.active) {
+				console.log('Service worker active');
+			}
+
+		}).catch(function(error) {
+			// registration failed
+			console.log('Registration failed with ' + error);
+		});
+	}
+
+</script>
+<body>
+
+<div id="topBar">
+
+    <div id="drop-zone" class="topBarDiv dropZone">
+            <label for="file-input" class="customFileOpen controlButton">Open&nbsp;Image&nbsp;📂</label>
+            <input id="file-input" type="file"/>
+    </div>
+
+    <a id="saveButton" onclick="saveImage(this)" class="topBarDiv controlButton">Save&nbsp;Image&nbsp;💾</a>
+
+    <div id="rotate" class="topBarDiv controlButton">Rotate&nbsp;Image&nbsp;⤾</div>
+
+
+    <div id="paintBlur" class="topBarDiv" class="customFileOpen"><center>
+
+    <form id="paintForm">
+    <input type="radio" id="Paint" name="paintingAction" value="paint">
+    <label for="Paint">Paint</label><br>
+    <input type="radio" id="Blur" name="paintingAction" value="blur" checked>
+    <label for="Blur">Blur&nbsp;</label><br>
+    <input type="radio" id="Undo" name="paintingAction" value="undo">
+    <label for="Undo">Undo&nbsp;</label>
+    </form>
+    </div>
+
+
+    <div id="brushSizeDiv" class="topBarDiv"><center>Brush&nbsp;Size<br>
+      <input type="range" min="10" max="100" value="55" class="slider" id="brushSizeSlider"></center>
+    </div>
+
+    <div id="blurAmountDiv" class="topBarDiv"><center>Blur&nbsp;Radius<br>
+      <input type="range" min="40" max="150" value="75" class="slider" id="blurAmountSlider"></center>
+    </div>
+</div>
+
+<button id="about">About</button>
+
+<div id="imageScrubberInfo">
+    <pre>
+    <center><b>Filler Title</b></center>
+
+    test run based off image scrubber.
+    </pre>
+
+</div>
+
+    <div id="exifInformationHolder"></div>
+    <canvas id="imageCanvas"></canvas>
+    <canvas id="tempCanvas"></canvas>
+    <canvas id="holderCanvas"></canvas>
+    <canvas id="rotationCanvas"></canvas>
+    <canvas id="blurredCanvas"></canvas>
+
+    <script type="text/javascript" src="scripts/exif.js"></script>
+    <script type="text/javascript" src="scripts/stackblur.js"></script>
+    <script type="text/javascript" src="scripts/js.js"></script>
+
+</body>
 </html>
