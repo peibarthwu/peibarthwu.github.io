@@ -1,0 +1,12 @@
+body {
+	background: #a2bce8;
+  text-align: center;
+}
+
+h1 {
+	color: #f7f0b7;
+  font-family: 'Parisienne', cursive;
+  margin-top: 100px;
+  font-size: 50px;
+  z-index: 47;
+}
