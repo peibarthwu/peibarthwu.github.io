@@ -20,14 +20,18 @@ h1 {
   box-sizing: border-box;
 }
 
-/* Create two equal columns that floats next to each other */
+/* Create three equal columns that floats next to each other */
 .column {
   float: left;
-  width: 30%;
+  width: 33.33%;
   padding: 10px;
 }
 
 .column img {
+  margin-top: 12px;
+}
+
+.column video {
   margin-top: 12px;
 }
 
