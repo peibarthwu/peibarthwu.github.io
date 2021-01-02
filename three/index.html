@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <title>My first three.js app</title>
+        <link rel="stylesheet" href="index.css">
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body >
+        <!-- Header -->
+     <div class="header">
+      <h1><a href="sprite.html"><img src="name.png" style="width:15%"></a> 
+        <a href="google.com">    <img src="video.png" style="width:15%"></a>
+      </h1> 
+     </div>
+        <script src="three-1.js-master/build/three.js"></script>
+        <script src="three-1.js-master/examples/js/loaders/GLTFLoader.js"></script>
+        <script src="three-1.js-master/examples/js/controls/OrbitControls.js"></script>
+        <div id="content">
+        <script>
+// Create the scene and a camera to view it
+var scene = new THREE.Scene();
+scene.background = new THREE.Color( 0xbfb9f3 );
+
+
+/**
+* Camera
+**/
+
+// Specify the portion of the scene visiable at any time (in degrees)
+var fieldOfView = 75;
+
+// Specify the camera's aspect ratio
+var aspectRatio = window.innerWidth / window.innerHeight;
+
+// Specify the near and far clipping planes. Only objects
+// between those planes will be rendered in the scene
+// (these values help control the number of items rendered
+// at any given time)
+var nearPlane = 0.1;
+var farPlane = 1000;
+
+// Use the values specified above to create a camera
+var camera = new THREE.PerspectiveCamera(
+  fieldOfView, aspectRatio, nearPlane, farPlane
+);
+
+// Finally, set the camera's position in the z-dimension
+camera.position.z = 4;
+camera.position.x = 10;
+
+
+/**
+* Renderer
+**/
+
+// Create the canvas with a renderer
+var renderer = new THREE.WebGLRenderer({antialias: true});
+
+// Specify the size of the canvas
+renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.shadowMap.enabled = true;
+
+// Add the canvas to the DOM
+document.getElementById("content").appendChild( renderer.domElement );
+//environment
+var loader1 = new THREE.TextureLoader();
+
+loader1.load('startrek.png', function( texture ) {
+     var sphereGeometry = new THREE.SphereGeometry( 500, 60, 40 )
+     var sphereMaterial = new THREE.MeshBasicMaterial({
+          map: texture,
+          side: THREE.DoubleSide
+     })
+     sphereGeometry.scale( -1, 1, 1 );
+     var mesh = new THREE.Mesh( sphereGeometry, sphereMaterial );
+     scene.add( mesh );
+     mesh.position.set( 0, 0, 0 )
+})
+
+/**
+* Object
+**/
+
+//this is me trying to load the obj
+//to huey: the problem is instatiating the loader bc it breaks at that line
+
+const gloader = new THREE.GLTFLoader();
+
+gloader.load( 'obj/tvplane.gltf', function ( gltf ) {
+    gltf.scene.traverse( function ( child ) {
+        if ( child.isMesh ) {
+            child.geometry.center(); // center here
+
+        }
+    });
+    gltf.scene.scale.set(2,2,2) // scale here
+	scene.add( gltf.scene );
+
+}, undefined, function ( error ) {
+
+	console.error( error );
+
+} );
+
+controls = new THREE.OrbitControls( camera, renderer.domElement );
+controls.minDistance = 5;
+controls.maxDistance = 20;
+//controls.autoRotate = true;       // enable rotation
+
+controls.maxPolarAngle = Math.PI; // radians
+/**
+* Lights
+**/
+
+// Add a point light with #fff color, .7 intensity, and 0 distance
+var light1 = new THREE.PointLight( 0xffffff, 3, 0 );
+var light2 = new THREE.PointLight( 0xffffff, 3, 0 );
+// Specify the light's position
+light1.position.set(-110, 10, 400 );
+light2.position.set(30, -10, 400 );
+
+// Add the light to the scene
+scene.add(light1)
+scene.add(light2)
+
+var ambientLight = new THREE.AmbientLight(0xffffff);
+    scene.add(ambientLight);
+    ambientLight.position.set(1, 1, 100 );
+
+/**
+* Render!
+**/
+
+// The main animation function that re-renders the scene each animation frame
+function animate() {
+requestAnimationFrame( animate );
+  renderer.render( scene, camera );
+
+}
+animate();
+
+window.addEventListener( 'resize', onWindowResize, false );
+
+function onWindowResize(){
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+share  
+        </script>
+        </div>
+	</body>
+</html>
