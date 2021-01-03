@@ -1,69 +1,157 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>PEI BARTH WU</title>
-    <link rel="stylesheet" href="index.css">
-    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
-  </head>
+	<head>
+        <title>My first three.js app</title>
+        <link rel="stylesheet" href="three/index.css">
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body >
+        <!-- Header -->
+     <div class="header">
+      <h1><a href="phto.html"><img src="three/name.png" style="width:15%"></a> 
+        <a href="google.com">    <img src="three/video.png" style="width:15%"></a>
+      </h1> 
+     </div>
+        <script src="three/three.js"></script>
+        <script src="three/GLTFLoader.js"></script>
+        <script src="three/OrbitControls.js"></script>
+        <div id="content">
+        <script>
+// Create the scene and a camera to view it
+var scene = new THREE.Scene();
+scene.background = new THREE.Color( 0xbfb9f3 );
 
-  <body>
-    <div id="canvas">
-      <h1></h1>
-    </div>
-    <script src="placeImages.js"></script>
 
-     <!-- Header -->
-  <div class="header">
-    <h1></h1>
-    <a href="three/index.html" ><video autoplay muted loop style="width:33%"><source src='img/disco-whitebackground.mp4' type="video/mp4" /></video></a>  
-  </div>
+/**
+* Camera
+**/
 
-  <!-- Photo Grid -->
-  <div class="row">
-    <div class="column">
-    <img src="img/hanna.jpg" style="width:100%">
-    <img src="img/ellis.JPG" style="width:100%">
-    <img src="img/11.jpg" style="width:100%">
-    <img src="img/hanna library.jpg" style="width:100%">
-    <img src="img/venice.jpg" style="width:100%">
-    <img src="img/train.jpg" style="width:100%">
-    <img src="img/ro.jpg" style="width:100%">
-    <img src="img/stanwindow.jpg" style="width:100%">
-    <img src="img/golf.jpg" style="width:100%">
-    <img src="img/mum.jpg" style="width:100%">
-     <img src="img/doodle.png" style="width:100%">
-    </div>
-    <div class="column">
-    <img src="img/21.jpg" style="width:100%">
-    <img src="img/becco.JPG" style="width:100%">
-    <img src="img/guards.jpg" style="width:100%">
-    <img src="img/4.jpg" style="width:100%">
-    <img src="img/livy1.JPG" style="width:100%">
-    <img src="img/livy2.JPG" style="width:100%">
-    <img src="img/34.jpeg" style="width:100%">
-    <img src="img/harrods.jpg" style="width:100%">
-    <img src="img/hair.jpg" style="width:100%">
-    <img src="img/back.JPG" style="width:100%">
-    <video src="img/loop.mp4" type="video/mp4" style="width:100%" padding="10px" controls="false" pointer-events="none" muted autoplay loop>
-    </div>
+// Specify the portion of the scene visiable at any time (in degrees)
+var fieldOfView = 75;
 
-    <div class="column">
-    <img src="img/coco.png" style="width:100%">
-    <img src="img/packing.jpg" style="width:100%">
-    <img src="img/waywayslayslay.jpeg" style="width:100%">
-    <img src="img/steps.png" style="width:100%">
-    <img src="img/nat.JPG" style="width:100%">
-    <img src="img/studio.jpg" style="width:100%" transform="rotate(90deg)">
-    <img src="img/girlanddog.png" style="width:100%">
-      <img src="img/noor.JPG" style="width:100%">
-    <img src="img/prom.jpeg" style="width:100%">
-    <img src="img/3.jpeg" style="width:100%">
-    <img src="img/mei.jpg" style="width:100%">
-    <video autoplay muted loop style="width:100%">
-      <source src='img/alarm.mp4' type="video/mp4" />
-    </video> 
-    </div>
-  </div>
-  </body>
+// Specify the camera's aspect ratio
+var aspectRatio = window.innerWidth / window.innerHeight;
 
+// Specify the near and far clipping planes. Only objects
+// between those planes will be rendered in the scene
+// (these values help control the number of items rendered
+// at any given time)
+var nearPlane = 0.1;
+var farPlane = 1000;
+
+// Use the values specified above to create a camera
+var camera = new THREE.PerspectiveCamera(
+  fieldOfView, aspectRatio, nearPlane, farPlane
+);
+
+// Finally, set the camera's position in the z-dimension
+camera.position.z = 4;
+camera.position.x = 10;
+
+
+/**
+* Renderer
+**/
+
+// Create the canvas with a renderer
+var renderer = new THREE.WebGLRenderer({antialias: true});
+
+// Specify the size of the canvas
+renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.shadowMap.enabled = true;
+
+// Add the canvas to the DOM
+document.getElementById("content").appendChild( renderer.domElement );
+//environment
+var loader1 = new THREE.TextureLoader();
+
+loader1.load('three/startrek.png', function( texture ) {
+     var sphereGeometry = new THREE.SphereGeometry( 500, 60, 40 )
+     var sphereMaterial = new THREE.MeshBasicMaterial({
+          map: texture,
+          side: THREE.DoubleSide
+     })
+     sphereGeometry.scale( -1, 1, 1 );
+     var mesh = new THREE.Mesh( sphereGeometry, sphereMaterial );
+     scene.add( mesh );
+     mesh.position.set( 0, 0, 0 )
+})
+
+/**
+* Object
+**/
+
+//this is me trying to load the obj
+//to huey: the problem is instatiating the loader bc it breaks at that line
+
+const gloader = new THREE.GLTFLoader();
+
+gloader.load( 'three/obj/tvplane.gltf', function ( gltf ) {
+    gltf.scene.traverse( function ( child ) {
+        if ( child.isMesh ) {
+            child.geometry.center(); // center here
+
+        }
+    });
+    gltf.scene.scale.set(2,2,2) // scale here
+	scene.add( gltf.scene );
+
+}, undefined, function ( error ) {
+
+	console.error( error );
+
+} );
+
+controls = new THREE.OrbitControls( camera, renderer.domElement );
+controls.minDistance = 5;
+controls.maxDistance = 20;
+//controls.autoRotate = true;       // enable rotation
+
+controls.maxPolarAngle = Math.PI; // radians
+/**
+* Lights
+**/
+
+// Add a point light with #fff color, .7 intensity, and 0 distance
+var light1 = new THREE.PointLight( 0xffffff, 3, 0 );
+var light2 = new THREE.PointLight( 0xffffff, 3, 0 );
+// Specify the light's position
+light1.position.set(-110, 10, 400 );
+light2.position.set(30, -10, 400 );
+
+// Add the light to the scene
+scene.add(light1)
+scene.add(light2)
+
+var ambientLight = new THREE.AmbientLight(0xffffff);
+    scene.add(ambientLight);
+    ambientLight.position.set(1, 1, 100 );
+
+/**
+* Render!
+**/
+
+// The main animation function that re-renders the scene each animation frame
+function animate() {
+requestAnimationFrame( animate );
+  renderer.render( scene, camera );
+
+}
+animate();
+
+window.addEventListener( 'resize', onWindowResize, false );
+
+function onWindowResize(){
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+}  
+        </script>
+        </div>
+	</body>
 </html>
