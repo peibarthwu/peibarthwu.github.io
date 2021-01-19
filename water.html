@@ -18,6 +18,7 @@
         <script src="three/three.js"></script>
         <script src="three/GLTFLoader.js"></script>
         <script src="three/OrbitControls.js"></script>
+        <script type="module" src="three/Water2.js"></script>
         <div id="content">
         <script>
 // Create the scene and a camera to view it
@@ -83,29 +84,27 @@ loader1.load('three/startrek.png', function( texture ) {
 /**
 * water
 **/
+// water
 
-water = new THREE.water( renderer, camera, scene, {
-    textureWidth: 512, 
-    textureHeight: 512,
-    waterNormals: 1,
-    alpha:  1.0,
-    waterColor: 0x001e0f,
-    distortionScale: 1,
+const waterGeometry = new THREE.PlaneBufferGeometry( 20, 20 );
+const params = {
+				color: '#ffffff',
+				scale: 4,
+				flowX: 1,
+				flowY: 1
+			};
+water = new THREE.water( waterGeometry, {
+    color: params.color,
+    scale: params.scale,
+    flowDirection: new THREE.Vector2( params.flowX, params.flowY ),
+    textureWidth: 1024,
+    textureHeight: 1024
 } );
 
+water.position.y = 1;
+water.rotation.x = Math.PI * - 0.5;
+scene.add( water );
 
-mirrorMesh = new THREE.Mesh(
-    new THREE.PlaneBufferGeometry( parameters.width * 500, parameters.height * 500 ),
-    water.material
-);
-
-mirrorMesh.add( water );
-mirrorMesh.rotation.x = - Math.PI * 0.5;
-scene.add( mirrorMesh );
-
-controls = new THREE.OrbitControls( camera, renderer.domElement );
-controls.minDistance = 5;
-controls.maxDistance = 20;
 //controls.autoRotate = true;       // enable rotation
 
 controls.maxPolarAngle = Math.PI; // radians

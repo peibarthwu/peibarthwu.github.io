@@ -7,6 +7,10 @@ background-size: cover;
 position: relative;
 }
 
+img {
+  image-orientation: from-image;
+}
+
 h1 {
    font-size: 50px;
 }
