@@ -23,7 +23,7 @@
         <script src="three/OrbitControls.js"></script>
         <div id="content">
         <script>
-// Create the scene and a camera to view it
+// Create the scene 
 var scene = new THREE.Scene();
 scene.background = new THREE.Color( 0xbfb9f3 );
 
@@ -32,7 +32,6 @@ scene.background = new THREE.Color( 0xbfb9f3 );
 * Camera
 **/
 
-// Specify the portion of the scene visiable at any time (in degrees)
 var fieldOfView = 75;
 
 // Specify the camera's aspect ratio
@@ -92,13 +91,7 @@ loader1.load('three/startrek.png', function( texture ) {
 
 const gloader = new THREE.GLTFLoader();
 
-gloader.load( 'three/obj/tvplane.gltf', function ( gltf ) {
-    gltf.scene.traverse( function ( child ) {
-        if ( child.isMesh ) {
-            child.geometry.center(); // center here
-
-        }
-    });
+gloader.load( 'three/obj/tv.gltf', function ( gltf ) {
     gltf.scene.scale.set(2,2,2) // scale here
 	scene.add( gltf.scene );
 
@@ -113,7 +106,6 @@ controls.minDistance = 5;
 controls.maxDistance = 20;
 //controls.autoRotate = true;       // enable rotation
 
-controls.maxPolarAngle = Math.PI; // radians
 /**
 * Lights
 **/
