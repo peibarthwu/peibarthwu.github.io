@@ -30,7 +30,7 @@
 			container = document.createElement('three');
 			document.body.appendChild(container);
 
-			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 20);
+			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
 			camera.position.set(-2,2, 5);
 
 
@@ -41,9 +41,13 @@
 			orangeLight.position.set(0,3,1);
 			scene.add(orangeLight);
 
-			let blueLight = new THREE.PointLight(0x1410ec,10,0);
+			let blueLight = new THREE.PointLight(0x1f10ec,10,0);
 			blueLight.position.set(-10,0,12);
 			scene.add(blueLight);
+
+			let pinkLight = new THREE.PointLight(0xffaaff,10,0);
+			pinkLight.position.set(-1,0,-10);
+			scene.add(pinkLight);
 
 			let dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
 			dirLight.position.set( -1, 0.75, 1 );
@@ -99,8 +103,31 @@
 			container.appendChild(renderer.domElement);
 
 			controls = new OrbitControls( camera, renderer.domElement );
+			controls.minDistance = 3;
+controls.maxDistance = 5;
 
 		}
+
+		let tloader = new THREE.TextureLoader();
+				tloader.load("img/smoke.png", function(texture){
+				const cloudGeo = new THREE.PlaneBufferGeometry(14,18);
+				const cloudMaterial = new THREE.MeshLambertMaterial({
+					map:texture,
+					transparent: true
+				});
+
+				for(let p=0; p<20; p++) {
+					let cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
+					cloud.position.set(
+						Math.random()*5-1, //
+					0, //side
+					-p -3 //forward
+					);
+					cloud.rotation.z = Math.random()*2*Math.PI;
+					cloud.material.opacity = 0.35;
+					scene.add(cloud);
+				}
+				});
 
 
 		function animate() {
