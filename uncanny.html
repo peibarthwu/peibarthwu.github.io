@@ -40,9 +40,13 @@
 			orangeLight.position.set(0,3,2);
 			scene.add(orangeLight);
 
-			let blueLight = new THREE.PointLight(0x1f5575,4,0);
+			let blueLight = new THREE.PointLight(0x175575,4,0);
 			blueLight.position.set(-10,0,12);
 			scene.add(blueLight);
+
+			let light = new THREE.PointLight(0xbf95ab,4,0);
+			light.position.set(-10,-10,0);
+			scene.add(light);
 
 			// GUI
 			var params = {
