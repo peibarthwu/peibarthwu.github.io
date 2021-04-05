@@ -34,7 +34,7 @@
 			camera.position.set(-2,2, 5);
 
 			scene = new THREE.Scene();
-			scene.background = new THREE.Color(0x716778);
+			scene.background = new THREE.Color(0x175575);
 
 			let orangeLight = new THREE.PointLight(0x175575,10,10);
 			orangeLight.position.set(0,3,2);
@@ -103,7 +103,7 @@
 			controls.maxDistance = 5;
 
 		}
-
+		/**
 		let tloader = new THREE.TextureLoader();
 				tloader.load("img/smoke.png", function(texture){
 				const cloudGeo = new THREE.PlaneBufferGeometry(14,18);
@@ -116,8 +116,8 @@
 					let cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
 					cloud.position.set(
 					Math.random()*5-1, //
-					Math.random() -1, //side
-					-p -3 //forward
+					Math.random() -4, //side
+					-p //forward
 					);
 					cloud.rotation.z = Math.random()*2*Math.PI;
 					cloud.material.opacity = 0.35;
@@ -125,7 +125,7 @@
 				}
 				});
 
-
+			*/
 		function animate() {
 			requestAnimationFrame(animate);
 			renderer.render(scene, camera);
