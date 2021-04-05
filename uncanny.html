@@ -34,7 +34,7 @@
 			camera.position.set(-2,2, 5);
 
 			scene = new THREE.Scene();
-			scene.background = new THREE.Color(0x084361);
+			scene.background = new THREE.Color(0x153947);
 
 			let orangeLight = new THREE.PointLight(0x175575,10,10);
 			orangeLight.position.set(0,3,2);
@@ -44,9 +44,13 @@
 			blueLight.position.set(-10,0,12);
 			scene.add(blueLight);
 
-			let light = new THREE.PointLight(0xbf95ab,4,0);
+			let light = new THREE.PointLight(0x705675,4,0);
 			light.position.set(-10,-10,0);
 			scene.add(light);
+
+			const gridHelper = new THREE.GridHelper( 10, 20 , 0xffffff, 0xffffff);
+			gridHelper.position.y -= 0.4;
+			scene.add( gridHelper );
 
 			// GUI
 			var params = {
