@@ -75,7 +75,7 @@
                       var container = document.getElementById( 'three' );
                       //document.body.appendChild( container );
               renderer = new THREE.WebGLRenderer({ antialias: true, three });
-              renderer.setSize(window.innerWidth,window.innerHeight);
+              renderer.setSize(window.innerWidth,window.innerHeight*0.95);
               container.appendChild(renderer.domElement);
       
                       //const controls = new OrbitControls( camera, renderer.domElement );
@@ -125,7 +125,7 @@
                   const gloader = new THREE.GLTFLoader();
                   gloader.load( 'models/finalcomputer.gltf', function ( gltf ) {
                   model = gltf.scene;
-                      gltf.scene.scale.set(1,1,1); // scale here
+                      gltf.scene.scale.set(0.75,0.75,0.75); // scale here
                   scene.add( gltf.scene );
                   }, undefined, function ( error ) {
                   console.error( error );
@@ -138,7 +138,7 @@
                       child.material = screenMaterial;  //set material here
                   }
                       });
-                      gltf.scene.scale.set(1,1,1); // scale here
+                      gltf.scene.scale.set(0.75,0.75,0.75); // scale here
                       gltf.scene.rotation.x += Math.PI; //The plane dimensions are messed up
                       gltf.scene.position.x += 0.1; //The plane dimensions are messed up
       
@@ -180,7 +180,7 @@
                   camera.aspect = window.innerWidth / window.innerHeight;
                   camera.updateProjectionMatrix();
             
-                  renderer.setSize( window.innerWidth, window.innerHeight);
+                  renderer.setSize( window.innerWidth, window.innerHeight*0.95);
               }
       
               window.addEventListener( 'click', onMouseClick );
