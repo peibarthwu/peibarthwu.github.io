@@ -118,7 +118,7 @@
                   screenMaterial =  new THREE.MeshStandardMaterial({
                       emissive: 0xffffff,
                       emissiveIntensity: 1,
-                      emissiveMap: loader.load("img/me.jpg") ,
+                      emissiveMap: loader.load("img/alien.png") ,
                   });
       
       
@@ -153,9 +153,6 @@
                   composer = new EffectComposer( renderer );
                   const renderPass = new RenderPass( scene, camera );
                   composer.addPass( renderPass );
-      
-                  const unrealBloomPass = new UnrealBloomPass(0.01, 0.01);
-                 //composer.addPass( unrealBloomPass );
       
                   const filmPass = new FilmPass(0.1, 0.3, 600, false);
                  // composer.addPass( filmPass );
