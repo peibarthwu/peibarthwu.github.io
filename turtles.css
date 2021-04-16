@@ -1,0 +1,16 @@
+body {
+    background-color: #000000;
+    font-family: 'Montserrat', sans-serif;  
+    position:relative;
+    overflow: hidden;
+}
+
+.header{
+    position: absolute;
+    text-align: left;
+    width: 80%;
+}
+
+.three{
+      position: center;
+}

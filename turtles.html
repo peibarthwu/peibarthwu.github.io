@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Turtles all the way down</title>
+        <link rel="stylesheet" href="turtles.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+	</head>
+	<body >
+
+		<div class ="header">
+            <img src="img/turtlestext.png" style="width:100%;">
+        </div>
+        
+		<div id = "three" >
+		<script src="threejs/build/three.js"></script>
+        <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
+        <script type="module">
+        import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
+		import { GUI } from '/three/dat.gui.module.js';
+		var container, camera, scene, renderer;
+        var turtle, turtle2, upper, lower, oldLower;
+        var height;
+
+		init();
+
+		function init() {
+
+			//basics
+
+			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
+			camera.position.set(-2,0,9);
+
+
+
+			scene = new THREE.Scene();
+			scene.background = new THREE.Color(0x000000);
+
+           
+			// create the cubemap
+			var cubemap = new THREE.CubeTextureLoader()
+			.setPath( 'img/' )
+			.load( [
+				'space.png',
+				'space.png',
+				'space.png',
+				'space.png',
+				'space.png',
+				'space.png'
+			] );
+
+            var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
+                metalness: 1,
+				roughness: 0.1,
+				color: 0xdddddd,
+				envMap: cubemap,
+            	refractionRatio: 0,
+			} );
+            wallMaterial.side = THREE.DoubleSide;
+
+            // model
+            var loader = new THREE.GLTFLoader();
+
+			loader.load("models/turtletower.gltf", function (gltf) {
+				turtle = gltf.scene.getObjectByName("Sphere");
+				turtle.material = wallMaterial;
+				scene.add(gltf.scene);
+
+                //get height
+                var box = new THREE.Box3().setFromObject( turtle );
+                height = Math.abs(box.min.y-box.max.y);
+
+                turtle2 = turtle.clone();
+                turtle2.position.set(0,-height+0.5,0);
+                scene.add(turtle2);
+
+                upper = turtle;
+                lower = turtle2;
+			});
+
+			// renderer and controls
+			renderer = new THREE.WebGLRenderer({ antialias: true });
+			renderer.setPixelRatio(window.devicePixelRatio/2);
+			renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById("three").appendChild( renderer.domElement );
+            animate();
+
+		}
+		
+		function animate() {
+			requestAnimationFrame(animate);
+            if (turtle2) {
+                turtle2.rotation.y += 0.005;
+            }
+            if (turtle) {
+                turtle.rotation.y += 0.005;
+            }
+			renderer.render(scene, camera);
+		}
+
+			
+		window.addEventListener( 'resize', onWindowResize, false );
+			function onWindowResize(){
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight);
+		}
+
+		window.addEventListener( 'wheel', onMouseWheel );
+        function onMouseWheel( ev ) {
+           const amount = ev.deltaY;            
+            if (amount>0){
+                turtle.position.y += 0.1;
+                turtle2.position.y += 0.1;
+
+                turtle.rotation.y += 0.01;
+                turtle2.rotation.y += 0.01;
+
+                if(upper.position.y>height + 4){
+                    upper.position.y = upper.position.y - (2*height - 1); //-1 for seamless offset
+                    oldLower = lower;
+                    lower = upper;
+                    upper = oldLower;
+                }
+            }
+        }
+		</script>
+		</div>
+	</body>
+</html>

@@ -7,6 +7,9 @@
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
 	</head>
 	<body>
+		<div style="position: relative; text-align: center">
+            <img src="img/welcome.png" style="height:90px">
+        </div>
 		<div id = "three">
 		<script src="threejs/build/three.js"></script>
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
@@ -24,6 +27,7 @@
 		init();
 		animate();
 
+
 		function init() {
 
 			//basics
@@ -31,65 +35,91 @@
 			document.body.appendChild(container);
 
 			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
-			camera.position.set(-2,2, 5);
+			camera.position.set(0,0,0);
+            camera.position.z += 13;
 
 			scene = new THREE.Scene();
-			scene.background = new THREE.Color(0x175575);
+			scene.background = new THREE.Color(0x2688ff);
 
-			let orangeLight = new THREE.PointLight(0x175575,10,10);
-			orangeLight.position.set(0,3,2);
+			let orangeLight = new THREE.PointLight(0xe394b9,10,10);
+			orangeLight.position.set(0,3,-30);
 			scene.add(orangeLight);
 
 			let blueLight = new THREE.PointLight(0x175575,4,0);
-			blueLight.position.set(-10,0,12);
+			blueLight.position.set(0,3,1);
 			scene.add(blueLight);
 
-			let light = new THREE.PointLight(0xffffff,4,0);
-			light.position.set(0,5,0);
-			scene.add(light);
+			const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 10 );
+ 			scene.add( light );
 
-			const gridHelper = new THREE.GridHelper( 10, 20 , 0xffffff, 0xffffff);
-			gridHelper.position.y -= 0.4;
-			//scene.add( gridHelper );
-            
-			//material
-			var normalMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
-                bumpMap: new THREE.TextureLoader().load("img/threedisco.png"),
-                bumpScale: 1,
-				metalness: 0.7,
-				roughness: 0.2,
-				color: 0x555555,
+			
 
+			// create the cubemap
+			var cubemap = new THREE.CubeTextureLoader()
+			.setPath( 'img/' )
+			.load( [
+				'cube.png',
+				'cube.png',
+				'cube.png',
+				'cube.png',
+				'cube.png',
+				'cube.png'
+			] );
+
+            var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
+				bumpMap: new THREE.TextureLoader().load("img/threedisco.png"),
+              	bumpScale: 0.01,
+                metalness: 1,
+				roughness: 0.1,
+				color: 0xdddddd,
+				envMap: cubemap,
+            	//refractionRatio: 0,
 			} );
-            normalMaterial.side = THREE.DoubleSide;
+            wallMaterial.side = THREE.DoubleSide;
+
+			//material
+			var fenceMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
+				metalness: 1,
+				roughness: 0.2,
+				color: 0xFFFFFF,
+				envMap: cubemap,
+			} );
+            fenceMaterial.side = THREE.DoubleSide;
 			
 			// model
-			var loader = new THREE.GLTFLoader();
-			loader.load("models/hallwayset.gltf", function (gltf) {
-				gltf.scene.traverse(function (child) {
-					if (child.isMesh) {
-						mesh = child;
-						mesh.material = normalMaterial;
-						scene.add(mesh);
-					}
-				});
+            var loader = new THREE.GLTFLoader();
+
+			loader.load("models/displaytower.gltf", function (gltf) {
+				let home = gltf.scene.getObjectByName("home");
+				console.log(home);
+				home.material = wallMaterial;
+				//let fence = gltf.scene.getObjectByName("fence");
+				//fence.material = fenceMaterial;
+				let model = gltf.scene.getObjectByName("model");
+				model.material = fenceMaterial;
+				scene.add(gltf.scene);
+
 			});
+
 
 			// renderer and controls
 			renderer = new THREE.WebGLRenderer({ antialias: true });
-			renderer.setPixelRatio(window.devicePixelRatio);
+			renderer.setPixelRatio(window.devicePixelRatio/2);
 			renderer.setSize(window.innerWidth *0.8, window.innerHeight*0.8);
 			container.appendChild(renderer.domElement);
 
-			controls = new OrbitControls( camera, renderer.domElement );
-			controls.minDistance = 3;
-			controls.maxDistance = 5;
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+			//controls = new OrbitControls( camera, renderer.domElement );
+			//controls.minDistance = 3;
+			//controls.maxDistance = 5;
+
 
 		}
-		/**
+		
 		let tloader = new THREE.TextureLoader();
 				tloader.load("img/smoke.png", function(texture){
-				const cloudGeo = new THREE.PlaneBufferGeometry(14,18);
+				const cloudGeo = new THREE.PlaneBufferGeometry(40,40);
 				const cloudMaterial = new THREE.MeshLambertMaterial({
 					map:texture,
 					transparent: true
@@ -98,9 +128,9 @@
 				for(let p=0; p<20; p++) {
 					let cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
 					cloud.position.set(
-					Math.random()*5-1, //
-					Math.random() -4, //side
-					-p //forward
+					Math.random()*5-4, //
+					Math.random()*10 -4 +p, //side
+					-p - 3 //forward
 					);
 					cloud.rotation.z = Math.random()*2*Math.PI;
 					cloud.material.opacity = 0.35;
@@ -108,7 +138,7 @@
 				}
 				});
 
-			*/
+			
 		function animate() {
 			requestAnimationFrame(animate);
 			renderer.render(scene, camera);
@@ -120,6 +150,17 @@
 				camera.updateProjectionMatrix();
 				renderer.setSize( window.innerWidth*0.8, window.innerHeight *0.8);
 		}
+
+		window.addEventListener( 'wheel', onMouseWheel );
+        function onMouseWheel( ev ) {
+            const amount = ev.deltaY;
+            if (amount>0){
+                camera.position.y += 0.05;
+            }
+            else{
+                camera.position.y -= 0.05;
+            }
+        }
 		</script>
 		</div>
 	</body>
