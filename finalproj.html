@@ -10,7 +10,7 @@
 		<div style="position: relative; text-align: center">
             <img src="img/almost.png" style="height:90px">
         </div>
-		<div id = "three">
+		<canvas id = "three">
 		<script src="threejs/build/three.js"></script>
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
         <script type="module">
@@ -52,7 +52,7 @@
 			};
 			manager.onLoad = function () {
 				//loadingScreen.parentNode.removeChild(loadingScreen);
-				alert("All items loaded. Scroll to begin.");
+				alert("Almost loaded. Scroll to begin.");
 				console.log('all items loaded');
 
 			};
@@ -61,8 +61,6 @@
 			}
 
 			//basics
-			container = document.getElementById('three');
-			document.body.appendChild(container);
 
 			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
 			camera.position.set(0,0,0);
@@ -144,10 +142,10 @@
 			});
 
 			// renderer and controls
-			renderer = new THREE.WebGLRenderer({ antialias: true });
+			renderer = new THREE.WebGLRenderer({ antialias: true, canvas: document.getElementById("three")});
 			renderer.setPixelRatio(window.devicePixelRatio/2);
 			renderer.setSize(window.innerWidth *0.8, window.innerHeight*0.8);
-			container.appendChild(renderer.domElement)
+			//container.appendChild(renderer.domElement)
 			//controls = new OrbitControls( camera, renderer.domElement );
 			//controls.enableZoom = false;
 
@@ -328,7 +326,7 @@
         }
 		</script>
 		
-		</div>
+	</canvas>
 		A tower of virtual companions. If you move, they will. Scroll to discover.
 
 	</body>
