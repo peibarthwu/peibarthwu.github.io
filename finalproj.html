@@ -8,24 +8,24 @@
 	</head>
 	<body>
 		<div style="position: relative; text-align: center">
-            <img src="img/welcome.png" style="height:90px">
+            <img src="img/almost.png" style="height:90px">
         </div>
 		<div id = "three">
 		<script src="threejs/build/three.js"></script>
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
         <script type="module">
-
         import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
 		import { GUI } from '/three/dat.gui.module.js';
-
 
 		var container, controls;
 		var camera, scene, renderer;
 		var mesh;
-		var model, model2, model3, model4, computer;
+		var model, model2, model3, model4, model5, computer;
 		var LOWESTHEIGHT = 1.75;
 		var HIGHESTHEIGHT = 42;
 		var ZBOUNDARY = -5;
+		var YSPEED = 0.02;
+		var CLOUDROTATION = 0.001;
 
 		var WINDOW3LOW = 12;
 		var WINDOW3HIGH = 18;
@@ -37,17 +37,30 @@
 		let curtainCloudsLeft = [];
 		let curtainCloudsRight = [];
 
-
-
-
 		init();
 		animate();
 
 
 		function init() {
 
+			//loader
+		
+			const loadingScreen = document.getElementById( 'loader' );
+			let manager = new THREE.LoadingManager();
+			manager.onProgress = function (url, itemsLoaded, itemsTotal) {
+				console.log( 'Loaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+			};
+			manager.onLoad = function () {
+				//loadingScreen.parentNode.removeChild(loadingScreen);
+				console.log('all items loaded');
+
+			};
+			manager.onError = function () {
+				console.log('there has been an error');
+			}
+
 			//basics
-			container = document.createElement('three');
+			container = document.getElementById('three');
 			document.body.appendChild(container);
 
 			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
@@ -97,8 +110,8 @@
             fenceMaterial.side = THREE.DoubleSide;
 			
 			// model
-            var loader = new THREE.GLTFLoader();
-			loader.load("models/displaybox3.gltf", function (gltf) {
+            var loader = new THREE.GLTFLoader(manager);
+			loader.load("models/displaybox4.gltf", function (gltf) {
 				let home = gltf.scene.getObjectByName("home");
 				console.log(home);
 				home.material = wallMaterial;
@@ -120,6 +133,10 @@
 				model4 = gltf.scene.getObjectByName("model4");
 				model4.material = fenceMaterial;
 				model4.geometry.morphTargets = true;
+
+				model5 = gltf.scene.getObjectByName("model5");
+				model5.material = fenceMaterial;
+				model5.geometry.morphTargets = true;
 	
 				scene.add(gltf.scene);
 
@@ -200,29 +217,47 @@
 			});
 		
 		}
-
-			
+	
 		function animate() {
 			requestAnimationFrame(animate);
 			renderer.render(scene, camera);
 		}
 
 		let cloud1, cloud2;
-		function cloudPart(){
-			if (camera.position.z>ZBOUNDARY){
-				camera.position.z -= 0.1;
-				for(let p=0; p<6; p++) {
-				cloud1 = curtainCloudsLeft[p];
-				cloud1.rotation.z -= 0.001;
-				cloud1.position.x -= 0.06 * Math.random();
+		function cloudPart(num){
+			if(num>0){
+				if (camera.position.z>ZBOUNDARY){
+					camera.position.z -= 0.1;
+					for(let p=0; p<6; p++) {
+					cloud1 = curtainCloudsLeft[p];
+					cloud1.rotation.z -= CLOUDROTATION;
+					cloud1.position.x -= 0.06 * Math.random();
 
-				cloud2 = curtainCloudsRight[p];
-				cloud2.rotation.z += 0.001;
-				cloud2.position.x += 0.06 * Math.random();
+					cloud2 = curtainCloudsRight[p];
+					cloud2.rotation.z += CLOUDROTATION;
+					cloud2.position.x += 0.06 * Math.random();
+				}
+				}
+				else if (computer.morphTargetInfluences[0]<1){
+					computer.morphTargetInfluences[0] += 0.01;
+				}
 			}
-			}
-			else if (computer.morphTargetInfluences[0]<1){
-				computer.morphTargetInfluences[0] += 0.01;
+			else{
+				if (camera.position.z < 15){
+					camera.position.z += 0.1;
+					for(let p=0; p<6; p++) {
+					cloud1 = curtainCloudsLeft[p];
+					cloud1.rotation.z += CLOUDROTATION;
+					cloud1.position.x += 0.06 * Math.random();
+
+					cloud2 = curtainCloudsRight[p];
+					cloud2.rotation.z -= CLOUDROTATION;
+					cloud2.position.x -= 0.06 * Math.random();
+				}
+				}
+				if (computer.morphTargetInfluences[0]>0){
+					computer.morphTargetInfluences[0] -= 0.01;
+				}
 			}
 		}
 			
@@ -233,18 +268,18 @@
 				renderer.setSize( window.innerWidth*0.8, window.innerHeight *0.8);
 		}
 
+
+		window.addEventListener( 'scroll', onMouseWheel );
+		window.addEventListener( 'onMouseWheel', onMouseWheel );
 		window.addEventListener( 'wheel', onMouseWheel );
         function onMouseWheel( ev ) {
             const amount = ev.deltaY;
             if (amount>0){
 				if (camera.position.y <HIGHESTHEIGHT){
-					camera.position.y += 0.05;
-					cloudParticles.forEach(p => { //move clouds
-                	p.rotation.z += 0.001;
-             		 });
+					camera.position.y += YSPEED;
 				}
 				else if(camera.position.y > 34){
-					cloudPart();
+					cloudPart(1);
 					return;
 				} 
 				if(camera.position.y<7 && model.morphTargetInfluences[0]<1){
@@ -258,11 +293,19 @@
 				} 
 				if(camera.position.y>WINDOW4LOW && camera.position.y<WINDOW4HIGH && model4.morphTargetInfluences[0]<1){
 					model4.morphTargetInfluences[0] += 0.01;
+				} 
+				if(camera.position.y>WINDOW4HIGH + 5 && camera.position.y<HIGHESTHEIGHT && model5.morphTargetInfluences[0]<1){
+					model5.morphTargetInfluences[0] += 0.01;
 				}          
 			 }
             else{
 				if (camera.position.y > LOWESTHEIGHT){
-					camera.position.y -= 0.05;
+					camera.position.y -= YSPEED;
+				}
+				if(camera.position.y > 34){
+					cloudPart(0);
+					return;
+				} 
 				if(model.morphTargetInfluences[0]>0 && camera.position.y<7){
 					model.morphTargetInfluences[0] -= 0.01;
 
@@ -276,11 +319,16 @@
 				if(model4.morphTargetInfluences[0]>0 && camera.position.y<WINDOW4HIGH){
 					model4.morphTargetInfluences[0] -= 0.01;
 				} 
-				}
+				if(camera.position.y>WINDOW4HIGH + 5 && camera.position.y<HIGHESTHEIGHT && model5.morphTargetInfluences[0]>0){
+					model5.morphTargetInfluences[0] -= 0.01;
+				} 
                
             }
         }
 			</script>
+		
 		</div>
+		If you move, they will. Scroll to discover.
+
 	</body>
 </html>
