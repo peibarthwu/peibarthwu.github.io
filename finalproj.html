@@ -44,7 +44,8 @@
 		function init() {
 
 			//loader
-		
+			alert("Loading started.");
+
 			const loadingScreen = document.getElementById( 'loader' );
 			let manager = new THREE.LoadingManager();
 			manager.onProgress = function (url, itemsLoaded, itemsTotal) {
@@ -52,7 +53,7 @@
 			};
 			manager.onLoad = function () {
 				//loadingScreen.parentNode.removeChild(loadingScreen);
-				alert("Almost loaded. Scroll to begin.");
+				alert("Almost loaded.");
 				console.log('all items loaded');
 
 			};
@@ -327,7 +328,7 @@
 		</script>
 		
 	</canvas>
-		A tower of virtual companions. If you move, they will. Scroll to discover.
+		A tower of domesticated machines. If you move, they will. Scroll to discover.
 
 	</body>
 </html>
