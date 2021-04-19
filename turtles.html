@@ -64,7 +64,9 @@
 			loader.load("models/turtletower.gltf", function (gltf) {
 				turtle = gltf.scene.getObjectByName("Sphere");
 				turtle.material = wallMaterial;
+
 				scene.add(gltf.scene);
+
 
                 //get height
                 var box = new THREE.Box3().setFromObject( turtle );
@@ -107,11 +109,13 @@
 		}
 
 		window.addEventListener( 'wheel', onMouseWheel );
+        window.addEventListener('scroll', onMouseWheel);
+
         function onMouseWheel( ev ) {
            const amount = ev.deltaY;            
             if (amount>0){
-                turtle.position.y += 0.05;
-                turtle2.position.y += 0.05;
+                turtle.position.y += 0.04;
+                turtle2.position.y += 0.04;
 
                 turtle.rotation.y += 0.01;
                 turtle2.rotation.y += 0.01;
@@ -124,6 +128,8 @@
                 }
             }
         }
+
+
 		</script>
 		</div>
 	</body>
