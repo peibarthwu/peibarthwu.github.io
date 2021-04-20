@@ -40,6 +40,6 @@ body {
   }
 
 .three{
-      position: relative;
+      position: absolute;
       width:75%;
   }
