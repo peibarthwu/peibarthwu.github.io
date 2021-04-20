@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<div style="position: relative; text-align: center">
-            <img src="img/almostbut.png" style="height:90px">
+            <img src="img/almostbut.png" style="width:100%">
         </div>
 		<div id="loader">
 
@@ -279,7 +279,7 @@
 		window.addEventListener( 'wheel', onMouseWheel );
         function onMouseWheel( ev ) {
             const amount = ev.deltaY;
-            if (amount>0){
+            if (amount<0){
 				if (camera.position.y <HIGHESTHEIGHT){
 					camera.position.y += YSPEED;
 				}
@@ -333,7 +333,7 @@
 		</script>
 		
 	</canvas>
-		A world of virtual companions. If you move, they will. Scroll to discover.
+		A world of virtual automatons. If you move, they will. Scroll to discover.
 
 	</body>
 </html>
