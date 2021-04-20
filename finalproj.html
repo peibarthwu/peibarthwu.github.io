@@ -47,7 +47,7 @@
 		function init() {
 
 			//loader
-			alert("Initializing.");
+			alert("Initializing. This might take a minute");
 
 			let manager = new THREE.LoadingManager();
 			manager.onProgress = function (url, itemsLoaded, itemsTotal) {
@@ -56,7 +56,7 @@
 
 			manager.onLoad = function () {
 				//loadingScreen.parentNode.removeChild(loadingScreen);
-				alert("Almost loaded.");
+				alert("Almost loaded...");
 				console.log('all items loaded');
 
 			};
@@ -227,6 +227,8 @@
 		}
 
 		let cloud1, cloud2;
+
+
 		function cloudPart(num){
 			if(num>0){
 				if (camera.position.z>ZBOUNDARY){
