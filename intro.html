@@ -2,164 +2,19 @@
 <html>
 	<head>
 		<title>Proof of Concept Pei Pei</title>
-        <link rel="stylesheet" href="bunny.css">
+        <style>
+            body {background-color: #000000;}
+          </style>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<div style="position: relative; text-align: center">
-            <img src="img/welcome.png" style="height:90px">
-        </div>
-		<div id = "three">
-		<script src="threejs/build/three.js"></script>
-        <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
-        <script type="module">
-
-        import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
-		import { GUI } from '/three/dat.gui.module.js';
-
-
-		var container, controls;
-		var camera, scene, renderer;
-		var mesh;
-		var model, model2;
-
-
-		init();
-		animate();
-
-
-		function init() {
-
-			//basics
-			container = document.createElement('three');
-			document.body.appendChild(container);
-
-			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
-			camera.position.set(0,0,0);
-            camera.position.z += 13;
-            camera.position.y += 5;
-
-
-
-			scene = new THREE.Scene();
-			scene.background = new THREE.Color(0x000000);
-
-			let orangeLight = new THREE.PointLight(0x175575,10,10);
-			orangeLight.position.set(0,3,-30);
-			//scene.add(orangeLight);
-
-			let blueLight = new THREE.PointLight(0x175575,4,0);
-			blueLight.position.set(0,3,1);
-			//scene.add(blueLight);
-
-			const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 10 );
- 			//scene.add( light );
-
-			
-
-			// create the cubemap
-			var cubemap = new THREE.CubeTextureLoader()
-			.setPath( 'img/' )
-			.load( [
-				'cube.png',
-				'cube.png',
-				'cube.png',
-				'cube.png',
-				'cube.png',
-				'cube.png'
-			] );
-
-            var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
-				bumpMap: new THREE.TextureLoader().load("img/threedisco.png"),
-              	bumpScale: 0.01,
-                metalness: 1,
-				roughness: 0.0,
-				color: 0xffffff,
-				envMap: cubemap,
-				
-            	//refractionRatio: 0,
-			} );
-            wallMaterial.side = THREE.DoubleSide;
-
-			//material
-			var fenceMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
-				metalness: 0.8,
-				roughness: 0.2,
-				color: 0xFFFFFF,
-				envMap: cubemap,
-				morphTargets: true,
-				morphNormals:true,
-			} );
-            fenceMaterial.side = THREE.DoubleSide;
-			
-			// model
-            var loader = new THREE.GLTFLoader();
-
-
-			loader.load("models/podium.gltf", function (gltf) {
-
-				model = gltf.scene.getObjectByName("Cube");
-				model.geometry.morphTargets = true;
-
-                model = gltf.scene.getObjectByName("podium");
-				model.material = fenceMaterial;
-
-				gltf.scene.traverse( function ( child ) {
-                      if ( child.isMesh ) {
-						child.material.envMap = cubemap;
-					  }
-                });
-				scene.add(gltf.scene);
-
-			});
-			// GUI
-			var params = {
-				morphTarget: 0,
-			};
-
-			var gui = new GUI();
-
-			var folder = gui.addFolder('Morph Targets');
-			folder.add(params, 'morphTarget', 0, 1).step(0.01).onChange(function (value) { model.morphTargetInfluences[0] = value });
-			folder.open();
-
-
-			// renderer and controls
-			renderer = new THREE.WebGLRenderer({ antialias: true });
-			renderer.setPixelRatio(window.devicePixelRatio/2);
-			renderer.setSize(window.innerWidth *0.8, window.innerHeight*0.8);
-			container.appendChild(renderer.domElement);
-
-            renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
-			controls = new OrbitControls( camera, renderer.domElement );
-			controls.enableZoom = false;
-
-			//controls.minDistance = 3;
-			//controls.maxDistance = 5;
-
-
-		}
-		
-			
-		function animate() {
-			requestAnimationFrame(animate);
-			renderer.render(scene, camera);
-		}
-			
-		window.addEventListener( 'resize', onWindowResize, false );
-			function onWindowResize(){
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
-				renderer.setSize( window.innerWidth*0.8, window.innerHeight *0.8);
-		}
-
-		window.addEventListener( 'wheel', onMouseWheel );
-        function onMouseWheel( ev ) {
-            const amount = ev.deltaY;
-        }
-			</script>
+        <div>
+        <a href="finalproj.html">
+            <video id= "loading-image" autoplay controls style="width:100%; position: absolute;">
+				<source src='img/intro.mp4' type="video/mp4" />
+		  </video>
+        </a>
 		</div>
 	</body>
 </html>

@@ -2,17 +2,17 @@
 <html>
 	<head>
 		<title>Proof of Concept Pei Pei</title>
-        <link rel="stylesheet" href="bunny.css">
+        <link rel="stylesheet" href="finalproj.css">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
 	</head>
 	<body>
+		
+		<div class="content">
 		<div style="position: relative; text-align: center">
-            <img src="img/almostbut.png" style="width:100%">
+            <img src="img/almost.png" style="width:80%">
         </div>
-		<div id="loader">
-
-		</div>
+		
 		<canvas id = "three">
 		<script src="threejs/build/three.js"></script>
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
@@ -27,13 +27,13 @@
 		var LOWESTHEIGHT = 1.75;
 		var HIGHESTHEIGHT = 42;
 		var ZBOUNDARY = -5;
-		var YSPEED = 0.02;
+		var YSPEED = 0.05;
 		var CLOUDROTATION = 0.001;
 
 		var WINDOW3LOW = 12;
 		var WINDOW3HIGH = 18;
-		var WINDOW4LOW = 18;
-		var WINDOW4HIGH = 21;
+		var WINDOW4LOW = 24;
+		var WINDOW4HIGH = 26;
 
 		let cloudParticles = [];
 		let cloud;
@@ -47,7 +47,6 @@
 		function init() {
 
 			//loader
-			alert("Initializing. This might take a minute");
 
 			let manager = new THREE.LoadingManager();
 			manager.onProgress = function (url, itemsLoaded, itemsTotal) {
@@ -114,7 +113,7 @@
 			
 			// model
             var loader = new THREE.GLTFLoader(manager);
-			loader.load("models/displaybox4.gltf", function (gltf) {
+			loader.load("models/displayboxoptimized.gltf", function (gltf) {
 				let home = gltf.scene.getObjectByName("home");
 				console.log(home);
 				home.material = wallMaterial;
@@ -227,8 +226,6 @@
 		}
 
 		let cloud1, cloud2;
-
-
 		function cloudPart(num){
 			if(num>0){
 				if (camera.position.z>ZBOUNDARY){
@@ -240,11 +237,14 @@
 
 					cloud2 = curtainCloudsRight[p];
 					cloud2.rotation.z += CLOUDROTATION;
-					cloud2.position.x += 0.06 * Math.random();
+					cloud2.position.x += 0.08 * Math.random();
 				}
 				}
 				else if (computer.morphTargetInfluences[0]<1){
 					computer.morphTargetInfluences[0] += 0.01;
+				}
+				else {
+					computer.rotation.y += YSPEED;
 				}
 			}
 			else{
@@ -257,7 +257,7 @@
 
 					cloud2 = curtainCloudsRight[p];
 					cloud2.rotation.z -= CLOUDROTATION;
-					cloud2.position.x -= 0.06 * Math.random();
+					cloud2.position.x -= 0.08 * Math.random();
 				}
 				}
 				if (computer.morphTargetInfluences[0]>0){
@@ -324,7 +324,7 @@
 				if(model4.morphTargetInfluences[0]>0 && camera.position.y<WINDOW4HIGH){
 					model4.morphTargetInfluences[0] -= 0.01;
 				} 
-				if(camera.position.y>WINDOW4HIGH + 5 && camera.position.y<HIGHESTHEIGHT && model5.morphTargetInfluences[0]>0){
+				if(camera.position.y>WINDOW4HIGH + 3 && camera.position.y<HIGHESTHEIGHT && model5.morphTargetInfluences[0]>0){
 					model5.morphTargetInfluences[0] -= 0.01;
 				} 
                
@@ -333,7 +333,26 @@
 		</script>
 		
 	</canvas>
-		A world of virtual automatons. If you move, they will. Scroll to discover.
+		5 virtual companions. Scroll to navigate.
+	</div>
+		<div class="buttonleft" >
+			<label> About</label>
+		</div>
+		<div class="button" value="PLAY" onclick="play()">
+			<label> Play Audio</label>
+			<audio id="audio" src="img/intro2.mp3"></audio>	  
+		</div>
 
+		<script>
+			audio.addEventListener("canplaythrough", play());
+			function play(ev) {
+			  if (audio.paused) {
+            		audio.play();
+       		 	}else{
+            		audio.pause();
+            		audio.currentTime = 0
+        		}
+			}
+		</script>
 	</body>
 </html>
