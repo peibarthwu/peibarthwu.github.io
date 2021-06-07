@@ -69,7 +69,7 @@ video {
     position: relative;
 }
 
-  .container{
+.container{
     margin-left: 10%;
     margin-right: 10%;
     height: 100%;
@@ -80,3 +80,10 @@ video {
       position: absolute;
       width:75%;
   }
+
+a {
+    text-decoration: none;
+}
+a:link, a:visited {
+    color: rgb(255, 255, 255);
+}

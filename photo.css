@@ -1,42 +1,4 @@
-body {
-  text-align: center;
-  background-color: #ffffff;
-  font-family: 'Montserrat', sans-serif;  color: #000000;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-top: 5%;
-}
 
-img {
-  image-orientation: from-image;
-}
-
-h1 {
-   font-size: 30px;
-   
-}
-
-img{
-  position: absolute;
-  position: relative;
-  margin-top: 5%;
-
-}
-
-video{
-  position: absolute;
-
-  position: relative;
-  margin-top: 5%;
-
-}
-
-* {
-  box-sizing: border-box;
-}
 
 a:link {
   text-decoration: none;
@@ -49,27 +11,71 @@ a:visited {
   color: #000000;
 }
 
-
-/* Create three equal columns that floats next to each other */
-.column {
-  float: left;
-  width: 33.33%;
-  padding: 10px;
+img{
+  position: relative;
 }
 
-.column img {
-  margin-top: 12px;
+body {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 400;
+  color: #000000;
+  background-color: #ffffff;
+  width: 100%;
+  margin: 0px;
+  overflow-x: hidden;
+}
+.container {
+position: relative;
+width: 100%;
 }
 
-.column video {
-  margin-top: 12px;
+.image {
+  opacity: 1;
+  display: block;
+  width: 20%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
 }
 
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
 }
 
+.container:hover .image {
+  opacity: 0.6;
+}
+
+.container:hover .middle {
+  opacity: 1;
+}
+
+.text {
+  color: rgb(0, 0, 0);
+  font-size: 5vmin;
+  padding: 16px 32px;
+}
+
+.fixed {
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  font-size: 5vmin;
+  font-size: 10vmin;
+  color: rgb(156, 2, 2);
+  z-index: 3;
+}
+
+.three {
+  margin:none;
+  padding: none;
+  width: 100%;
+}
 

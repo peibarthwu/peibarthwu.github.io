@@ -11,9 +11,220 @@
 	<body>
         <div>
         <a href="finalproj.html">
-            <video id= "loading-image" autoplay controls style="width:100%; position: absolute;">
-				<source src='img/intro.mp4' type="video/mp4" />
-		  </video>
+              <div id = "three">
+                <script src="threejs/build/three.js"></script>
+                    <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
+                    <script type="module">
+                    import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
+                    import { EffectComposer } from '/threejs/examples/jsm/postprocessing/EffectComposer.js';
+                    import { RenderPass } from '/threejs/examples/jsm/postprocessing/RenderPass.js';
+                    import { UnrealBloomPass } from '/threejs/examples/jsm/postprocessing/UnrealBloomPass.js'; 
+                    import { FilmPass } from '/threejs/examples/jsm/postprocessing/FilmPass.js';
+                        //essentials
+                  let scene, camera, renderer, composer, model, material;
+                  var computer, frame, frame1, frame2;
+                  //clouds
+                  let cloudParticles = [];
+                  let path;
+                  function init() {
+                            //-x if forward
+                            //z is up
+                    scene = new THREE.Scene();
+                    scene.background = new THREE.Color(0x2f4a09);
+            
+                      const light = new THREE.HemisphereLight( 0x5c5c94, 0x8d729e, 3 );
+                       scene.add( light );
+                    camera = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeight,1,1000);
+                            camera.position.z += 2;
+                    
+                            //lighting and vibes lol
+                            
+                    let orangeLight = new THREE.PointLight(0xb000aa,0.5,0);
+                            orangeLight.position.set(0,0,10);
+                            scene.add(orangeLight);
+            
+                            var container = document.getElementById( 'three' );
+                            //document.body.appendChild( container );
+                    renderer = new THREE.WebGLRenderer({ antialias: true, three });
+                            renderer.setPixelRatio(window.devicePixelRatio/2);
+            
+                    renderer.setSize(window.innerWidth,window.innerHeight);
+                    container.appendChild(renderer.domElement);         
+            
+                            let controls = new OrbitControls( camera, renderer.domElement );
+            
+                        /**
+                         * MATERIALS
+                        */
+                        var cubemap = new THREE.CubeTextureLoader()
+                  .setPath( 'img/' )
+                  .load( [
+                    'mecube.png',
+                    'mecube.png',
+                    'mecube.png',
+                    'mecube.png',
+                    'mecube.png',
+                    'mecube.png'
+                  ] );
+            
+                        var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
+                            metalness: 1,
+                    roughness: 0.2,
+                    color: 0x4ba353,
+                    envMap: cubemap,
+                            morphTargets: true,
+                    morphNormals:true,
+                  } );
+                        wallMaterial.side = THREE.DoubleSide;
+            
+                        var loader = new THREE.GLTFLoader();
+                        loader.load( 'models/computercage.gltf', function ( gltf ) {   
+                        
+                        computer = gltf.scene.getObjectByName("computer");
+                        computer.material = wallMaterial;
+                        computer.geometry.morphTargets = true;
+            
+                        frame = gltf.scene.getObjectByName("frame");
+                        frame.material = wallMaterial;
+                        frame.geometry.morphTargets = true;
+            
+                        frame1 = gltf.scene.getObjectByName("frame1");
+                        frame1.material = wallMaterial;
+                        frame1.geometry.morphTargets = true;
+            
+                        frame2 = gltf.scene.getObjectByName("frame2");
+                        frame2.material = wallMaterial;
+                        frame2.geometry.morphTargets = true;
+            
+                        gltf.scene.traverse(function (child) {
+                            console.log(path);
+                            if (child.isMesh) {
+                                child.material.envMap = cubemap;
+                            }
+                        });
+                        scene.add(gltf.scene);
+                        }, undefined, function ( error ) {
+                        console.error( error );
+                        } );
+                  
+                  let geometry = new THREE.PlaneGeometry(2, 1.5, 30, 30);
+                        material = new THREE.ShaderMaterial({
+                            uniforms: {
+                            utime: { value: 0.0 },
+                            width: { value: 2.0 },
+                            height: { value: 1.5 },
+                    uTexture: { value: new THREE.TextureLoader().load("img/mecube.png") },
+                            },
+                            vertexShader: vertexShader(),
+                            fragmentShader: clearShader(),
+                            });
+                            material.transparent = true;
+            
+                  let mesh = new THREE.Mesh(geometry, material);
+                  scene.add(mesh);
+                  mesh.position.set(-0,-0,0.08);
+                  function vertexShader() {
+                    return `
+                    uniform float utime;
+                    uniform float width;
+                    uniform float height;
+            
+                    varying vec3 Normal;
+                    varying vec2 vUv; //x and y unit vector
+                    varying float zpos; //this will be z position after transformation
+            
+            
+                    
+                    void main(){
+                    vUv = uv;   //for use in frag
+            
+                    float dx = 2. - uv.x + width;   
+                    float dy = 8. -uv.y * height;
+                    float freq = sqrt(dx*dx + dy*dy);
+                    float amp = 0.2;
+                    float angle = -utime*3.0+freq*8.0;
+                      
+                    zpos = sin(angle)*amp;
+            
+                    vec3 local3 = vec3(uv.x*width, uv.y*height, zpos);
+                    
+                    vec3 objectNormal = vec3(-amp * freq * cos(angle),0.0,1.0);
+                    Normal = normalMatrix * normalize(objectNormal) * local3;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
+                    }
+                    `
+                        }
+                  function clearShader() {
+                        return `
+                            uniform float utime;
+                    uniform sampler2D uTexture;
+                            varying vec2 vUv;
+                            varying float zpos;
+                            varying vec3 Normal;
+                           
+                            void main() {
+                                vec3 texture = texture2D(uTexture, vUv + zpos).rgb;
+                                float shadow = clamp(zpos / 1., 0., 1.);
+                                gl_FragColor = vec4(texture + shadow, 0.1);
+                                gl_FragColor.a = 0.3;
+                            }
+                        `
+                        }
+                  let texLoader = new THREE.TextureLoader();
+            
+                        /**
+                        * Post Processing
+                        **/
+                        composer = new EffectComposer( renderer );
+                        const renderPass = new RenderPass( scene, camera );
+                        composer.addPass( renderPass );
+            
+                        const unrealBloomPass = new UnrealBloomPass();
+                       // composer.addPass( unrealBloomPass );
+            
+                        const filmPass = new FilmPass(0.2, 0.3, 600, false);
+                        composer.addPass( filmPass );
+            
+                  }
+            
+                  function render() {
+                    composer.render(); //render and post
+                    material.uniforms.utime.value +=0.007;                 
+                    requestAnimationFrame(render);
+                  }
+                  init();
+                  render();
+            
+            
+                //event listeners
+                
+                    window.addEventListener( 'resize', onWindowResize, false );
+                    function onWindowResize(){
+                        camera.aspect = window.innerWidth / window.innerHeight;
+                        camera.updateProjectionMatrix();
+                  onMouseMove(1);
+                        renderer.setSize( window.innerWidth*0.75, window.innerHeight *0.75);
+                    }
+            
+                    window.addEventListener( 'mousemove', onMouseMove, false );        
+                    function onMouseMove(event){
+                        const amount = event.deltaX;
+                        if(amount>0){}
+                        
+                        if(frame1.morphTargetInfluences[0]<1){
+                      frame1.morphTargetInfluences[0] += 0.01;
+                      }else if(computer.morphTargetInfluences[0]<1){
+                          computer.morphTargetInfluences[0] += 0.01;
+                    }
+                        else if(frame2.morphTargetInfluences[0]<1){
+                      frame2.morphTargetInfluences[0] += 0.01;
+                  }
+                        else if(frame.morphTargetInfluences[0]<1){
+                      frame.morphTargetInfluences[0] += 0.005;
+                  }    
+                    }
+                </script>
+  		  </video>
         </a>
 		</div>
 	</body>

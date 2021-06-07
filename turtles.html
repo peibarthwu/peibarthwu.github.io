@@ -4,109 +4,115 @@
 		<title>Turtles all the way down</title>
         <link rel="stylesheet" href="turtles.css">
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital@1&display=swap" rel="stylesheet">
 	</head>
 	<body >
+        <div class="header">
 
-		<div class ="header">
-            <img src="img/turtlestext.png" style="width:100%;">
+      
+		<div class ="text">
+        It's turtles in a circle.
         </div>
         
-		<div id = "three" >
+		<div id = "three" class="three">
 		<script src="threejs/build/three.js"></script>
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
         <script type="module">
-        import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
-		import { GUI } from '/three/dat.gui.module.js';
-		var container, camera, scene, renderer;
-        var turtle, turtle2, upper, lower, oldLower;
-        var height;
+ 				import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
+                import { GUI } from '/three/dat.gui.module.js';
+                import { EffectComposer } from '/threejs/examples/jsm/postprocessing/EffectComposer.js';
+                import { RenderPass } from '/threejs/examples/jsm/postprocessing/RenderPass.js';
+                import { UnrealBloomPass } from '/threejs/examples/jsm/postprocessing/UnrealBloomPass.js'; 
+                import { FilmPass } from '/threejs/examples/jsm/postprocessing/FilmPass.js';
 
-		init();
-
-		function init() {
-
-			//basics
-
-			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
-			camera.position.set(-2,0,9);
-
-
-
-			scene = new THREE.Scene();
-			scene.background = new THREE.Color(0x000000);
-
-           
-			// create the cubemap
-			var cubemap = new THREE.CubeTextureLoader()
-			.setPath( 'img/' )
-			.load( [
-				'space.png',
-				'space.png',
-				'space.png',
-				'space.png',
-				'space.png',
-				'space.png'
-			] );
-
-            var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
-                metalness: 1,
-				roughness: 0.1,
-				color: 0xdddddd,
-				envMap: cubemap,
-            	refractionRatio: 0,
-			} );
-            wallMaterial.side = THREE.DoubleSide;
-
-            // model
-            var loader = new THREE.GLTFLoader();
-
-			loader.load("models/turtletower.gltf", function (gltf) {
-				turtle = gltf.scene.getObjectByName("Sphere");
-				turtle.material = wallMaterial;
-
-				scene.add(gltf.scene);
-
-
-                //get height
-                var box = new THREE.Box3().setFromObject( turtle );
-                height = Math.abs(box.min.y-box.max.y);
-
-                turtle2 = turtle.clone();
-                turtle2.position.set(0,-height+0.5,0);
-                scene.add(turtle2);
-
-                upper = turtle;
-                lower = turtle2;
-			});
-
-			// renderer and controls
-			renderer = new THREE.WebGLRenderer({ antialias: true });
-			renderer.setPixelRatio(window.devicePixelRatio/2);
-			renderer.setSize(window.innerWidth, window.innerHeight);
-            document.getElementById("three").appendChild( renderer.domElement );
-            animate();
-
-		}
+		var container, camera, scene, renderer, composer;
+                var turtle, turtle2, upper, lower, oldLower;
+                var height;
+        
+                init();
+        
+                function init() {
+        
+                    //basics
+        
+                    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
+                    camera.position.set(-12,0,6);
+                    camera.rotation.y -= 1;// Math.Pi/2;
+        
+        
+        
+                    scene = new THREE.Scene();
+                    scene.background = new THREE.Color(0x000000);
+        
+                   
+                    // create the cubemap
+                    var cubemap = new THREE.CubeTextureLoader()
+                    .setPath( 'img/' )
+                    .load( [
+                        'space.png',
+                        'space.png',
+                        'space.png',
+                        'space.png',
+                        'space.png',
+                        'space.png'
+                    ] );
+        
+                    var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
+                        metalness: 1,
+                        roughness: 0.1,
+                        color: 0xdddddd,
+                        envMap: cubemap,
+                        refractionRatio: 0,
+                    } );
+                    wallMaterial.side = THREE.DoubleSide;
+        
+                    // model
+                    var loader = new THREE.GLTFLoader();
+        
+                    loader.load("models/turtlecircle.gltf", function (gltf) {
+                        turtle = gltf.scene.getObjectByName("turtle");
+                        turtle.material = wallMaterial;
+                        scene.add(gltf.scene);
+        
+        
+                    });
+        
+                   // renderer and controls
+                   renderer = new THREE.WebGLRenderer({ antialias: true });
+                    renderer.setPixelRatio(window.devicePixelRatio);
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                    document.getElementById("three").appendChild( renderer.domElement );
+                    composer = new EffectComposer( renderer );
+                    const renderPass = new RenderPass( scene, camera );
+                    composer.addPass( renderPass );
+        
+                    //const filmPass = new FilmPass(0.4, 0.3, 600, false);
+                    //composer.addPass( filmPass );
+        
+                    const unrealBloomPass = new UnrealBloomPass();
+                    composer.addPass( unrealBloomPass );
+                    
+              
+                    animate();
+        
+                }
 		
 		function animate() {
 			requestAnimationFrame(animate);
-            if (turtle2) {
-                turtle2.rotation.y += 0.005;
-            }
             if (turtle) {
-                turtle.rotation.y += 0.005;
+                turtle.rotation.z += 0.005;
             }
-			renderer.render(scene, camera);
+			composer.render();
 		}
 
 			
-		window.addEventListener( 'resize', onWindowResize, false );
-			function onWindowResize(){
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
-				renderer.setSize( window.innerWidth, window.innerHeight);
-		}
+		     
+        window.addEventListener( 'resize', onWindowResize, false );
+                    function onWindowResize(){
+                        camera.aspect = window.innerWidth / window.innerHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize( window.innerWidth/2, window.innerHeight/2);
+        }
 
 		window.addEventListener( 'wheel', onMouseWheel );
         window.addEventListener('scroll', onMouseWheel);
@@ -114,23 +120,16 @@
         function onMouseWheel( ev ) {
            const amount = ev.deltaY;            
             if (amount>0){
-                turtle.position.y += 0.04;
-                turtle2.position.y += 0.04;
-
-                turtle.rotation.y += 0.01;
-                turtle2.rotation.y += 0.01;
-
-                if(upper.position.y>height + 4){
-                    upper.position.y = upper.position.y - (2*height - 1); //-1 for seamless offset
-                    oldLower = lower;
-                    lower = upper;
-                    upper = oldLower;
-                }
+                turtle.rotation.x += 0.04;
+            }
+            else{
+                turtle.rotation.x-= 0.04;
             }
         }
 
 
 		</script>
 		</div>
+    </div>
 	</body>
 </html>

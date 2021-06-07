@@ -1,16 +1,23 @@
 body {
-    background-color: #000000;
-    font-family: 'Montserrat', sans-serif;  
+    background-color: #ffffff;
+    font-family: 'Source Sans Pro', sans-serif;
     position:relative;
     overflow: hidden;
+    color: #000000;
+    margin: none;
 }
 
 .header{
     position: absolute;
-    text-align: left;
-    width: 80%;
+    text-align: center;
+    width: 100%;
 }
 
 .three{
-      position: center;
+    padding-left:25%;
+    padding-right:25%;
+}
+
+.text{
+    font-size: 8vw;
 }

@@ -1,197 +1,241 @@
 <!DOCTYPE html>
 <html>
-	<head>
-        <title>Pei Pei Barth Wu</title>
-        <link rel="stylesheet" href="photo.css">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
-		<style>
-			body { margin: 0; }
-		</style>
-	</head>
-	<body >
-  <!-- Header -->
-     <div class="header">
-      <h1><a href="photo.html"> PHOTO     </a>  |
-        <a href="index.html">  PEI PEI </a>  |
-        <a href="three/sprite.html"> GRAPHICS</a> |
-        <a href="uncanny.html"> MORPH</a>
-      </h1> 
-    </div>
-      <!-- 3D -->
-        <script src="three/three.js"></script>
-        <script src="three/GLTFLoader.js"></script>
-        <script src="three/OrbitControls.js"></script>
-        <div id = "three">
-          <script src="threejs/build/three.js"></script>
-              <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
-              <script type="module">
-              import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
-              import { EffectComposer } from '/threejs/examples/jsm/postprocessing/EffectComposer.js';
-              import { RenderPass } from '/threejs/examples/jsm/postprocessing/RenderPass.js';
-              import { UnrealBloomPass } from '/threejs/examples/jsm/postprocessing/UnrealBloomPass.js'; 
-              import { FilmPass } from '/threejs/examples/jsm/postprocessing/FilmPass.js';
-                  //essentials
-            let scene, camera, renderer, composer, model, screen, loader;
-                  //stuff for reflections
-                  let num = 0, cubeRenderTarget1, cubeRenderTarget2, cubeCamera1, cubeCamera2, mirrormaterial;
-            //clouds
-                  let cloudParticles = [];
-                  let images = ["stairs.jpg", "camp.jpg", "bcs.JPEG", "bike.JPEG"];
-                  let url;
-                  let assetList = [];
-                  let screenMaterial;
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    body {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 400;
+      color: #000000;
+      background-color: #ffffff;
+      width: 100%;
+      margin: 0px;
+      overflow: hidden;
+    }
+
+    .text {
+      color: rgb(255, 255, 255);
+      font-size: 5vmin;
+      padding: 16px 32px;
+    }
+
+    a{
+      text-decoration: none;
+    }
+
+    a:link, a:visited {
+    color: rgb(255, 255, 255);
+    }
+
+    .fixed {
+      width: 100%;
+      text-align: center;
+      position: fixed;
+      font-size: 5vmin;
+      font-size: 10vmin;
+      color: rgb(156, 2, 2);
+      z-index: 3;
+    }
+
+</style>
+</head>
+
+<body>
+<div class = "fixed">
+  <img src="img/namered.png" alt="Virtual House" style="width:20%; padding-top: 2%;">
+</div>
+
+<div class = "fixed">
+  <div class = "text" style= "float: right;">
+    [Press Space]
+  </div>
+</div>
+<div class = "fixed">
+  <div class = "text" style= "float: left;">
+    <a href="./home.html">
+    My Worlds
+  </a>
+
+  </div>
+</div>
+
+ <!-- 3D -->
+ <script src="three/three.js"></script>
+ <script src="three/GLTFLoader.js"></script>
+ <script src="three/OrbitControls.js"></script>
+ <div id = "three">
+   <script src="threejs/build/three.js"></script>
+       <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
+       <script type="module">
+       import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
+       import { EffectComposer } from '/threejs/examples/jsm/postprocessing/EffectComposer.js';
+       import { RenderPass } from '/threejs/examples/jsm/postprocessing/RenderPass.js';
+       import { UnrealBloomPass } from '/threejs/examples/jsm/postprocessing/UnrealBloomPass.js'; 
+       import { FilmPass } from '/threejs/examples/jsm/postprocessing/FilmPass.js';
+           //essentials
+     let scene, camera, renderer, composer, model, screen, loader;
+           //stuff for reflections
+           let num = 0, cubeRenderTarget1, cubeRenderTarget2, cubeCamera1, cubeCamera2, mirrormaterial;
+     //clouds
+           let cloudParticles = [];
+           let images = ["whitsable.jpg", "diningroom-2.jpg", "rose.jpg", "coco.png", "bedroom2.png"];
+           let url;
+           let assetList = [];
+           let screenMaterial;
+
+
+     function init() {
+               //-x if forward
+               //z is up
+       
+       scene = new THREE.Scene();
+       scene.background = new THREE.Color( 0x2c229c );
+               // blue daylight 0x24296d 
+
+       camera = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeight,1,1000);
+      camera.position.x = 4;
+       camera.rotation.y = Math.PI/2;
+       
+               //light in front 
+               let orangeLight = new THREE.PointLight(0x394d36,10,-10);
+               orangeLight.position.set(0,10,10);
+               scene.add(orangeLight);
+               let light = new THREE.PointLight(0x855481,10,0);
+               light.position.set(0,-19,4);
+               scene.add(light);
+
+               let cloudLight = new THREE.PointLight(0x855481,10,0);
+               cloudLight.position.set(-10,-19,4);
+               scene.add(cloudLight);
+
+               
+         var container = document.getElementById( 'three' );
+               
+         renderer = new THREE.WebGLRenderer({ antialias: true, three });
+         renderer.setSize(window.innerWidth,window.innerHeight);
+         container.appendChild(renderer.domElement);
+
+               //const controls = new OrbitControls( camera, renderer.domElement );
+
+       /**
+       * clouds
+       **/
+
+       loader = new THREE.TextureLoader();
+       loader.load("img/smoke.png", function(texture){
+       const cloudGeo = new THREE.PlaneBufferGeometry(30,40);
+       const cloudMaterial = new THREE.MeshLambertMaterial({
+         map:texture,
+         transparent: true
+       });
+
+       for(let p=0; p<15; p++) {
+         let cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
+         cloud.position.set(
+         -p, //forward
+         Math.random()*5-10, //height
+         Math.random()*10-5 //side to side
+         );
+         cloud.rotation.y = Math.PI / 2;
+         cloud.rotation.z = Math.random()*2*Math.PI;
+         cloud.material.opacity = 0.35;
+         cloudParticles.push(cloud);
+         scene.add(cloud);
+       }
+       });
+
+           /**
+           * computer
+           **/
+          for (let i=0; i<images.length; i++){
+           url = "img/" + images[i];
+           assetList.push(url);
+          }
+
+           screenMaterial =  new THREE.MeshStandardMaterial({
+               emissive: 0xffffff,
+               emissiveIntensity: 1,
+               emissiveMap: loader.load("img/bedroom2.png") ,
+           });
+
+
+           const gloader = new THREE.GLTFLoader();
+           gloader.load( 'models/finalcomputer.gltf', function ( gltf ) {
+           model = gltf.scene;
+               gltf.scene.scale.set(0.75,0.75,0.75); // scale here
+           scene.add( gltf.scene );
+           }, undefined, function ( error ) {
+           console.error( error );
+           } );
+
+           gloader.load( 'models/screen3.gltf', function ( gltf ) {
+           screen = gltf.scene;
+           gltf.scene.traverse( function ( child ) {
+               if ( child.isMesh ) {
+               child.material = screenMaterial;  //set material here
+           }
+               });
+               gltf.scene.scale.set(0.75,0.75,0.75); // scale here
+               gltf.scene.rotation.x += Math.PI; //The plane dimensions are messed up
+               gltf.scene.position.x += 0.1; //The plane dimensions are messed up
+
+           scene.add( gltf.scene );
+           }, undefined, function ( error ) {
+           console.error( error );
+           } );
+
+           /**
+           * Post Processing
+           **/
+           composer = new EffectComposer( renderer );
+           const renderPass = new RenderPass( scene, camera );
+           composer.addPass( renderPass );
+
+           const filmPass = new FilmPass(0.1, 0.3, 600, false);
+          // composer.addPass( filmPass );
+
+     render();
+     }
+     function render() {
+       cloudParticles.forEach(p => { //move clouds
+         p.rotation.z += 0.001;
+       });
+       composer.render(); //render and post
+       requestAnimationFrame(render);
+     }
+
+     init();
+
+
+   //event listeners
+   
+       window.addEventListener( 'resize', onWindowResize, false );
+       function onWindowResize(){
+           camera.aspect = window.innerWidth / window.innerHeight;
+           camera.updateProjectionMatrix();
+     
+           renderer.setSize( window.innerWidth, window.innerHeight);
+       }
+
+       var count = 0;
+      document.addEventListener('keyup', event => {
+        if (event.code === 'Space') {
+          console.log('Space pressed')
+          screenMaterial.emissiveMap = loader.load(assetList[count]);
+               if (count == assetList.length - 1){
+                   count = 0;
+               }
+               else{
+                   count ++;
+               }
+        }
+      })
       
-      
-            function init() {
-                      //-x if forward
-                      //z is up
-              
-              scene = new THREE.Scene();
-              scene.background = new THREE.Color( 0xc75126 );
-                      // blue daylight 0x24296d 
-      
-              camera = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeight,1,1000);
-              camera.position.z = 0;				
-                  camera.position.x = 4;
-              camera.rotation.y = Math.PI/2;
-              
-                      //light in front of disco
-                      scene.fog = new THREE.FogExp2(0x4d1f3a, 0.04);
-                      // blue daylight 0x19265c 0x4d1f3a
-      
-                      let orangeLight = new THREE.PointLight(0x394d36,10,-10);
-                      orangeLight.position.set(0,10,10);
-                      scene.add(orangeLight);
-                      let light = new THREE.PointLight(0x855481,10,0);
-                      light.position.set(0,-19,4);
-                      scene.add(light);
-      
-                      let cloudLight = new THREE.PointLight(0x855481,10,0);
-                      cloudLight.position.set(-10,-19,4);
-                      scene.add(cloudLight);
-      
-                      
-                      var container = document.getElementById( 'three' );
-                      //document.body.appendChild( container );
-                renderer = new THREE.WebGLRenderer({ antialias: true, three });
-                renderer.setSize(window.innerWidth,window.innerHeight*0.95);
-                container.appendChild(renderer.domElement);
-      
-                      //const controls = new OrbitControls( camera, renderer.domElement );
-      
-              /**
-              * clouds
-              **/
-      
-              loader = new THREE.TextureLoader();
-              loader.load("img/smoke.png", function(texture){
-              const cloudGeo = new THREE.PlaneBufferGeometry(30,40);
-              const cloudMaterial = new THREE.MeshLambertMaterial({
-                map:texture,
-                transparent: true
-              });
-      
-              for(let p=0; p<15; p++) {
-                let cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
-                cloud.position.set(
-                -p, //forward
-                Math.random()*5-10, //height
-                Math.random()*10-5 //side to side
-                );
-                cloud.rotation.y = Math.PI / 2;
-                cloud.rotation.z = Math.random()*2*Math.PI;
-                cloud.material.opacity = 0.35;
-                cloudParticles.push(cloud);
-                scene.add(cloud);
-              }
-              });
-      
-                  /**
-                  * computer
-                  **/
-                 for (let i=0; i<images.length; i++){
-                  url = "img/" + images[i];
-                  assetList.push(url);
-                 }
-      
-                  screenMaterial =  new THREE.MeshStandardMaterial({
-                      emissive: 0xffffff,
-                      emissiveIntensity: 1,
-                      emissiveMap: loader.load("img/alien.png") ,
-                  });
-      
-      
-                  const gloader = new THREE.GLTFLoader();
-                  gloader.load( 'models/finalcomputer.gltf', function ( gltf ) {
-                  model = gltf.scene;
-                      gltf.scene.scale.set(0.75,0.75,0.75); // scale here
-                  scene.add( gltf.scene );
-                  }, undefined, function ( error ) {
-                  console.error( error );
-                  } );
-      
-                  gloader.load( 'models/screen3.gltf', function ( gltf ) {
-                  screen = gltf.scene;
-                  gltf.scene.traverse( function ( child ) {
-                      if ( child.isMesh ) {
-                      child.material = screenMaterial;  //set material here
-                  }
-                      });
-                      gltf.scene.scale.set(0.75,0.75,0.75); // scale here
-                      gltf.scene.rotation.x += Math.PI; //The plane dimensions are messed up
-                      gltf.scene.position.x += 0.1; //The plane dimensions are messed up
-      
-                  scene.add( gltf.scene );
-                  }, undefined, function ( error ) {
-                  console.error( error );
-                  } );
-      
-                  /**
-                  * Post Processing
-                  **/
-                  composer = new EffectComposer( renderer );
-                  const renderPass = new RenderPass( scene, camera );
-                  composer.addPass( renderPass );
-      
-                  const filmPass = new FilmPass(0.1, 0.3, 600, false);
-                 // composer.addPass( filmPass );
-      
-            render();
-            }
-            function render() {
-              cloudParticles.forEach(p => { //move clouds
-                p.rotation.z += 0.001;
-              });
-              composer.render(); //render and post
-              requestAnimationFrame(render);
-            }
-      
-            init();
-      
-      
-          //event listeners
-          
-              window.addEventListener( 'resize', onWindowResize, false );
-              function onWindowResize(){
-                  camera.aspect = window.innerWidth / window.innerHeight;
-                  camera.updateProjectionMatrix();
-            
-                  renderer.setSize( window.innerWidth, window.innerHeight*0.95);
-              }
-      
-              window.addEventListener( 'click', onMouseClick );
-              var count = 0;
-              function onMouseClick( ev ) {
-                      screenMaterial.emissiveMap = loader.load(assetList[count]);
-                      if (count == assetList.length - 1){
-                          count = 0;
-                      }
-                      else{
-                          count ++;
-                      }
-              }
-          </script>
-          </div>
+   </script>
+   </div>
+
+
 	</body>
-</html>
+  </html>
