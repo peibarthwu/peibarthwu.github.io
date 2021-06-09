@@ -80,7 +80,7 @@
            let num = 0, cubeRenderTarget1, cubeRenderTarget2, cubeCamera1, cubeCamera2, mirrormaterial;
      //clouds
            let cloudParticles = [];
-           let images = ["whitsable.jpg", "diningroom-2.jpg", "rose.jpg", "coco.png", "bedroom2.png"];
+           let images = ["whitsable.jpg", "diningroom-2.jpg", "rose.jpg", "coco.png", "summer.png", "bedroom2.png"];
            let url;
            let assetList = [];
            let screenMaterial;
@@ -194,13 +194,13 @@
            composer.addPass( renderPass );
 
            const filmPass = new FilmPass(0.1, 0.3, 600, false);
-          // composer.addPass( filmPass );
+           composer.addPass( filmPass );
 
      render();
      }
      function render() {
        cloudParticles.forEach(p => { //move clouds
-         p.rotation.z += 0.001;
+         p.rotation.z += 0.0005;
        });
        composer.render(); //render and post
        requestAnimationFrame(render);
