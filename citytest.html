@@ -173,6 +173,26 @@
                 }
             }
         }
+
+        window.addEventListener('touchmove', onTouchMove, false);
+        function onTouchMove(event){
+
+            mouse.x = ( event.touches[ 0 ].clientX / window.innerWidth ) * 4 - 1;
+            mouse.y = - ( event.touches[ 0 ].clientY / window.innerHeight ) * 4 + 1;
+
+            
+        }
+
+        window.addEventListener('touchstar', onTouchStart, false);
+        function onTouchStart(event){
+            const intersects = raycaster.intersectObjects( group, true );
+            for ( let i = 0; i < intersects.length; i ++ ) {
+                console.log(intersects[i]);
+                if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow.001"){
+                    alert("arrow clicked");
+                }
+            }
+        }
 		</script>
 		</div>
 	</body>
