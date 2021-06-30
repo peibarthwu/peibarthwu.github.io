@@ -56,18 +56,18 @@
 			let blueLight = new THREE.PointLight(0x175575,4,0);
 			blueLight.position.set(-10,30,12);
 			scene.add(blueLight);
-            const light = new THREE.HemisphereLight( 0x175575, 0x175575, 1 );
+            const light = new THREE.HemisphereLight( 0xeb34cf, 0xeb34cf, 1 );
             scene.add( light );
 
             var cubemap = new THREE.CubeTextureLoader()
 			.setPath( 'img/' )
 			.load( [
-				'space.png',
-				'space.png',
-				'space.png',
-				'space.png',
-				'space.png',
-				'space.png'
+				'pei.png',
+				'pei.png',
+				'pei.png',
+				'pei.png',
+				'pei.png',
+				'pei.png'
 			] );
 
             var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
@@ -168,7 +168,7 @@
             const intersects = raycaster.intersectObjects( group, true );
             for ( let i = 0; i < intersects.length; i ++ ) {
                 console.log(intersects[i]);
-                if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow.001"){
+                if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
                     alert("arrow clicked");
                 }
             }
@@ -188,7 +188,7 @@
             const intersects = raycaster.intersectObjects( group, true );
             for ( let i = 0; i < intersects.length; i ++ ) {
                 console.log(intersects[i]);
-                if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow.001"){
+                if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
                     alert("arrow clicked");
                 }
             }
