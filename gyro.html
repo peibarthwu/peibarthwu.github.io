@@ -33,7 +33,8 @@
             camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1100 );
 
             controls = new DeviceOrientationControls( camera );
-            controls.connect()
+            // controls.connect();
+            controls.enabled = true;
             scene = new THREE.Scene();
 
             const light = new THREE.HemisphereLight( 0xeb34cf, 0xeb34cf, 1 );
