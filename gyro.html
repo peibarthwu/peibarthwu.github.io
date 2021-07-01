@@ -14,24 +14,6 @@
 
 	
 		<div id = "three">
-			<script type="text/javascript">
-				function requestOrientationPermission(){
-					DeviceOrientationEvent.requestPermission()
-					.then(response => {
-						if (response == 'granted') {
-							window.addEventListener('deviceorientation', (e) => {
-								// do something with e
-							})
-						}
-					})
-					.catch(console.error)
-				}
-			</script>
-			
-		
-			<div id="overlay">
-				<button id="request" onclick='requestOrientationPermission();'>Request orientation permission</button>
-			</div>
 		<script src="threejs/build/three.js"></script>
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
 
@@ -42,16 +24,11 @@
 
 			let camera, scene, renderer, controls;
 
-			const startButton = document.getElementById( 'request' );
-			startButton.addEventListener( 'click', function () {
-				init();
-				animate();
-			} );
+			
+			init();
+			animate();
 
 			function init() {
-
-				const overlay = document.getElementById( 'overlay' );
-				overlay.remove();
 
 				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1100 );
 
