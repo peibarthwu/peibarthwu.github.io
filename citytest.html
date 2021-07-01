@@ -14,11 +14,8 @@
 		<script src="threejs/build/three.js"></script>
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
         <script type="module">
-
-        import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
-		import { GUI } from '/three/dat.gui.module.js';
-        import { ParallaxBarrierEffect } from '/threejs/examples/jsm/effects/ParallaxBarrierEffect.js';
-
+        import { DeviceOrientationControls } from '/threejs/examples/jsm/controls/DeviceOrientationControls.js';
+	
 
 		var container, controls;
 		var camera, scene, renderer, light, mixer;
@@ -44,8 +41,8 @@
 			document.body.appendChild(container);
 
 			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
-			camera.position.set(100,100, 10);
-
+			// camera.position.set(100,100, 10);
+			controls = new DeviceOrientationControls( camera );
 			scene = new THREE.Scene();
 			scene.background = new THREE.Color(0x000000);
 
@@ -149,19 +146,19 @@
 		function onWindowResize(){
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
-				
+				controls.update();
 				renderer.setSize( window.innerWidth*0.8, window.innerHeight *0.8);
 		}
         var windowHalfX = window.innerWidth / 2;
 		var windowHalfY = window.innerHeight / 2;
 
-        window.addEventListener( 'mousemove', onDocumentMouseMove, false );
-        function onDocumentMouseMove( event ) {
+        // window.addEventListener( 'mousemove', onDocumentMouseMove, false );
+        // function onDocumentMouseMove( event ) {
 
-            mouse.x = ( event.clientX - windowHalfX ) / 100;
-            mouse.y = ( event.clientY - windowHalfY ) / 100;
+        //     mouse.x = ( event.clientX - windowHalfX ) / 100;
+        //     mouse.y = ( event.clientY - windowHalfY ) / 100;
 
-        }
+        // }
 
         window.addEventListener('mousedown', onMouseDown, false);
         function onMouseDown(event){
