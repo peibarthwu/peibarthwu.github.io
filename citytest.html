@@ -7,9 +7,9 @@
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<div id="overlay" style="z-index: 1;">
-			<button id="startButton">Start Demo</button>
-		</div>
+		<a href ="index.html">
+			<img src="img/namered.png" alt="Virtual House" style="width:20%;">
+		  </a>
 		<div id = "three">
 		<script src="threejs/build/three.js"></script>
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
@@ -18,7 +18,6 @@
         import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
 		import { GUI } from '/three/dat.gui.module.js';
         import { ParallaxBarrierEffect } from '/threejs/examples/jsm/effects/ParallaxBarrierEffect.js';
-		import { DeviceOrientationControls } from '/threejs/examples/jsm/controls/DeviceOrientationControls.js';
 
 
 		var container, controls;
@@ -33,31 +32,23 @@
         const mouse = new THREE.Vector2();
 
         const raycaster = new THREE.Raycaster();
-		const startButton = document.getElementById( 'startButton' );
-		startButton.addEventListener( 'click', function () {
-				DeviceMotionEvent.requestPermission();
-				init();
-				animate();
 
-		} );
-
+		init();
+		animate();
 
 		function init() {
+            
 
-			const overlay = document.getElementById( 'overlay' );
-				overlay.remove();
 			//basics
 			container = document.createElement('three');
 			document.body.appendChild(container);
 
-			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 1000);
-			// camera.position.set(100,100, 10);
-
-			controls = new DeviceOrientationControls( camera );
+			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
+			camera.position.set(100,100, 10);
 
 			scene = new THREE.Scene();
 			scene.background = new THREE.Color(0x000000);
-			
+
 			let orangeLight = new THREE.PointLight(0x175575,10,10);
 			orangeLight.position.set(20,30,2);
 			scene.add(orangeLight);
@@ -65,18 +56,18 @@
 			let blueLight = new THREE.PointLight(0x175575,4,0);
 			blueLight.position.set(-10,30,12);
 			scene.add(blueLight);
-            const light = new THREE.HemisphereLight( 0x175575, 0x175575, 1 );
+            const light = new THREE.HemisphereLight( 0xeb34cf, 0xeb34cf, 1 );
             scene.add( light );
 
             var cubemap = new THREE.CubeTextureLoader()
 			.setPath( 'img/' )
 			.load( [
-				'space.png',
-				'space.png',
-				'space.png',
-				'space.png',
-				'space.png',
-				'space.png'
+				'pei.png',
+				'pei.png',
+				'pei.png',
+				'pei.png',
+				'pei.png',
+				'pei.png'
 			] );
 
             var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
@@ -131,7 +122,7 @@
 
             // effect = new ParallaxBarrierEffect( renderer );
 			// effect.setSize( window.innerWidth *0.8, window.innerHeight*0.8 );
-			alert("This only works on your phone")
+
 
 		}
 		
@@ -141,18 +132,16 @@
 
 			const timer = 0.0001 * Date.now();
 
-            // camera.position.x += ( mouse.x - camera.position.x ) * .05;
-            // camera.position.y += ( - mouse.y - camera.position.y ) * .05;
+            camera.position.x += ( mouse.x - camera.position.x ) * .05;
+            camera.position.y += ( - mouse.y - camera.position.y ) * .05;
 
-            // camera.lookAt( scene.position );
+            camera.lookAt( scene.position );
 
             // update the picking ray with the camera and mouse position
             raycaster.setFromCamera( mouse, camera );
             // calculate objects intersecting the picking ray
-			controls.update();
-			console.log(controls);
+           
             renderer.render( scene, camera );
-
             
 		}
 			
@@ -179,7 +168,7 @@
             const intersects = raycaster.intersectObjects( group, true );
             for ( let i = 0; i < intersects.length; i ++ ) {
                 console.log(intersects[i]);
-                if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow.001"){
+                if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
                     alert("arrow clicked");
                 }
             }
@@ -199,25 +188,11 @@
             const intersects = raycaster.intersectObjects( group, true );
             for ( let i = 0; i < intersects.length; i ++ ) {
                 console.log(intersects[i]);
-                if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow.001"){
+                if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
                     alert("arrow clicked");
                 }
             }
         }
-		function onClick() {
-		// feature detect
-		if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-		DeviceOrientationEvent.requestPermission()
-			.then(permissionState => {
-			if (permissionState === 'granted') {
-				window.addEventListener('deviceorientation', () => {});
-			}
-			})
-			.catch(console.error);
-		} else {
-		// handle regular non iOS 13+ devices
-		}
-	}
 		</script>
 		</div>
 	</body>
