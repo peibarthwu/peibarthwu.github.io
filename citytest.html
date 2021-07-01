@@ -44,8 +44,8 @@
 			container = document.createElement('three');
 			document.body.appendChild(container);
 
-			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
-			camera.position.set(100,100, 10);
+			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 1000);
+			// camera.position.set(100,100, 10);
 
 			controls = new DeviceOrientationControls( camera );
 
