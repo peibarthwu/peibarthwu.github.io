@@ -40,10 +40,11 @@
 			document.body.appendChild(container);
 
 			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
-			camera.position.set(10,10, 12);
+			camera.position.set(0,1,12);
 
 			controls = new DeviceOrientationControls( camera, true );
 			controls.disconnect();
+			controls.enabled = false;
 			console.log(controls);
 			scene = new THREE.Scene();
 			scene.background = new THREE.Color(0x000022);
@@ -197,6 +198,7 @@
 		window.addEventListener('touchend', onTouchEnd, false);
         function onTouchEnd(event){
 			controls.connect();
+			controls.enabled = true;
 			console.log(controls);
 
 		}
