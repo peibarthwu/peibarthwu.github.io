@@ -144,7 +144,7 @@
             
 		}
 		alert("new version 2")
-		console.log(controls);
+		
 		window.addEventListener( 'resize', onWindowResize, false );
 		function onWindowResize(){
 				camera.aspect = window.innerWidth / window.innerHeight;
@@ -182,9 +182,9 @@
             
         }
 
-        window.addEventListener('touchstar', onTouchStart, false);
+        window.addEventListener('touchstart', onTouchStart, false);
         function onTouchStart(event){
-			controls.connect();
+			console.log(controls);
             const intersects = raycaster.intersectObjects( group, true );
             for ( let i = 0; i < intersects.length; i ++ ) {
                 console.log(intersects[i]);
@@ -193,6 +193,14 @@
                 }
             }
         }
+
+		window.addEventListener('touchend', onTouchEnd, false);
+        function onTouchEnd(event){
+			controls.connect();
+			console.log(controls);
+
+		}
+
 		</script>
 		</div>
 	</body>
