@@ -179,7 +179,7 @@
             for ( let i = 0; i < intersects.length; i ++ ) {
                 console.log(intersects[i]);
                 if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
-                    alert("arrow clicked");
+                    // alert("arrow clicked");
                 }
             }
         }
@@ -195,13 +195,13 @@
 
         window.addEventListener('touchstart', onTouchStart, false);
         function onTouchStart(event){
-            const intersects = raycaster.intersectObjects( group, true );
-            for ( let i = 0; i < intersects.length; i ++ ) {
-                console.log(intersects[i]);
-                if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
-                    alert("arrow clicked");
-                }
-            }
+            // const intersects = raycaster.intersectObjects( group, true );
+            // for ( let i = 0; i < intersects.length; i ++ ) {
+            //     console.log(intersects[i]);
+            //     if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
+            //         // alert("arrow clicked");
+            //     }
+            // }
         }
 
 		window.addEventListener('touchend', onTouchEnd, false);
