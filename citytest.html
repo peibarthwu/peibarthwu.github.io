@@ -43,7 +43,7 @@
 			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
 			// camera.position.set(100,100, 10);
 			controls = new DeviceOrientationControls( camera, true );
-
+			console.log(controls);
 			scene = new THREE.Scene();
 			scene.background = new THREE.Color(0x000000);
 
@@ -140,7 +140,7 @@
             // calculate objects intersecting the picking ray
 				controls.update();
 			
-
+			console.log(controls);
             renderer.render( scene, camera );
             
 		}
