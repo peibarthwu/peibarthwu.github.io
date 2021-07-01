@@ -9,7 +9,10 @@
 	<body>
 		<a href ="index.html">
 			<img src="img/namered.png" alt="Virtual House" style="width:20%;">
-		  </a>
+		</a>
+		<div id="overlay">
+			<button id="startButton" class= "button">Enable Controls</button>
+		</div>
 		<div id = "three">
 		<script src="threejs/build/three.js"></script>
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
@@ -62,19 +65,20 @@
             var cubemap = new THREE.CubeTextureLoader()
 			.setPath( 'img/' )
 			.load( [
-				'pei.png',
-				'pei.png',
-				'pei.png',
-				'pei.png',
-				'pei.png',
-				'pei.png'
+				'space.png',
+				'space.png',
+				'space.png',
+				'space.png',
+				'space.png',
+				'space.png'
 			] );
 
             var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
-              	bumpScale: 0.01,
+				bumpMap: new THREE.TextureLoader().load("img/tile.jpg"),
+              	bumpScale: 0.4,
                 metalness: 1,
 				roughness: 0.1,
-				color: 0x333333,
+				color: 0x000000,
 				envMap: cubemap,
 			} );
             wallMaterial.side = THREE.DoubleSide;
@@ -84,7 +88,7 @@
 				metalness: 0.7,
 				roughness: 0.2,
 				color: 0x555555,
-				//bumpMap: new THREE.TextureLoader().load("img/threedisco.png"),
+				
 
 			} );
 			
@@ -126,6 +130,16 @@
 
 		}
 		
+		const startButton = document.getElementById( 'startButton' );
+			startButton.addEventListener( 'click', function () {
+				init();
+				animate();
+				controls.connect();
+				controls.enabled = true;
+				console.log(controls);
+
+		} );
+		
 		console.log(scene.getObjectByName( "Group" ));
 		function animate() {
 			requestAnimationFrame(animate);
@@ -140,7 +154,6 @@
             raycaster.setFromCamera( mouse, camera );
             // calculate objects intersecting the picking ray
 			controls.update();
-			
             renderer.render( scene, camera );
             
 		}
@@ -150,7 +163,7 @@
 		function onWindowResize(){
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
-				renderer.setSize( window.innerWidth*0.8, window.innerHeight *0.8);
+				renderer.setSize( window.innerWidth, window.innerHeight);
 		}
         var windowHalfX = window.innerWidth / 2;
 		var windowHalfY = window.innerHeight / 2;
@@ -185,7 +198,6 @@
 
         window.addEventListener('touchstart', onTouchStart, false);
         function onTouchStart(event){
-			console.log(controls);
             const intersects = raycaster.intersectObjects( group, true );
             for ( let i = 0; i < intersects.length; i ++ ) {
                 console.log(intersects[i]);
@@ -197,10 +209,7 @@
 
 		window.addEventListener('touchend', onTouchEnd, false);
         function onTouchEnd(event){
-			controls.connect();
-			controls.enabled = true;
 			console.log(controls);
-
 		}
 
 		</script>
