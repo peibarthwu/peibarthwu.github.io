@@ -18,6 +18,7 @@
         import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
 		import { GUI } from '/three/dat.gui.module.js';
         import { ParallaxBarrierEffect } from '/threejs/examples/jsm/effects/ParallaxBarrierEffect.js';
+		import { DeviceOrientationControls } from '/threejs/examples/jsm/controls/DeviceOrientationControls.js';
 
 
 		var container, controls;
@@ -37,8 +38,8 @@
 		animate();
 
 		function init() {
-            
 
+        
 			//basics
 			container = document.createElement('three');
 			document.body.appendChild(container);
@@ -46,9 +47,11 @@
 			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
 			camera.position.set(100,100, 10);
 
+			controls = new DeviceOrientationControls( camera );
+
 			scene = new THREE.Scene();
 			scene.background = new THREE.Color(0x000000);
-
+			
 			let orangeLight = new THREE.PointLight(0x175575,10,10);
 			orangeLight.position.set(20,30,2);
 			scene.add(orangeLight);
@@ -122,7 +125,7 @@
 
             // effect = new ParallaxBarrierEffect( renderer );
 			// effect.setSize( window.innerWidth *0.8, window.innerHeight*0.8 );
-
+			alert("This only works on your phone")
 
 		}
 		
@@ -140,8 +143,9 @@
             // update the picking ray with the camera and mouse position
             raycaster.setFromCamera( mouse, camera );
             // calculate objects intersecting the picking ray
-           
+			controls.update();
             renderer.render( scene, camera );
+
             
 		}
 			
