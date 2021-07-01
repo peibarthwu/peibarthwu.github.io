@@ -65,13 +65,14 @@
             var cubemap = new THREE.CubeTextureLoader()
 			.setPath( 'img/' )
 			.load( [
-				'space.png',
-				'space.png',
-				'space.png',
-				'space.png',
-				'space.png',
-				'space.png'
+				'skyboxmiddle.png',
+				'skyboxback.png',
+				'skyboxtop.png',
+				'skyboxbottom.png',
+				'skyboxright.png',
+				'skyboxleft.png'
 			] );
+			scene.background= cubemap;
 
             var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
 				bumpMap: new THREE.TextureLoader().load("img/tile.jpg"),
@@ -132,12 +133,9 @@
 		
 		const startButton = document.getElementById( 'startButton' );
 			startButton.addEventListener( 'click', function () {
-				init();
-				animate();
 				controls.connect();
 				controls.enabled = true;
 				console.log(controls);
-
 		} );
 		
 		console.log(scene.getObjectByName( "Group" ));
@@ -157,7 +155,6 @@
             renderer.render( scene, camera );
             
 		}
-		alert("new version 2")
 		
 		window.addEventListener( 'resize', onWindowResize, false );
 		function onWindowResize(){
