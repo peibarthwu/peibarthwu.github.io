@@ -7,9 +7,9 @@
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<a href ="index.html">
-			<img src="img/namered.png" alt="Virtual House" style="width:20%;">
-		  </a>
+		<div id="overlay" style="z-index: 1;">
+			<button id="startButton">Start Demo</button>
+		</div>
 		<div id = "three">
 		<script src="threejs/build/three.js"></script>
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
@@ -33,13 +33,19 @@
         const mouse = new THREE.Vector2();
 
         const raycaster = new THREE.Raycaster();
+		const startButton = document.getElementById( 'startButton' );
+		startButton.addEventListener( 'click', function () {
+				DeviceMotionEvent.requestPermission();
+				init();
+				animate();
 
-		init();
-		animate();
+		} );
+
 
 		function init() {
 
-        
+			const overlay = document.getElementById( 'overlay' );
+				overlay.remove();
 			//basics
 			container = document.createElement('three');
 			document.body.appendChild(container);
@@ -144,6 +150,7 @@
             raycaster.setFromCamera( mouse, camera );
             // calculate objects intersecting the picking ray
 			controls.update();
+			console.log(controls);
             renderer.render( scene, camera );
 
             
@@ -197,6 +204,20 @@
                 }
             }
         }
+		function onClick() {
+		// feature detect
+		if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+		DeviceOrientationEvent.requestPermission()
+			.then(permissionState => {
+			if (permissionState === 'granted') {
+				window.addEventListener('deviceorientation', () => {});
+			}
+			})
+			.catch(console.error);
+		} else {
+		// handle regular non iOS 13+ devices
+		}
+	}
 		</script>
 		</div>
 	</body>
