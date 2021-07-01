@@ -42,26 +42,8 @@
 
 			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
 			// camera.position.set(100,100, 10);
-			if ( window.DeviceOrientationEvent !== undefined && typeof window.DeviceOrientationEvent.requestPermission === 'function' ) {
+			controls = new DeviceOrientationControls( camera, true );
 
-			window.DeviceOrientationEvent.requestPermission().then( function ( response ) {
-
-				if ( response == 'granted' ) {
-					granted = true;
-					controls = new DeviceOrientationControls( camera );
-
-				}
-
-			} ).catch( function ( error ) {
-
-				console.error( 'THREE.DeviceOrientationControls: Unable to use DeviceOrientation API:', error );
-
-			} );
-
-			} else {
-
-				granted = false;
-			}
 			scene = new THREE.Scene();
 			scene.background = new THREE.Color(0x000000);
 
@@ -156,10 +138,8 @@
             // update the picking ray with the camera and mouse position
             raycaster.setFromCamera( mouse, camera );
             // calculate objects intersecting the picking ray
-			if (granted){
 				controls.update();
-
-			}
+			
 
             renderer.render( scene, camera );
             
