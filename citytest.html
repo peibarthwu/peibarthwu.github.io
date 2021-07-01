@@ -32,7 +32,7 @@
 
 		init();
 		animate();
-
+		 var granted = false;
 		function init() {
             
 
@@ -42,7 +42,26 @@
 
 			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
 			// camera.position.set(100,100, 10);
-			controls = new DeviceOrientationControls( camera );
+			if ( window.DeviceOrientationEvent !== undefined && typeof window.DeviceOrientationEvent.requestPermission === 'function' ) {
+
+			window.DeviceOrientationEvent.requestPermission().then( function ( response ) {
+
+				if ( response == 'granted' ) {
+					granted = true;
+					controls = new DeviceOrientationControls( camera );
+
+				}
+
+			} ).catch( function ( error ) {
+
+				console.error( 'THREE.DeviceOrientationControls: Unable to use DeviceOrientation API:', error );
+
+			} );
+
+			} else {
+
+				granted = false;
+			}
 			scene = new THREE.Scene();
 			scene.background = new THREE.Color(0x000000);
 
@@ -127,27 +146,30 @@
 		function animate() {
 			requestAnimationFrame(animate);
 
-			const timer = 0.0001 * Date.now();
+			// const timer = 0.0001 * Date.now();
 
-            camera.position.x += ( mouse.x - camera.position.x ) * .05;
-            camera.position.y += ( - mouse.y - camera.position.y ) * .05;
+            // camera.position.x += ( mouse.x - camera.position.x ) * .05;
+            // camera.position.y += ( - mouse.y - camera.position.y ) * .05;
 
-            camera.lookAt( scene.position );
+            // camera.lookAt( scene.position );
 
             // update the picking ray with the camera and mouse position
             raycaster.setFromCamera( mouse, camera );
             // calculate objects intersecting the picking ray
-           
+			if (granted){
+				controls.update();
+
+			}
+
             renderer.render( scene, camera );
             
 		}
-		alert("new version")
+		alert("new version 2")
 		console.log(controls);
 		window.addEventListener( 'resize', onWindowResize, false );
 		function onWindowResize(){
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
-				controls.update();
 				renderer.setSize( window.innerWidth*0.8, window.innerHeight *0.8);
 		}
         var windowHalfX = window.innerWidth / 2;
@@ -172,14 +194,14 @@
             }
         }
 
-        window.addEventListener('touchmove', onTouchMove, false);
-        function onTouchMove(event){
+        // window.addEventListener('touchmove', onTouchMove, false);
+        // function onTouchMove(event){
 
-            mouse.x = ( event.touches[ 0 ].clientX / window.innerWidth ) * 4 - 1;
-            mouse.y = - ( event.touches[ 0 ].clientY / window.innerHeight ) * 4 + 1;
+        //     mouse.x = ( event.touches[ 0 ].clientX / window.innerWidth ) * 4 - 1;
+        //     mouse.y = - ( event.touches[ 0 ].clientY / window.innerHeight ) * 4 + 1;
 
             
-        }
+        // }
 
         window.addEventListener('touchstar', onTouchStart, false);
         function onTouchStart(event){
