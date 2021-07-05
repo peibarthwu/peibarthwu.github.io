@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Proof of Concept Pei Pei</title>
+        <link rel="stylesheet" href="bunny.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<a href ="index.html">
+			<img src="img/namered.png" alt="Virtual House" style="width:20%;">
+		</a>
+		<div id="overlay">
+			<button id="startButton" class= "button">Enable Controls</button>
+		</div>
+		<div id = "three">
+		<script src="threejs/build/three.js"></script>
+        <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
+        <script type="module">
+                    import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
+
+		var container, controls, geometry, material, plane;
+		var camera, scene, renderer, light, mixer;
+		var clock = new THREE.Clock();
+		var mesh;
+        var effect;
+        var group = [];
+
+        let mouseX = 0;
+        let mouseY = 0;
+        const mouse = new THREE.Vector2();
+
+
+		init();
+		animate();
+		
+		function init() {
+            
+
+			//basics
+			container = document.createElement('three');
+			document.body.appendChild(container);
+
+			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
+			camera.position.set(0,1,12);
+
+			scene = new THREE.Scene();
+			scene.background = new THREE.Color(0x000022);
+
+			let orangeLight = new THREE.PointLight(0x175575,10,10);
+			orangeLight.position.set(20,30,2);
+			scene.add(orangeLight);
+
+			let blueLight = new THREE.PointLight(0x175575,4,0);
+			blueLight.position.set(-10,10,12);
+			scene.add(blueLight);
+            const light = new THREE.HemisphereLight( 0xeb34cf, 0xeb34cf, 1 );
+            scene.add( light );
+
+            var cubemap = new THREE.CubeTextureLoader()
+			.setPath( 'img/' )
+			.load( [
+            'px.png',
+            'nx.png',
+            'py.png',
+            'ny.png',
+            'pz.png',
+            'nz.png'
+			] );
+			scene.background= cubemap;
+            // model
+        var loader = new THREE.GLTFLoader();
+
+        var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
+                        metalness: 1,
+                        roughness: 0.1,
+                        color: 0xdddddd,
+                        envMap: cubemap,
+                        refractionRatio: 0,
+                    } );
+        wallMaterial.side = THREE.DoubleSide;
+        
+        
+        loader.load("models/turtle.gltf", function (gltf) {
+            gltf.scene.getObjectByName("Sphere").material = wallMaterial;
+            scene.add(gltf.scene);
+        });
+			// renderer and controls
+			renderer = new THREE.WebGLRenderer({ antialias: true });
+			renderer.setPixelRatio(window.devicePixelRatio);
+			renderer.setSize(window.innerWidth *0.8, window.innerHeight*0.8);
+			container.appendChild(renderer.domElement);
+
+			controls = new OrbitControls( camera, renderer.domElement );
+			controls.minDistance = 3;
+
+            // effect = new ParallaxBarrierEffect( renderer );
+			// effect.setSize( window.innerWidth *0.8, window.innerHeight*0.8 );
+		}
+		
+	
+		function animate() {
+			requestAnimationFrame(animate);
+
+			controls.update();
+            renderer.render( scene, camera );
+            
+		}
+		
+		window.addEventListener( 'resize', onWindowResize, false );
+		function onWindowResize(){
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth*0.8, window.innerHeight*0.8);
+		}
+		</script>
+		</div>
+	</body>
+</html>

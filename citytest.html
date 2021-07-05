@@ -2,14 +2,58 @@
 <html>
 	<head>
 		<title>Proof of Concept Pei Pei</title>
-        <link rel="stylesheet" href="bunny.css">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
 	</head>
+	<style>
+		body {
+			text-align: center;
+			background-color: #ffffff;
+			font-family: 'Montserrat', sans-serif;  color: #000000;
+			font-size: x-large;
+			background-size: cover;
+			position:relative;
+			overflow: hidden;
+			text-align: center;
+		}
+
+		.header {
+			width: 100%;
+			text-align: center;
+			position: relative;
+		}
+
+		.container{
+			height: 100%;
+			position: relative;
+		}
+
+		.three{
+			position: center;
+		}
+
+
+		a:link {
+			text-decoration: none;
+			color: #000000;
+		
+		}
+		
+		a:visited {
+			text-decoration: none;
+			color: #000000;
+		}
+
+		.button{
+			background-color: #000000;
+			color: #ffffff;
+			font-size: 25px;
+			margin: 2%;
+			border-radius: 10px;
+			border-style: none;
+		}
+	</style>
 	<body>
-		<a href ="index.html">
-			<img src="img/namered.png" alt="Virtual House" style="width:20%;">
-		</a>
 		<div id="overlay">
 			<button id="startButton" class= "button">Enable Controls</button>
 		</div>
@@ -18,9 +62,9 @@
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
         <script type="module">
         import { DeviceOrientationControls } from '/threejs/examples/jsm/controls/DeviceOrientationControls.js';
-
+		
 		var container, controls;
-		var camera, scene, renderer, light, mixer;
+		var camera, scene, renderer, light, kaiju;
 		var clock = new THREE.Clock();
 		var mesh;
         var effect;
@@ -34,7 +78,6 @@
 
 		init();
 		animate();
-		 var granted = false;
 		function init() {
             
 
@@ -62,23 +105,21 @@
             const light = new THREE.HemisphereLight( 0xeb34cf, 0xeb34cf, 1 );
             scene.add( light );
 
-            var cubemap = new THREE.CubeTextureLoader()
+			var cubemap = new THREE.CubeTextureLoader()
 			.setPath( 'img/' )
 			.load( [
-				'skyboxmiddle.png',
-				'skyboxback.png',
-				'skyboxtop.png',
-				'skyboxbottom.png',
-				'skyboxright.png',
-				'skyboxleft.png'
+            'px.png',
+            'nx.png',
+            'py.png',
+            'ny.png',
+            'pz.png',
+            'nz.png'
 			] );
 			scene.background= cubemap;
 
             var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
-				bumpMap: new THREE.TextureLoader().load("img/tile.jpg"),
-              	bumpScale: 0.4,
-                metalness: 1,
-				roughness: 0.1,
+                metalness: 0.1,
+				roughness: 0.5,
 				color: 0x000000,
 				envMap: cubemap,
 			} );
@@ -89,22 +130,16 @@
 				metalness: 0.7,
 				roughness: 0.2,
 				color: 0x555555,
-				
-
 			} );
 			
 			// model
 			var loader = new THREE.GLTFLoader();
 			loader.load("models/city.gltf", function (gltf) {
                 let home = gltf.scene.getObjectByName("Plane");
-				console.log(home);
 				home.material = wallMaterial;
-                gltf.scene.traverse(function (child) {
-					if (child.isMesh) {
-						group.push(child);
-					}
+				kaiju = gltf.scene.getObjectByName("body");
+				kaiju.add(camera);
 
-				});
                 //group.push(gltf.scene.getObjectByName("arrow"));
                 // group.add(gltf.scene.getObjectByName("arrow2"));
                 // group.add(gltf.scene.getObjectByName("arrow.001"));
@@ -118,7 +153,7 @@
 			// renderer and controls
 			renderer = new THREE.WebGLRenderer({ antialias: true });
 			renderer.setPixelRatio(window.devicePixelRatio);
-			renderer.setSize(window.innerWidth *0.8, window.innerHeight*0.8);
+			renderer.setSize(window.innerWidth, window.innerHeight);
 			container.appendChild(renderer.domElement);
 
 			// controls = new OrbitControls( camera, renderer.domElement );
