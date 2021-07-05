@@ -38,11 +38,6 @@
 			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
 			camera.position.set(0,1,12);
 
-			controls = new DeviceOrientationControls( camera, true );
-			controls.disconnect();
-			controls.enabled = false;
-			console.log(controls);
-
 			scene = new THREE.Scene();
 			scene.background = new THREE.Color(0x000022);
 
@@ -76,6 +71,18 @@
 				envMap: cubemap,
 			} );
             wallMaterial.side = THREE.DoubleSide;
+
+			const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+			const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+			const cube = new THREE.Mesh( geometry, material );
+			scene.add( cube );
+			cube.position.set(0,-2,-1);
+			cube.add(camera);
+
+			controls = new DeviceOrientationControls( cube, true );
+			controls.disconnect();
+			controls.enabled = false;
+			console.log(controls);
 			
 			// model
 			var loader = new THREE.GLTFLoader();
@@ -83,7 +90,6 @@
                 gltf.scene.getObjectByName("Plane").material = wallMaterial;
 
 				kaiju = gltf.scene.getObjectByName("body");
-				kaiju.add(camera);
                 //group.push(gltf.scene.getObjectByName("arrow"));
                 // group.add(gltf.scene.getObjectByName("arrow2"));
                 // group.add(gltf.scene.getObjectByName("arrow.001"));
@@ -102,9 +108,6 @@
 			// controls = new OrbitControls( camera, renderer.domElement );
 			// controls.minDistance = 3;
 			// controls.maxDistance = 5;
-
-
-
 		}
 		
 		const startButton = document.getElementById( 'startButton' );
