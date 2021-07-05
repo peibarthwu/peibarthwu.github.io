@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Proof of Concept Pei Pei</title>
-		<link rel="stylesheet" href="bunny.css">
+		<link rel="stylesheet" href="testscene.css">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
 	</head>
@@ -36,7 +36,7 @@
 			document.body.appendChild(container);
 
 			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
-			camera.position.set(0,1,12);
+			camera.position.set(0,4,12);
 
 			scene = new THREE.Scene();
 			scene.background = new THREE.Color(0x000022);
@@ -67,7 +67,7 @@
             var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
                 metalness: 0.1,
 				roughness: 0.5,
-				color: 0x000000,
+				color: 0x222222,
 				envMap: cubemap,
 			} );
             wallMaterial.side = THREE.DoubleSide;
@@ -101,7 +101,7 @@
 			// renderer and controls
 			renderer = new THREE.WebGLRenderer({ antialias: true });
 			renderer.setPixelRatio(window.devicePixelRatio);
-			renderer.setSize(window.innerWidth*0.8, window.innerHeight*0.8);
+			renderer.setSize(window.innerWidth, window.innerHeight);
 			container.appendChild(renderer.domElement);
 
 			// controls = new OrbitControls( camera, renderer.domElement );
@@ -134,7 +134,7 @@
 		function onWindowResize(){
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
-				renderer.setSize( window.innerWidth *0.8 , window.innerHeight*0.8 );
+				renderer.setSize( window.innerWidth , window.innerHeight);
 		}
         // var windowHalfX = window.innerWidth / 2;
 		// var windowHalfY = window.innerHeight / 2;

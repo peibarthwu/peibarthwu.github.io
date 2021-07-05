@@ -1,0 +1,49 @@
+body {
+    text-align: center;
+    background-color: #000000;
+    font-family: 'Montserrat', sans-serif;  color: #ffffff;
+    font-size: x-large;
+    background-size: cover;
+    position:relative;
+    overflow: hidden;
+    text-align: center;
+    margin: none;
+    border: none;
+    padding: none;
+}
+
+.header {
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+  .container{
+    height: 100%;
+    position: relative;
+  }
+
+.three{
+      position: center;
+}
+
+
+a:link {
+    text-decoration: none;
+    color: #000000;
+  
+  }
+  
+  a:visited {
+    text-decoration: none;
+    color: #000000;
+  }
+
+  .button{
+    background-color: #272727;
+    color: #ffffff;
+    font-size: 25px;
+    margin: 2%;
+    border-radius: 10px;
+    border-style: none;
+  }
