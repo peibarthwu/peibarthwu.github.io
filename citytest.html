@@ -65,9 +65,7 @@
 		
 		var container, controls;
 		var camera, scene, renderer, light, kaiju;
-		var clock = new THREE.Clock();
 		var mesh;
-        var effect;
         var group = [];
 
         let mouseX = 0;
@@ -79,7 +77,6 @@
 		init();
 		animate();
 		function init() {
-            
 
 			//basics
 			container = document.createElement('three');
@@ -92,6 +89,7 @@
 			controls.disconnect();
 			controls.enabled = false;
 			console.log(controls);
+
 			scene = new THREE.Scene();
 			scene.background = new THREE.Color(0x000022);
 
@@ -102,6 +100,7 @@
 			let blueLight = new THREE.PointLight(0x175575,4,0);
 			blueLight.position.set(-10,10,12);
 			scene.add(blueLight);
+
             const light = new THREE.HemisphereLight( 0xeb34cf, 0xeb34cf, 1 );
             scene.add( light );
 
@@ -124,13 +123,6 @@
 				envMap: cubemap,
 			} );
             wallMaterial.side = THREE.DoubleSide;
-
-			//material
-			var normalMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
-				metalness: 0.7,
-				roughness: 0.2,
-				color: 0x555555,
-			} );
 			
 			// model
 			var loader = new THREE.GLTFLoader();
@@ -139,12 +131,10 @@
 				home.material = wallMaterial;
 				kaiju = gltf.scene.getObjectByName("body");
 				kaiju.add(camera);
-
                 //group.push(gltf.scene.getObjectByName("arrow"));
                 // group.add(gltf.scene.getObjectByName("arrow2"));
                 // group.add(gltf.scene.getObjectByName("arrow.001"));
 
-                
 				scene.add(gltf.scene);
 
 
@@ -160,8 +150,6 @@
 			// controls.minDistance = 3;
 			// controls.maxDistance = 5;
 
-            // effect = new ParallaxBarrierEffect( renderer );
-			// effect.setSize( window.innerWidth *0.8, window.innerHeight*0.8 );
 
 
 		}
@@ -173,11 +161,8 @@
 				console.log(controls);
 		} );
 		
-		console.log(scene.getObjectByName( "Group" ));
 		function animate() {
 			requestAnimationFrame(animate);
-
-
             // camera.position.x += ( mouse.x - camera.position.x ) * .05;
             // camera.position.y += ( - mouse.y - camera.position.y ) * .05;
 
@@ -185,7 +170,6 @@
 
             // update the picking ray with the camera and mouse position
             raycaster.setFromCamera( mouse, camera );
-            // calculate objects intersecting the picking ray
 			controls.update();
             renderer.render( scene, camera );
             
@@ -197,52 +181,52 @@
 				camera.updateProjectionMatrix();
 				renderer.setSize( window.innerWidth, window.innerHeight);
 		}
-        var windowHalfX = window.innerWidth / 2;
-		var windowHalfY = window.innerHeight / 2;
+        // var windowHalfX = window.innerWidth / 2;
+		// var windowHalfY = window.innerHeight / 2;
 
-        window.addEventListener( 'mousemove', onDocumentMouseMove, false );
-        function onDocumentMouseMove( event ) {
+        // window.addEventListener( 'mousemove', onDocumentMouseMove, false );
+        // function onDocumentMouseMove( event ) {
 
-            mouse.x = ( event.clientX - windowHalfX ) / 100;
-            mouse.y = ( event.clientY - windowHalfY ) / 100;
+        //     mouse.x = ( event.clientX - windowHalfX ) / 100;
+        //     mouse.y = ( event.clientY - windowHalfY ) / 100;
 
-        }
+        // }
 
-        window.addEventListener('mousedown', onMouseDown, false);
-        function onMouseDown(event){
-            const intersects = raycaster.intersectObjects( group, true );
-            for ( let i = 0; i < intersects.length; i ++ ) {
-                console.log(intersects[i]);
-                if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
-                    // alert("arrow clicked");
-                }
-            }
-        }
+        // window.addEventListener('mousedown', onMouseDown, false);
+        // function onMouseDown(event){
+        //     const intersects = raycaster.intersectObjects( group, true );
+        //     for ( let i = 0; i < intersects.length; i ++ ) {
+        //         console.log(intersects[i]);
+        //         if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
+        //             // alert("arrow clicked");
+        //         }
+        //     }
+        // }
 
-        window.addEventListener('touchmove', onTouchMove, false);
-        function onTouchMove(event){
+        // window.addEventListener('touchmove', onTouchMove, false);
+        // function onTouchMove(event){
 
-            mouse.x = ( event.touches[ 0 ].clientX / window.innerWidth ) * 4 - 1;
-            mouse.y = - ( event.touches[ 0 ].clientY / window.innerHeight ) * 4 + 1;
+        //     mouse.x = ( event.touches[ 0 ].clientX / window.innerWidth ) * 4 - 1;
+        //     mouse.y = - ( event.touches[ 0 ].clientY / window.innerHeight ) * 4 + 1;
 
             
-        }
+        // }
 
-        window.addEventListener('touchstart', onTouchStart, false);
-        function onTouchStart(event){
-            // const intersects = raycaster.intersectObjects( group, true );
-            // for ( let i = 0; i < intersects.length; i ++ ) {
-            //     console.log(intersects[i]);
-            //     if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
-            //         // alert("arrow clicked");
-            //     }
-            // }
-        }
+        // window.addEventListener('touchstart', onTouchStart, false);
+        // function onTouchStart(event){
+        //     // const intersects = raycaster.intersectObjects( group, true );
+        //     // for ( let i = 0; i < intersects.length; i ++ ) {
+        //     //     console.log(intersects[i]);
+        //     //     if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
+        //     //         // alert("arrow clicked");
+        //     //     }
+        //     // }
+        // }
 
-		window.addEventListener('touchend', onTouchEnd, false);
-        function onTouchEnd(event){
-			console.log(controls);
-		}
+		// window.addEventListener('touchend', onTouchEnd, false);
+        // function onTouchEnd(event){
+		// 	console.log(controls);
+		// }
 
 		</script>
 		</div>
