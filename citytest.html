@@ -72,11 +72,11 @@
 			} );
             wallMaterial.side = THREE.DoubleSide;
 
-			const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+			const geometry = new THREE.BoxGeometry( 0.5, 0.5, 0.5 );
 			const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
 			const cube = new THREE.Mesh( geometry, material );
 			scene.add( cube );
-			cube.position.set(0,-2,-1);
+			cube.position.set(0,0,-4);
 			cube.add(camera);
 
 			controls = new DeviceOrientationControls( cube, true );
@@ -86,10 +86,9 @@
 			
 			// model
 			var loader = new THREE.GLTFLoader();
-			loader.load("models/city.gltf", function (gltf) {
+			loader.load("models/city2.gltf", function (gltf) {
                 gltf.scene.getObjectByName("Plane").material = wallMaterial;
 
-				kaiju = gltf.scene.getObjectByName("body");
                 //group.push(gltf.scene.getObjectByName("arrow"));
                 // group.add(gltf.scene.getObjectByName("arrow2"));
                 // group.add(gltf.scene.getObjectByName("arrow.001"));
