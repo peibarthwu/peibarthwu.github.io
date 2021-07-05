@@ -15,7 +15,8 @@
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
         <script type="module">
         import { DeviceOrientationControls } from '/threejs/examples/jsm/controls/DeviceOrientationControls.js';
-		
+		import { GUI } from '/three/dat.gui.module.js';
+
 		var container, controls;
 		var camera, scene, renderer, light, kaiju;
 		var mesh;
@@ -83,6 +84,17 @@
 			controls.disconnect();
 			controls.enabled = false;
 			console.log(controls);
+
+			// GUI
+			var params = {
+				Y: 0,
+				Z: 0,
+			};
+			var gui = new GUI();
+			var folder = gui.addFolder('Camera Axis');
+			folder.add(params, 'Y', 0, 5).step(0.01).onChange(function (value) { cube.position.y = value });
+			folder.add(params, 'Z', 0, 10).step(0.01).onChange(function (value) { cube.position.z = value });
+			folder.open();
 			
 			// model
 			var loader = new THREE.GLTFLoader();
