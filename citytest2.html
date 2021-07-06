@@ -8,13 +8,14 @@
 	</head>
 	<body>
 		<div id="overlay">
-			<button id="startButton" class= "button">Drag to rotate. Press Space to snap.</button>
+			<button id="startButton" class= "button">Enable Controls</button>
 		</div>
 		<div id = "three">
 		<script src="threejs/build/three.js"></script>
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
         <script type="module">
-        import { OrbitControls } from '/threejs/examples/jsm/controls/OrbitControls.js';
+        import { DeviceOrientationControls } from '/threejs/examples/jsm/controls/DeviceOrientationControls.js';
+        // import { OrbitControls } from '/threejs/examples/jsm/controls/OrbitControls.js';
 		import { GUI } from '/three/dat.gui.module.js';
         import TWEEN from 'https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18.5.0/dist/tween.esm.js';
 
@@ -107,9 +108,23 @@
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			container.appendChild(renderer.domElement);
 
-            controls = new OrbitControls( camera, renderer.domElement );
-            controls.minDistance = 3;
-            controls.maxDistance = 50;
+            // controls = new OrbitControls( camera, renderer.domElement );
+            // controls.minDistance = 3;
+            // controls.maxDistance = 50;
+            const geometry = new THREE.BoxGeometry( 0.5, 0.5, 0.5 );
+			const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+            const cube = new THREE.Mesh( geometry, material );
+			scene.add( cube );
+			cube.position.set(0,0,3);
+			cube.add(camera);
+
+
+            controls = new DeviceOrientationControls( cube, true );
+			controls.disconnect();
+			controls.enabled = false;
+			console.log(controls);
+            alert("This experiment is only built for phones")
+
 		}
 
        
@@ -171,6 +186,12 @@
                 var tween = new TWEEN.Tween(camera.position).to(positions[count], 2000).start();
             }
         }
+        const startButton = document.getElementById( 'startButton' );
+			startButton.addEventListener( 'click', function () {
+				controls.connect();
+				controls.enabled = true;
+				console.log(controls);
+		} );
 
         window.addEventListener('touchend', onTouchEnd, false);
         function onTouchEnd(event){
