@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<div id="overlay">
-			<button id="startButton" class= "button">Enable Controls</button>
+			<button id="startButton" class= "button">Drag to rotate. Press Space to snap.</button>
 		</div>
 		<div id = "three">
 		<script src="threejs/build/three.js"></script>
@@ -50,7 +50,7 @@
 			document.body.appendChild(container);
 
 			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
-			camera.position.set(-50,100,50);
+			camera.position.set(-50,200,50);
 
 			scene = new THREE.Scene();
 			scene.background = new THREE.Color(0x000022);
@@ -168,8 +168,20 @@
                     count ++;
                 }
                 console.log(positions[count]);
-                var tween = new TWEEN.Tween(camera.position).to(positions[count], 2000).start()
+                var tween = new TWEEN.Tween(camera.position).to(positions[count], 2000).start();
             }
+        }
+
+        window.addEventListener('touchend', onTouchEnd, false);
+        function onTouchEnd(event){
+            if (count == positions.length - 1){
+                count = 0;
+            }
+            else{
+                count ++;
+            }
+            console.log(positions[count]);
+            var tween = new TWEEN.Tween(camera.position).to(positions[count], 2000).start(); 
         }
 
 		</script>
