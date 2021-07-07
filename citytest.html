@@ -159,12 +159,14 @@
 				clicks++;
 				document.getElementById("clicks").innerHTML = clicks;
 				if (clicks > 3){
+					controls.disconnect();
 					controls.enabled = false;
 					console.log(positions[counter]);
 					var tween = new TWEEN.Tween(camera.position).to(positions[counter], 1000).start();
 					var tween = new TWEEN.Tween(cube.position).to(positions[counter], 1000).start();
 
-					camera.lookAt(kaiju);
+					// camera.lookAt(kaiju);
+					controls.connect();
 					controls.enabled = true;
 					clicks = 0;
 					console.log(camera.position);
