@@ -83,6 +83,12 @@
 				cube.position.set(0,0,-4);
 				cube.add(camera);
 
+				const cube2 = new THREE.Mesh( geometry, material );
+				cube2.material.transparent = true ;
+				scene.add( cube2 );
+				cube2.position.set(0,0,0);
+				cube2.add(cube);
+
 				controls = new DeviceOrientationControls( cube, true );
 				controls.disconnect();
 				controls.enabled = false;
@@ -151,10 +157,18 @@
 					console.log(controls);
 			} );
 			
-			document.getElementById ("powerbutton").addEventListener ("touchstart", powerUp, false);
+			var tapButton = document.getElementById ("powerbutton");
+			document.getElementById ("powerbutton").addEventListener ("touchstart", interactStart, false);
+			document.getElementById ("powerbutton").addEventListener ("touchend", interactEnd, false);
+
 			var clicks = 0;
 			var counter = 0;
-			function powerUp() {
+			function interactStart() {
+				//button style
+				tapButton.style.boxShadow = "0px 0px 50px #777777";
+    			tapButton.style.background = "rgb(126, 214, 218)";
+
+				//controls
 				console.log("clicl");
 				clicks++;
 				document.getElementById("clicks").innerHTML = clicks;
@@ -162,10 +176,8 @@
 					controls.disconnect();
 					controls.enabled = false;
 					console.log(positions[counter]);
-					var tween = new TWEEN.Tween(camera.position).to(positions[counter], 1000).start();
 					var tween = new TWEEN.Tween(cube.position).to(positions[counter], 1000).start();
-
-					// camera.lookAt(kaiju);
+					// var tween = new TWEEN.Tween(cube.position).to( { y:5 }, 2000 ).start();
 					controls.connect();
 					controls.enabled = true;
 					clicks = 0;
@@ -179,6 +191,13 @@
 				}
 			};
 			
+			function interactEnd(){
+				//button style
+				tapButton.style.boxShadow = "none";
+    			tapButton.style.background = "rgb(30, 190, 199)";
+
+				
+			}
 
 			function animate() {
 				requestAnimationFrame(animate);
