@@ -18,6 +18,7 @@
 			import { DeviceOrientationControls } from '/threejs/examples/jsm/controls/DeviceOrientationControls.js';
 			import { GUI } from '/three/dat.gui.module.js';
 			import TWEEN from 'https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18.5.0/dist/tween.esm.js';
+			import { OrbitControls } from '/threejs/examples/jsm/controls/OrbitControls.js';
 
 			var container, controls, positions, cube;
 			var camera, scene, renderer, light, kaiju;
@@ -77,6 +78,7 @@
 				const geometry = new THREE.BoxGeometry( 0.5, 0.5, 0.5 );
 				const material = new THREE.MeshBasicMaterial( {color: 0x000000} );
 				cube = new THREE.Mesh( geometry, material );
+				cube.material.transparent = true ;
 				scene.add( cube );
 				cube.position.set(0,0,-4);
 				cube.add(camera);
@@ -88,19 +90,29 @@
 
 				// GUI
 				var params = {
+					fov: 45,
 					Y: 0,
 					Z: 0,
 				};
-				var gui = new GUI();
-				var folder = gui.addFolder('Camera Axis');
+
+				var gui = new GUI({
+					width : 300
+				}); 
+
+				function updateCamera() {
+					camera.updateProjectionMatrix();
+				}
+				var folder = gui.addFolder('Camera Controls');
+
+				folder.add(camera, 'fov', 1, 180).onChange(updateCamera);
 				folder.add(params, 'Y', 0, 5).step(0.01).onChange(function (value) { cube.position.y = value });
 				folder.add(params, 'Z', 0, 10).step(0.01).onChange(function (value) { cube.position.z = value });
 				folder.open();
 				
 				//TWEEN Positions
 				positions = [];
-				positions.push(new THREE.Vector3(-15, 0, 0));
-				positions.push(new THREE.Vector3(0, 5, -15));
+				positions.push(new THREE.Vector3(-5, 0, 0));
+				positions.push(new THREE.Vector3(0, 5, 15));
 				positions.push(new THREE.Vector3(15, 10, 0));
 				positions.push(new THREE.Vector3(0, 15, 15));
 				positions.push(new THREE.Vector3(-15, 35, 0));
@@ -109,9 +121,7 @@
 				var loader = new THREE.GLTFLoader();
 				loader.load("models/city2.gltf", function (gltf) {
 					gltf.scene.getObjectByName("Plane").material = wallMaterial;
-					//group.push(gltf.scene.getObjectByName("arrow"));
-					// group.add(gltf.scene.getObjectByName("arrow2"));
-					// group.add(gltf.scene.getObjectByName("arrow.001"));
+					kaiju = gltf.scene.getObjectByName("Plane").material = wallMaterial;
 
 					scene.add(gltf.scene);
 
@@ -141,19 +151,29 @@
 					console.log(controls);
 			} );
 			
-			// document.getElementById ("powerbutton").addEventListener ("click", powerUp, false);
 			document.getElementById ("powerbutton").addEventListener ("touchstart", powerUp, false);
 			var clicks = 0;
+			var counter = 0;
 			function powerUp() {
 				console.log("clicl");
 				clicks++;
 				document.getElementById("clicks").innerHTML = clicks;
 				if (clicks > 3){
 					controls.enabled = false;
-					var tween = new TWEEN.Tween(camera.position).to(positions[clicks], 1000).start();
-					// camera.lookAt(new THREE.Vector3(0, 0, 0));
+					console.log(positions[counter]);
+					var tween = new TWEEN.Tween(camera.position).to(positions[counter], 1000).start();
+					var tween = new TWEEN.Tween(cube.position).to(positions[counter], 1000).start();
+
+					camera.lookAt(kaiju);
 					controls.enabled = true;
 					clicks = 0;
+					console.log(camera.position);
+					if (counter == positions.length - 1){
+						counter = 0;
+					}
+					else{
+						counter ++;
+					}
 				}
 			};
 			
@@ -161,13 +181,6 @@
 			function animate() {
 				requestAnimationFrame(animate);
 				TWEEN.update();
-				// camera.position.x += ( mouse.x - camera.position.x ) * .05;
-				// camera.position.y += ( - mouse.y - camera.position.y ) * .05;
-
-				// camera.lookAt( scene.position );
-
-				// update the picking ray with the camera and mouse position
-				raycaster.setFromCamera( mouse, camera );
 				controls.update();
 				renderer.render( scene, camera );
 				
@@ -179,52 +192,7 @@
 					camera.updateProjectionMatrix();
 					renderer.setSize( window.innerWidth , window.innerHeight);
 			}
-			// var windowHalfX = window.innerWidth / 2;
-			// var windowHalfY = window.innerHeight / 2;
-
-			// window.addEventListener( 'mousemove', onDocumentMouseMove, false );
-			// function onDocumentMouseMove( event ) {
-
-			//     mouse.x = ( event.clientX - windowHalfX ) / 100;
-			//     mouse.y = ( event.clientY - windowHalfY ) / 100;
-
-			// }
-
-			// window.addEventListener('mousedown', onMouseDown, false);
-			// function onMouseDown(event){
-			//     const intersects = raycaster.intersectObjects( group, true );
-			//     for ( let i = 0; i < intersects.length; i ++ ) {
-			//         console.log(intersects[i]);
-			//         if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
-			//             // alert("arrow clicked");
-			//         }
-			//     }
-			// }
-
-			// window.addEventListener('touchmove', onTouchMove, false);
-			// function onTouchMove(event){
-
-			//     mouse.x = ( event.touches[ 0 ].clientX / window.innerWidth ) * 4 - 1;
-			//     mouse.y = - ( event.touches[ 0 ].clientY / window.innerHeight ) * 4 + 1;
-
-				
-			// }
-
-			// window.addEventListener('touchstart', onTouchStart, false);
-			// function onTouchStart(event){
-			//     // const intersects = raycaster.intersectObjects( group, true );
-			//     // for ( let i = 0; i < intersects.length; i ++ ) {
-			//     //     console.log(intersects[i]);
-			//     //     if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
-			//     //         // alert("arrow clicked");
-			//     //     }
-			//     // }
-			// }
-
-			// window.addEventListener('touchend', onTouchEnd, false);
-			// function onTouchEnd(event){
-			// 	console.log(controls);
-			// }
+			
 			
 		</script>
 		</div>
