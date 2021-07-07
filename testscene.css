@@ -18,7 +18,7 @@ body {
     position: relative;
 }
 
-  .container{
+.container{
     height: 100%;
     position: relative;
   }
@@ -39,11 +39,21 @@ a:link {
     color: #000000;
   }
 
-  .button{
+.button{
     background-color: #272727;
     color: #ffffff;
-    font-size: 25px;
+    font-size: 5vmin;
     margin: 2%;
     border-radius: 10px;
     border-style: none;
-  }
+}
+
+.tapcounter {
+  background-color: rgb(68, 213, 218); 
+  opacity: 0.5;  
+  position: fixed; 
+  bottom:0%;
+  left: 0;
+  width:96%;
+  padding: 2%;
+}

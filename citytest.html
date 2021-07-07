@@ -10,192 +10,231 @@
 		<div id="overlay">
 			<button id="startButton" class= "button">Enable Controls</button>
 		</div>
+		
 		<div id = "three">
 		<script src="threejs/build/three.js"></script>
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
         <script type="module">
-        import { DeviceOrientationControls } from '/threejs/examples/jsm/controls/DeviceOrientationControls.js';
-		import { GUI } from '/three/dat.gui.module.js';
+			import { DeviceOrientationControls } from '/threejs/examples/jsm/controls/DeviceOrientationControls.js';
+			import { GUI } from '/three/dat.gui.module.js';
+			import TWEEN from 'https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18.5.0/dist/tween.esm.js';
 
-		var container, controls;
-		var camera, scene, renderer, light, kaiju;
-		var mesh;
-        var group = [];
+			var container, controls;
+			var camera, scene, renderer, light, kaiju;
+			var mesh;
+			var group = [];
 
-        let mouseX = 0;
-        let mouseY = 0;
-        const mouse = new THREE.Vector2();
+			let mouseX = 0;
+			let mouseY = 0;
+			const mouse = new THREE.Vector2();
 
-        const raycaster = new THREE.Raycaster();
+			const raycaster = new THREE.Raycaster();
 
-		init();
-		animate();
-		function init() {
-			//basics
-			container = document.createElement('three');
-			document.body.appendChild(container);
+			init();
+			animate();
+			function init() {
+				//basics
+				container = document.createElement('three');
+				document.body.appendChild(container);
 
-			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
-			camera.position.set(0,4,12);
+				camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
+				camera.position.set(0,4,12);
 
-			scene = new THREE.Scene();
-			scene.background = new THREE.Color(0x000022);
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color(0x000022);
 
-			let orangeLight = new THREE.PointLight(0x175575,10,10);
-			orangeLight.position.set(20,30,2);
-			scene.add(orangeLight);
+				let orangeLight = new THREE.PointLight(0x175575,10,10);
+				orangeLight.position.set(20,30,2);
+				scene.add(orangeLight);
 
-			let blueLight = new THREE.PointLight(0x175575,4,0);
-			blueLight.position.set(-10,10,12);
-			scene.add(blueLight);
+				let blueLight = new THREE.PointLight(0x175575,4,0);
+				blueLight.position.set(-10,10,12);
+				scene.add(blueLight);
 
-            const light = new THREE.HemisphereLight( 0xeb34cf, 0xeb34cf, 1 );
-            scene.add( light );
+				const light = new THREE.HemisphereLight( 0xeb34cf, 0xeb34cf, 1 );
+				scene.add( light );
 
-			var cubemap = new THREE.CubeTextureLoader()
-			.setPath( 'img/' )
-			.load( [
-            'px.png',
-            'nx.png',
-            'py.png',
-            'ny.png',
-            'pz.png',
-            'nz.png'
-			] );
-			scene.background= cubemap;
+				var cubemap = new THREE.CubeTextureLoader()
+				.setPath( 'img/' )
+				.load( [
+				'px.png',
+				'nx.png',
+				'py.png',
+				'ny.png',
+				'pz.png',
+				'nz.png'
+				] );
+				scene.background= cubemap;
 
-            var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
-                metalness: 0.1,
-				roughness: 0.5,
-				color: 0x222222,
-				envMap: cubemap,
-			} );
-            wallMaterial.side = THREE.DoubleSide;
+				var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
+					metalness: 0.1,
+					roughness: 0.5,
+					color: 0x222222,
+					envMap: cubemap,
+				} );
+				wallMaterial.side = THREE.DoubleSide;
 
-			const geometry = new THREE.BoxGeometry( 0.5, 0.5, 0.5 );
-			const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
-			const cube = new THREE.Mesh( geometry, material );
-			scene.add( cube );
-			cube.position.set(0,0,-4);
-			cube.add(camera);
+				const geometry = new THREE.BoxGeometry( 0.5, 0.5, 0.5 );
+				const material = new THREE.MeshBasicMaterial( {color: 0x000000} );
+				const cube = new THREE.Mesh( geometry, material );
+				scene.add( cube );
+				cube.position.set(0,0,-4);
+				cube.add(camera);
 
-			controls = new DeviceOrientationControls( cube, true );
-			controls.disconnect();
-			controls.enabled = false;
-			console.log(controls);
-
-			// GUI
-			var params = {
-				Y: 0,
-				Z: 0,
-			};
-			var gui = new GUI();
-			var folder = gui.addFolder('Camera Axis');
-			folder.add(params, 'Y', 0, 5).step(0.01).onChange(function (value) { cube.position.y = value });
-			folder.add(params, 'Z', 0, 10).step(0.01).onChange(function (value) { cube.position.z = value });
-			folder.open();
-			
-			// model
-			var loader = new THREE.GLTFLoader();
-			loader.load("models/city2.gltf", function (gltf) {
-                gltf.scene.getObjectByName("Plane").material = wallMaterial;
-
-                //group.push(gltf.scene.getObjectByName("arrow"));
-                // group.add(gltf.scene.getObjectByName("arrow2"));
-                // group.add(gltf.scene.getObjectByName("arrow.001"));
-
-				scene.add(gltf.scene);
-
-
-			});
-
-			// renderer and controls
-			renderer = new THREE.WebGLRenderer({ antialias: true });
-			renderer.setPixelRatio(window.devicePixelRatio);
-			renderer.setSize(window.innerWidth, window.innerHeight);
-			container.appendChild(renderer.domElement);
-
-			// controls = new OrbitControls( camera, renderer.domElement );
-			// controls.minDistance = 3;
-			// controls.maxDistance = 5;
-			alert("This experiment is only built for phones")
-		}
-		
-		const startButton = document.getElementById( 'startButton' );
-			startButton.addEventListener( 'click', function () {
-				controls.connect();
-				controls.enabled = true;
+				controls = new DeviceOrientationControls( cube, true );
+				controls.disconnect();
+				controls.enabled = false;
 				console.log(controls);
-		} );
-		
-		function animate() {
-			requestAnimationFrame(animate);
-            // camera.position.x += ( mouse.x - camera.position.x ) * .05;
-            // camera.position.y += ( - mouse.y - camera.position.y ) * .05;
 
-            // camera.lookAt( scene.position );
+				// GUI
+				var params = {
+					Y: 0,
+					Z: 0,
+				};
+				var gui = new GUI();
+				var folder = gui.addFolder('Camera Axis');
+				folder.add(params, 'Y', 0, 5).step(0.01).onChange(function (value) { cube.position.y = value });
+				folder.add(params, 'Z', 0, 10).step(0.01).onChange(function (value) { cube.position.z = value });
+				folder.open();
+				
+				//TWEEN Positions
+				var positions = [];
+				positions.push(new THREE.Vector3(-15, 0, 0));
+				positions.push(new THREE.Vector3(0, 5, -15));
+				positions.push(new THREE.Vector3(15, 10, 0));
+				positions.push(new THREE.Vector3(0, 15, 15));
+				positions.push(new THREE.Vector3(-15, 35, 0));
 
-            // update the picking ray with the camera and mouse position
-            raycaster.setFromCamera( mouse, camera );
-			controls.update();
-            renderer.render( scene, camera );
-            
-		}
-		
-		window.addEventListener( 'resize', onWindowResize, false );
-		function onWindowResize(){
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
-				renderer.setSize( window.innerWidth , window.innerHeight);
-		}
-        // var windowHalfX = window.innerWidth / 2;
-		// var windowHalfY = window.innerHeight / 2;
+				// model
+				var loader = new THREE.GLTFLoader();
+				loader.load("models/city2.gltf", function (gltf) {
+					gltf.scene.getObjectByName("Plane").material = wallMaterial;
 
-        // window.addEventListener( 'mousemove', onDocumentMouseMove, false );
-        // function onDocumentMouseMove( event ) {
+					//group.push(gltf.scene.getObjectByName("arrow"));
+					// group.add(gltf.scene.getObjectByName("arrow2"));
+					// group.add(gltf.scene.getObjectByName("arrow.001"));
 
-        //     mouse.x = ( event.clientX - windowHalfX ) / 100;
-        //     mouse.y = ( event.clientY - windowHalfY ) / 100;
+					scene.add(gltf.scene);
 
-        // }
 
-        // window.addEventListener('mousedown', onMouseDown, false);
-        // function onMouseDown(event){
-        //     const intersects = raycaster.intersectObjects( group, true );
-        //     for ( let i = 0; i < intersects.length; i ++ ) {
-        //         console.log(intersects[i]);
-        //         if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
-        //             // alert("arrow clicked");
-        //         }
-        //     }
-        // }
+				});
 
-        // window.addEventListener('touchmove', onTouchMove, false);
-        // function onTouchMove(event){
+				// renderer and controls
+				renderer = new THREE.WebGLRenderer({ antialias: true });
+				renderer.setPixelRatio(window.devicePixelRatio);
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				container.appendChild(renderer.domElement);
 
-        //     mouse.x = ( event.touches[ 0 ].clientX / window.innerWidth ) * 4 - 1;
-        //     mouse.y = - ( event.touches[ 0 ].clientY / window.innerHeight ) * 4 + 1;
+				// controls = new OrbitControls( camera, renderer.domElement );
+				// controls.minDistance = 3;
+				// controls.maxDistance = 5;
+				alert("This experiment is only built for phones")
+			}
+			
+			/**
+			 * BUTTONS
+			**/  
 
-            
-        // }
+			const startButton = document.getElementById( 'startButton' );
+				startButton.addEventListener( 'click', function () {
+					controls.connect();
+					controls.enabled = true;
+					console.log(controls);
+			} );
+			
+			
 
-        // window.addEventListener('touchstart', onTouchStart, false);
-        // function onTouchStart(event){
-        //     // const intersects = raycaster.intersectObjects( group, true );
-        //     // for ( let i = 0; i < intersects.length; i ++ ) {
-        //     //     console.log(intersects[i]);
-        //     //     if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
-        //     //         // alert("arrow clicked");
-        //     //     }
-        //     // }
-        // }
+			function animate() {
+				requestAnimationFrame(animate);
+				TWEEN.update();
+				// camera.position.x += ( mouse.x - camera.position.x ) * .05;
+				// camera.position.y += ( - mouse.y - camera.position.y ) * .05;
 
-		// window.addEventListener('touchend', onTouchEnd, false);
-        // function onTouchEnd(event){
-		// 	console.log(controls);
-		// }
+				// camera.lookAt( scene.position );
+
+				// update the picking ray with the camera and mouse position
+				raycaster.setFromCamera( mouse, camera );
+				controls.update();
+				renderer.render( scene, camera );
+				
+			}
+			
+			window.addEventListener( 'resize', onWindowResize, false );
+			function onWindowResize(){
+					camera.aspect = window.innerWidth / window.innerHeight;
+					camera.updateProjectionMatrix();
+					renderer.setSize( window.innerWidth , window.innerHeight);
+			}
+			// var windowHalfX = window.innerWidth / 2;
+			// var windowHalfY = window.innerHeight / 2;
+
+			// window.addEventListener( 'mousemove', onDocumentMouseMove, false );
+			// function onDocumentMouseMove( event ) {
+
+			//     mouse.x = ( event.clientX - windowHalfX ) / 100;
+			//     mouse.y = ( event.clientY - windowHalfY ) / 100;
+
+			// }
+
+			// window.addEventListener('mousedown', onMouseDown, false);
+			// function onMouseDown(event){
+			//     const intersects = raycaster.intersectObjects( group, true );
+			//     for ( let i = 0; i < intersects.length; i ++ ) {
+			//         console.log(intersects[i]);
+			//         if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
+			//             // alert("arrow clicked");
+			//         }
+			//     }
+			// }
+
+			// window.addEventListener('touchmove', onTouchMove, false);
+			// function onTouchMove(event){
+
+			//     mouse.x = ( event.touches[ 0 ].clientX / window.innerWidth ) * 4 - 1;
+			//     mouse.y = - ( event.touches[ 0 ].clientY / window.innerHeight ) * 4 + 1;
+
+				
+			// }
+
+			// window.addEventListener('touchstart', onTouchStart, false);
+			// function onTouchStart(event){
+			//     // const intersects = raycaster.intersectObjects( group, true );
+			//     // for ( let i = 0; i < intersects.length; i ++ ) {
+			//     //     console.log(intersects[i]);
+			//     //     if (intersects[i].object.name == "arrow" || intersects[i].object.name == "arrow2" || intersects[i].object.name == "arrow1"){
+			//     //         // alert("arrow clicked");
+			//     //     }
+			//     // }
+			// }
+
+			// window.addEventListener('touchend', onTouchEnd, false);
+			// function onTouchEnd(event){
+			// 	console.log(controls);
+			// }
 
 		</script>
+		<script>
+			var clicks = 0;
+			function powerUp() {
+				console.log("clicl");
+				clicks++;
+				document.getElementById("clicks").innerHTML = clicks;
+
+				if (clicks > 3){
+					controls.disconnect();
+					var tween = new TWEEN.Tween(camera.position).to(positions[clicks], 1000).start();
+					controls.connect();
+				}else{
+					clicks = 0;
+				}
+			};
+		</script>
+		<button type="button" class= "button tapcounter" onclick="powerUp()">
+			Tap to power up 
+			<p>
+				<a id="clicks">0</a>
+			</p>
+		</button>
 		</div>
 	</body>
 </html>
