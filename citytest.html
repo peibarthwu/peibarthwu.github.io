@@ -169,9 +169,7 @@
 					// controls.enabled = false;
 					console.log(positions[counter]);
 					var tween = new TWEEN.Tween(cube.position).to(positions[counter], 1000).start();
-					cube.rotation.y += 90;
-					camera.rotation.y += 90;
-
+					cube.rotation.y -= 90;
 					// var tween = new TWEEN.Tween(cube.position).to( { y:5 }, 2000 ).start();
 					// controls.connect();
 					// controls.enabled = true;
