@@ -128,9 +128,7 @@
 				loader.load("models/city2.gltf", function (gltf) {
 					gltf.scene.getObjectByName("Plane").material = wallMaterial;
 					kaiju = gltf.scene.getObjectByName("Plane").material = wallMaterial;
-
 					scene.add(gltf.scene);
-
 
 				});
 
@@ -160,8 +158,8 @@
 			var tapButton = document.getElementById ("powerbutton");
 			document.getElementById ("powerbutton").addEventListener ("touchstart", interactStart, false);
 			document.getElementById ("powerbutton").addEventListener ("touchend", interactEnd, false);
-			
-			alert("moving cube");
+
+			alert("moving cube again");
 			var clicks = 0;
 			var counter = 0;
 			function interactStart() {
@@ -178,7 +176,7 @@
 					// controls.enabled = false;
 					console.log(positions[counter]);
 					var tween = new TWEEN.Tween(movingCube.position).to(positions[counter], 1000).start();
-					movingCube.lookAt(kaiju);
+					movingCube.lookAt(new THREE.Vector3(0,0,0));
 					// var tween = new TWEEN.Tween(cube.position).to( { y:5 }, 2000 ).start();
 					// controls.connect();
 					// controls.enabled = true;
