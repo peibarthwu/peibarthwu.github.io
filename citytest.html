@@ -80,14 +80,8 @@
 				cube = new THREE.Mesh( geometry, material );
 				cube.material.transparent = true ;
 				scene.add( cube );
-				cube.position.set(0,0,0);
+				cube.position.set(0,0,-4);
 				cube.add(camera);
-
-				movingCube = new THREE.Mesh( geometry, material );
-				movingCube.material.transparent = true ;
-				scene.add( movingCube );
-				movingCube.position.set(0,0,-4);
-				movingCube.add(cube);
 
 				controls = new DeviceOrientationControls( cube, true );
 				controls.disconnect();
@@ -118,10 +112,9 @@
 				//TWEEN Positions
 				positions = [];
 				positions.push(new THREE.Vector3(-5, 0, 0));
-				positions.push(new THREE.Vector3(0, 5, 15));
-				positions.push(new THREE.Vector3(15, 10, 0));
-				positions.push(new THREE.Vector3(0, 15, 15));
-				positions.push(new THREE.Vector3(-15, 35, 0));
+				positions.push(new THREE.Vector3(0, 5, -5));
+				positions.push(new THREE.Vector3(5, 10, 0));
+				positions.push(new THREE.Vector3(0, 15, 10));
 
 				// model
 				var loader = new THREE.GLTFLoader();
@@ -159,7 +152,7 @@
 			document.getElementById ("powerbutton").addEventListener ("touchstart", interactStart, false);
 			document.getElementById ("powerbutton").addEventListener ("touchend", interactEnd, false);
 
-			alert("moving cube again");
+			alert("rotating cube");
 			var clicks = 0;
 			var counter = 0;
 			function interactStart() {
@@ -175,9 +168,8 @@
 					// controls.disconnect();
 					// controls.enabled = false;
 					console.log(positions[counter]);
-					var tween = new TWEEN.Tween(movingCube.position).to(positions[counter], 1000).start();
+					var tween = new TWEEN.Tween(cube.position).to(positions[counter], 1000).start();
 					cube.rotation.y += 90;
-					movingCube.lookAt(new THREE.Vector3(0,0,0));
 					// var tween = new TWEEN.Tween(cube.position).to( { y:5 }, 2000 ).start();
 					// controls.connect();
 					// controls.enabled = true;
