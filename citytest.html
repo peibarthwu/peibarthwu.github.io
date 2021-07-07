@@ -19,7 +19,7 @@
 			import { GUI } from '/three/dat.gui.module.js';
 			import TWEEN from 'https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18.5.0/dist/tween.esm.js';
 
-			var container, controls;
+			var container, controls, positions, cube;
 			var camera, scene, renderer, light, kaiju;
 			var mesh;
 			var group = [];
@@ -76,7 +76,7 @@
 
 				const geometry = new THREE.BoxGeometry( 0.5, 0.5, 0.5 );
 				const material = new THREE.MeshBasicMaterial( {color: 0x000000} );
-				const cube = new THREE.Mesh( geometry, material );
+				cube = new THREE.Mesh( geometry, material );
 				scene.add( cube );
 				cube.position.set(0,0,-4);
 				cube.add(camera);
@@ -98,7 +98,7 @@
 				folder.open();
 				
 				//TWEEN Positions
-				var positions = [];
+				positions = [];
 				positions.push(new THREE.Vector3(-15, 0, 0));
 				positions.push(new THREE.Vector3(0, 5, -15));
 				positions.push(new THREE.Vector3(15, 10, 0));
@@ -109,7 +109,6 @@
 				var loader = new THREE.GLTFLoader();
 				loader.load("models/city2.gltf", function (gltf) {
 					gltf.scene.getObjectByName("Plane").material = wallMaterial;
-
 					//group.push(gltf.scene.getObjectByName("arrow"));
 					// group.add(gltf.scene.getObjectByName("arrow2"));
 					// group.add(gltf.scene.getObjectByName("arrow.001"));
@@ -142,6 +141,22 @@
 					console.log(controls);
 			} );
 			
+			document.getElementById ("powerbutton").addEventListener ("click", powerUp, false);
+			document.getElementById ("powerbutton").addEventListener ("touchend", powerUp, false);
+
+			var clicks = 0;
+			function powerUp() {
+				console.log("clicl");
+				clicks++;
+				document.getElementById("clicks").innerHTML = clicks;
+				if (clicks > 3){
+					controls.enabled = false;
+					var tween = new TWEEN.Tween(camera.position).to(positions[clicks], 1000).start();
+					// camera.lookAt(new THREE.Vector3(0, 0, 0));
+					controls.enabled = true;
+					clicks = 0;
+				}
+			};
 			
 
 			function animate() {
@@ -211,30 +226,14 @@
 			// function onTouchEnd(event){
 			// 	console.log(controls);
 			// }
-
+			
 		</script>
-		<script>
-			var clicks = 0;
-			function powerUp() {
-				console.log("clicl");
-				clicks++;
-				document.getElementById("clicks").innerHTML = clicks;
-
-				if (clicks > 3){
-					controls.disconnect();
-					var tween = new TWEEN.Tween(camera.position).to(positions[clicks], 1000).start();
-					controls.connect();
-				}else{
-					clicks = 0;
-				}
-			};
-		</script>
-		<button type="button" class= "button tapcounter" onclick="powerUp()">
+		</div>
+		<button type="button" class= "button tapcounter" id="powerbutton">
 			Tap to power up 
 			<p>
 				<a id="clicks">0</a>
 			</p>
 		</button>
-		</div>
 	</body>
 </html>
