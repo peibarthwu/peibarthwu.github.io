@@ -141,9 +141,8 @@
 					console.log(controls);
 			} );
 			
-			document.getElementById ("powerbutton").addEventListener ("click", powerUp, false);
-			document.getElementById ("powerbutton").addEventListener ("touchend", powerUp, false);
-
+			// document.getElementById ("powerbutton").addEventListener ("click", powerUp, false);
+			document.getElementById ("powerbutton").addEventListener ("touchstart", powerUp, false);
 			var clicks = 0;
 			function powerUp() {
 				console.log("clicl");
