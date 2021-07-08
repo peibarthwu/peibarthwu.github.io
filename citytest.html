@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Proof of Concept Pei Pei</title>
+		<title>Prototype Test</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Encode+Sans+SC&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="testscene.css">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
 	</head>
 	<body>
 		<div id="overlay">
@@ -41,7 +42,7 @@
 				container = document.createElement('three');
 				document.body.appendChild(container);
 
-				camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
+				camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.25, 200);
 				camera.position.set(0,4,12);
 
 				scene = new THREE.Scene();
@@ -61,12 +62,12 @@
 				var cubemap = new THREE.CubeTextureLoader()
 				.setPath( 'img/' )
 				.load( [
-				'px.png',
-				'nx.png',
-				'py.png',
-				'ny.png',
-				'pz.png',
-				'nz.png'
+				'skyboxback.png',
+				'skyboxback.png',
+				'skyboxback.png',
+				'skyboxback.png',
+				'skyboxback.png',
+				'skyboxback.png'
 				] );
 				// scene.background= cubemap;
 
@@ -81,7 +82,7 @@
 				const geometry = new THREE.BoxGeometry( 0.5, 0.5, 0.5 );
 				const material = new THREE.MeshBasicMaterial( {color: 0x000000} );
 				cube = new THREE.Mesh( geometry, material );
-				cube.material.transparent = true ;
+				cube.visible = false ;
 				scene.add( cube );
 				cube.position.set(0,0,-4);
 				cube.add(camera);
@@ -224,7 +225,7 @@
 		</script>
 		</div>
 		<button type="button" class= "button tapcounter" id="powerbutton">
-			Tap to power up 
+			TAP TO POWER UP 
 			<p>
 				<a id="clicks">0</a>
 			</p>
