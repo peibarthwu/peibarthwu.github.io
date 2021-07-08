@@ -60,20 +60,20 @@
 				scene.add( light );
 
 				var cubemap = new THREE.CubeTextureLoader()
-				.setPath( 'img/' )
+				.setPath( 'img/skybox/' )
 				.load( [
-				'skyboxback.png',
-				'skyboxback.png',
-				'skyboxback.png',
-				'skyboxback.png',
-				'skyboxback.png',
-				'skyboxback.png'
+				'px.png',
+				'nx.png',
+				'py.png',
+				'ny.png',
+				'pz.png',
+				'nz.png'
 				] );
-				// scene.background= cubemap;
+				scene.background= cubemap;
 
 				var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
 					metalness: 0.1,
-					roughness: 0.5,
+					roughness: 0.7,
 					color: 0x000000,
 					envMap: cubemap,
 				} );
