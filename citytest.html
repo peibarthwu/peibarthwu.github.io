@@ -19,8 +19,11 @@
 			import { GUI } from '/three/dat.gui.module.js';
 			import TWEEN from 'https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18.5.0/dist/tween.esm.js';
 			import { OrbitControls } from '/threejs/examples/jsm/controls/OrbitControls.js';
+			import { EffectComposer } from '/threejs/examples/jsm/postprocessing/EffectComposer.js';
+			import { RenderPass } from '/threejs/examples/jsm/postprocessing/RenderPass.js';
+			import { UnrealBloomPass } from '/threejs/examples/jsm/postprocessing/UnrealBloomPass.js'; 
 
-			var container, controls, positions, cube, movingCube;
+			var container, controls, positions, cube, movingCube, composer;
 			var camera, scene, renderer, light, kaiju;
 			var mesh;
 			var group = [];
@@ -42,7 +45,7 @@
 				camera.position.set(0,4,12);
 
 				scene = new THREE.Scene();
-				scene.background = new THREE.Color(0x000022);
+				scene.background = new THREE.Color(0x000000);
 
 				let orangeLight = new THREE.PointLight(0x175575,10,10);
 				orangeLight.position.set(20,30,2);
@@ -65,12 +68,12 @@
 				'pz.png',
 				'nz.png'
 				] );
-				scene.background= cubemap;
+				// scene.background= cubemap;
 
 				var wallMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
 					metalness: 0.1,
 					roughness: 0.5,
-					color: 0x222222,
+					color: 0x000000,
 					envMap: cubemap,
 				} );
 				wallMaterial.side = THREE.DoubleSide;
@@ -118,7 +121,7 @@
 
 				// model
 				var loader = new THREE.GLTFLoader();
-				loader.load("models/city2.gltf", function (gltf) {
+				loader.load("models/cityhologram.gltf", function (gltf) {
 					gltf.scene.getObjectByName("Plane").material = wallMaterial;
 					kaiju = gltf.scene.getObjectByName("Plane").material = wallMaterial;
 					scene.add(gltf.scene);
@@ -130,6 +133,16 @@
 				renderer.setPixelRatio(window.devicePixelRatio);
 				renderer.setSize(window.innerWidth, window.innerHeight);
 				container.appendChild(renderer.domElement);
+
+				composer = new EffectComposer( renderer );
+				const renderPass = new RenderPass( scene, camera );
+				composer.addPass( renderPass );
+	
+				//const filmPass = new FilmPass(0.4, 0.3, 600, false);
+				//composer.addPass( filmPass );
+	
+				const unrealBloomPass = new UnrealBloomPass();
+				composer.addPass( unrealBloomPass );
 
 				// controls = new OrbitControls( camera, renderer.domElement );
 				// controls.minDistance = 3;
@@ -194,7 +207,9 @@
 				requestAnimationFrame(animate);
 				TWEEN.update();
 				controls.update();
-				renderer.render( scene, camera );
+				composer.render(); //render and post
+
+				// renderer.render( scene, camera );
 				
 			}
 			
