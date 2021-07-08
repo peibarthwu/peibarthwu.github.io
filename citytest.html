@@ -148,7 +148,7 @@
 				// controls = new OrbitControls( camera, renderer.domElement );
 				// controls.minDistance = 3;
 				// controls.maxDistance = 5;
-				alert("This experiment is only built for phones")
+				alert("This experiment is only built for phones. Press enable controls to experience.")
 			}
 			
 			/**
@@ -166,7 +166,6 @@
 			document.getElementById ("powerbutton").addEventListener ("touchstart", interactStart, false);
 			document.getElementById ("powerbutton").addEventListener ("touchend", interactEnd, false);
 
-			alert("rotating cube");
 			var clicks = 0;
 			var counter = 0;
 			function interactStart() {
