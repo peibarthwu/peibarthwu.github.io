@@ -42,7 +42,7 @@
                 scene = new THREE.Scene();
                 scene.background = new THREE.Color(0x000000);
 
-                const light = new THREE.HemisphereLight(0xeb34cf, 0xeb34cf, 1);
+                const light = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
                 scene.add(light);
 
 
@@ -66,8 +66,8 @@
                 //const filmPass = new FilmPass(0.4, 0.3, 600, false);
                 //composer.addPass( filmPass );
 
-                const unrealBloomPass = new UnrealBloomPass();
-                composer.addPass( unrealBloomPass );
+                // const unrealBloomPass = new UnrealBloomPass();
+                // composer.addPass( unrealBloomPass );
 
                 // controls = new OrbitControls(camera, renderer.domElement);
                 // controls.minDistance = 3;
