@@ -1,149 +1,150 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Proof of Concept Pei Pei</title>
-        <link rel="stylesheet" href="bunny.css">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
-	</head>
-	<body>
-		<a href ="index.html">
-			<img src="img/namered.png" alt="Virtual House" style="width:20%;">
-		  </a>
-		<div id = "three">
+
+<head>
+	<title>Proof of Concept Pei Pei</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+</head>
+<style>
+	body {
+		margin: 0px;
+	}
+</style>
+
+<body>
+	<div id="three">
 		<script src="threejs/build/three.js"></script>
-        <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
-        <script type="module">
+		<script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
+		<script type="module">
 
-        import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
-		import { GUI } from '/three/dat.gui.module.js';
-
-
-		var container, controls;
-		var camera, scene, renderer, light, mixer;
-		var clock = new THREE.Clock();
-		var mesh;
-
-		init();
-		animate();
-
-		function init() {
-
-			//basics
-			container = document.createElement('three');
-			document.body.appendChild(container);
-
-			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
-			camera.position.set(-2,2, 5);
-
-			scene = new THREE.Scene();
-			scene.background = new THREE.Color(0x175575);
-
-			let orangeLight = new THREE.PointLight(0x175575,10,10);
-			orangeLight.position.set(0,3,2);
-			scene.add(orangeLight);
-
-			let blueLight = new THREE.PointLight(0x175575,4,0);
-			blueLight.position.set(-10,0,12);
-			scene.add(blueLight);
-
-			let light = new THREE.PointLight(0x705675,4,0);
-			light.position.set(-10,-10,0);
-			scene.add(light);
-
-			const gridHelper = new THREE.GridHelper( 10, 20 , 0xffffff, 0xffffff);
-			gridHelper.position.y -= 0.4;
-			//scene.add( gridHelper );
-
-			// GUI
-			var params = {
-				morphTarget: 0,
-			};
-
-			var gui = new GUI();
-
-			var folder = gui.addFolder('Morph Targets');
-			folder.add(params, 'morphTarget', 0, 1).step(0.01).onChange(function (value) { mesh.morphTargetInfluences[0] = value });
-			folder.open();
-
-			
-
-			//material
-			var normalMaterial = new THREE.MeshStandardMaterial( { //material to for disco ball
-				morphTargets: true,
-				morphNormals:true,
-				metalness: 0.7,
-				roughness: 0.2,
-				color: 0x555555,
-				bumpMap: new THREE.TextureLoader().load("img/threedisco.png"),
+			import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
+			import { GUI } from '/three/dat.gui.module.js';
 
 
-			} );
-			
-			// model
-			var loader = new THREE.GLTFLoader();
-			loader.load("models/singlemorph3.gltf", function (gltf) {
-				gltf.scene.traverse(function (child) {
-					if (child.isMesh) {
-						console.log(child);
-						mesh = child;
-						mesh.geometry.morphTargets = true;
-						//mesh.material.morphTargets = true;	//use if not using custom material
-						mesh.material = normalMaterial;
-						scene.add(mesh);
-					}
+			var container, controls;
+			var camera, scene, renderer, light, mixer;
+			var mesh;
+
+			init();
+			animate();
+
+			function init() {
+
+				//basics
+				container = document.createElement('three');
+				document.body.appendChild(container);
+
+				camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 200);
+				camera.position.set(-2, 2, 5);
+
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color(0x175575);
+
+				let orangeLight = new THREE.PointLight(0x175575, 10, 10);
+				orangeLight.position.set(0, 3, 2);
+				scene.add(orangeLight);
+
+				let blueLight = new THREE.PointLight(0x175575, 4, 0);
+				blueLight.position.set(-10, 0, 12);
+				scene.add(blueLight);
+
+				let light = new THREE.PointLight(0x705675, 4, 0);
+				light.position.set(-10, -10, 0);
+				scene.add(light);
+
+				const gridHelper = new THREE.GridHelper(10, 20, 0xffffff, 0xffffff);
+				gridHelper.position.y -= 0.4;
+				//scene.add( gridHelper );
+
+				// GUI
+				var params = {
+					morphTarget: 0,
+				};
+
+				var gui = new GUI();
+
+				var folder = gui.addFolder('Morph Targets');
+				folder.add(params, 'morphTarget', 0, 1).step(0.01).onChange(function (value) { mesh.morphTargetInfluences[0] = value });
+				folder.open();
+
+				//material
+				var normalMaterial = new THREE.MeshStandardMaterial({ //material to for disco ball
+					morphTargets: true,
+					morphNormals: true,
+					metalness: 0.7,
+					roughness: 0.2,
+					color: 0x555555,
+					bumpMap: new THREE.TextureLoader().load("img/threedisco.png"),
+
 
 				});
 
-			});
+				// model
+				var loader = new THREE.GLTFLoader();
+				loader.load("models/singlemorph3.gltf", function (gltf) {
+					gltf.scene.traverse(function (child) {
+						if (child.isMesh) {
+							console.log(child);
+							mesh = child;
+							mesh.geometry.morphTargets = true;
+							//mesh.material.morphTargets = true;	//use if not using custom material
+							mesh.material = normalMaterial;
+							scene.add(mesh);
+						}
 
-			// renderer and controls
-			renderer = new THREE.WebGLRenderer({ antialias: true });
-			renderer.setPixelRatio(window.devicePixelRatio);
-			renderer.setSize(window.innerWidth *0.8, window.innerHeight*0.8);
-			container.appendChild(renderer.domElement);
+					});
 
-			controls = new OrbitControls( camera, renderer.domElement );
-			controls.minDistance = 3;
-			controls.maxDistance = 5;
+				});
 
-		}
-		
-		let tloader = new THREE.TextureLoader();
-				tloader.load("img/smoke.png", function(texture){
-				const cloudGeo = new THREE.PlaneBufferGeometry(14,18);
+				// renderer and controls
+				renderer = new THREE.WebGLRenderer({ antialias: true });
+				renderer.setPixelRatio(window.devicePixelRatio);
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				container.appendChild(renderer.domElement);
+
+				controls = new OrbitControls(camera, renderer.domElement);
+				controls.minDistance = 3;
+				controls.maxDistance = 5;
+
+			}
+
+			let tloader = new THREE.TextureLoader();
+			tloader.load("img/smoke.png", function (texture) {
+				const cloudGeo = new THREE.PlaneBufferGeometry(14, 18);
 				const cloudMaterial = new THREE.MeshLambertMaterial({
-					map:texture,
+					map: texture,
 					transparent: true
 				});
 
-				for(let p=0; p<20; p++) {
+				for (let p = 0; p < 20; p++) {
 					let cloud = new THREE.Mesh(cloudGeo, cloudMaterial);
 					cloud.position.set(
-					Math.random()*5-1, //
-					Math.random() -4, //side
-					-p //forward
+						Math.random() * 5 - 1, //
+						Math.random() - 4, //side
+						-p //forward
 					);
-					cloud.rotation.z = Math.random()*2*Math.PI;
+					cloud.rotation.z = Math.random() * 2 * Math.PI;
 					cloud.material.opacity = 0.35;
 					scene.add(cloud);
 				}
-				});
+			});
 
-			
-		function animate() {
-			requestAnimationFrame(animate);
-			renderer.render(scene, camera);
-		}
-			
-		window.addEventListener( 'resize', onWindowResize, false );
-			function onWindowResize(){
+
+			function animate() {
+				requestAnimationFrame(animate);
+				renderer.render(scene, camera);
+			}
+
+			window.addEventListener('resize', onWindowResize, false);
+			function onWindowResize() {
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
-				
-				renderer.setSize( window.innerWidth*0.8, window.innerHeight *0.8);
-		}
+
+				renderer.setSize(window.innerWidth, window.innerHeight);
+			}
 		</script>
-		</div>
-	</body>
+	</div>
+</body>
+
 </html>

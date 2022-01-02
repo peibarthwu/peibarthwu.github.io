@@ -5,42 +5,7 @@
 
 <head>
   <meta name="Pei Pei Barth Wu" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: 'Roboto Condensed', sans-serif;
-      font-weight: 400;
-      color: #000000;
-      background-color: #ffffff;
-      width: 100%;
-      margin: 0px;
-      overflow: hidden;
-    }
-
-    .text {
-      color: rgb(255, 255, 255);
-      font-size: 5vmin;
-      padding: 16px 32px;
-    }
-
-    a {
-      text-decoration: none;
-    }
-
-    a:link,
-    a:visited {
-      color: rgb(255, 255, 255);
-    }
-
-    .fixed {
-      width: 100%;
-      text-align: center;
-      position: fixed;
-      font-size: 5vmin;
-      font-size: 10vmin;
-      color: rgb(156, 2, 2);
-      z-index: 3;
-    }
-  </style>
+  <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
@@ -83,7 +48,7 @@
       let num = 0, cubeRenderTarget1, cubeRenderTarget2, cubeCamera1, cubeCamera2, mirrormaterial;
       //clouds
       let cloudParticles = [];
-      let images = ["whitsable.jpg", "diningroom-2.jpg", "rose.jpg", "coco.png", "summer.png", "bedroom2.png"];
+      let images = ["diorama.png", "game.png", "rose.jpg", "sixthwall.png", "house.png", "bedroom2.png"];
       let url;
       let assetList = [];
       let screenMaterial;
@@ -95,7 +60,7 @@
         scene.background = new THREE.Color(0x2c229c);
 
         camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
-        camera.position.x = 4;
+        camera.position.x = 5.25;
         camera.rotation.y = Math.PI / 2;
 
         //light in front 
@@ -110,19 +75,17 @@
         cloudLight.position.set(-10, -19, 4);
         scene.add(cloudLight);
 
-
         var container = document.getElementById('three');
 
         renderer = new THREE.WebGLRenderer({ antialias: true, three });
         renderer.setSize(window.innerWidth, window.innerHeight);
         container.appendChild(renderer.domElement);
 
-        //const controls = new OrbitControls( camera, renderer.domElement );
+        // const controls = new OrbitControls( camera, renderer.domElement );
 
         /**
         * clouds
         **/
-
         loader = new THREE.TextureLoader();
         loader.load("img/smoke.png", function (texture) {
           const cloudGeo = new THREE.PlaneBufferGeometry(30, 40);
@@ -157,30 +120,15 @@
         screenMaterial = new THREE.MeshStandardMaterial({
           emissive: 0xffffff,
           emissiveIntensity: 1,
-          emissiveMap: loader.load("img/bedroom2.png"),
+          emissiveMap: loader.load("img/screen1.png"),
         });
 
 
         const gloader = new THREE.GLTFLoader();
-        gloader.load('models/finalcomputer.gltf', function (gltf) {
-          model = gltf.scene;
-          gltf.scene.scale.set(0.75, 0.75, 0.75); // scale here
-          scene.add(gltf.scene);
-        }, undefined, function (error) {
-          console.error(error);
-        });
-
-        gloader.load('models/screen3.gltf', function (gltf) {
-          screen = gltf.scene;
-          gltf.scene.traverse(function (child) {
-            if (child.isMesh) {
-              child.material = screenMaterial;  //set material here
-            }
-          });
-          gltf.scene.scale.set(0.75, 0.75, 0.75); // scale here
-          gltf.scene.rotation.x += Math.PI; //The plane dimensions are messed up
-          gltf.scene.position.x += 0.1; //The plane dimensions are messed up
-
+        gloader.load('models/computer2021.gltf', function (gltf) {
+          model = gltf.scene.getObjectByName("computer");
+          screen = gltf.scene.getObjectByName("screen");
+          screen.material = screenMaterial;
           scene.add(gltf.scene);
         }, undefined, function (error) {
           console.error(error);

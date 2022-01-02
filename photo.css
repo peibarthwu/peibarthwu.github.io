@@ -1,14 +1,8 @@
 
 
-a:link {
+a {
   text-decoration: none;
-  color: #000000;
-
-}
-
-a:visited {
-  text-decoration: none;
-  color: #000000;
+  color: rgb(67, 34, 255);
 }
 
 img{
@@ -18,12 +12,13 @@ img{
 body {
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: 400;
-  color: #000000;
-  background-color: #ffffff;
+  color: #c9c9c9;
+  background-color: #161616;
   width: 100%;
   margin: 0px;
   overflow-x: hidden;
 }
+
 .container {
 position: relative;
 width: 100%;
@@ -58,9 +53,14 @@ width: 100%;
 }
 
 .text {
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   font-size: 5vmin;
   padding: 16px 32px;
+}
+
+a:hover {
+  color: rgb(67, 34, 255);
+  text-decoration: line-through;
 }
 
 .fixed {
@@ -69,8 +69,15 @@ width: 100%;
   position: fixed;
   font-size: 5vmin;
   font-size: 10vmin;
-  color: rgb(156, 2, 2);
   z-index: 3;
+}
+
+.work{
+  position: fixed;
+  z-index: 100;
+  width: 20%;
+  color: rgb(255, 255, 255);
+
 }
 
 .three {
@@ -79,7 +86,28 @@ width: 100%;
   width: 100%;
 }
 
-.text{
-  margin: 5%;
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2%;
+  justify-content: center;
+}
+
+.row p{
+  font-size: 15px;
+  width: 40%;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  flex: 40%;
+  /* max-width: 50%; */
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
 }
 
