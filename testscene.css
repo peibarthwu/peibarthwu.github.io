@@ -45,10 +45,9 @@ button{
 .button{
     background-color: #272727;
     color: #ffffff;
-    font-size: 7vmin;
-    margin: 2%;
-    padding: 2%;
-    border-radius: 20px;
+    font-size: 2vmin;
+    margin: 1%;
+    padding: 1%;
     border-style: none;
 }
 

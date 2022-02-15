@@ -73,11 +73,7 @@ a:hover {
 }
 
 .work{
-  position: fixed;
-  z-index: 100;
-  width: 20%;
-  color: rgb(255, 255, 255);
-
+  width: 80%;
 }
 
 .three {
@@ -98,10 +94,8 @@ a:hover {
   width: 40%;
 }
 
-/* Create four equal columns that sits next to each other */
 .column {
   flex: 40%;
-  /* max-width: 50%; */
   padding: 0 4px;
 }
 
