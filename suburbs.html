@@ -116,6 +116,9 @@
 				// composer.addPass( filmPass );
 	
 				const unrealBloomPass = new UnrealBloomPass();
+				unrealBloomPass.strength = 0.65;
+				unrealBloomPass.radius = 1;
+
 				composer.addPass( unrealBloomPass );
 
 				// controls = new OrbitControls( camera, renderer.domElement );
