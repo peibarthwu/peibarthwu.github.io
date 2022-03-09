@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Guiville</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet">
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Source Code Pro', monospace;
+    }
+
+    body,
+    html {
+        overscroll-behavior: none;
+        background-color: #000000;
+        background-image: url(img/guiville/ground2.png);
+        background-size: cover;
+        height: 100vh;
+        width: 100%;
+        color: #ffffff;
+        font-size: small;
+    }
+
+    .moveable {
+        position: absolute;
+        z-index: 9;
+        /* background-color: #f1f1f1;
+    border: 1px solid #d3d3d3; */
+        text-align: center;
+    }
+
+    .header {
+        padding: 10px;
+        cursor: move;
+        z-index: 10;
+        background-color: #4131d1;
+        color: #fff;
+    }
+
+    .image {
+        width: 50px;
+    }
+
+    .image:hover {
+        border: 2px solid rgba(111, 109, 226, 0.3);
+    }
+
+    .large {
+        transform: scale(5);
+        z-index: 10;
+        color: rgba(111, 109, 226, 0.3);
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #000000;
+        margin: 15% auto;
+        /* 15% from the top and centered */
+        padding: 20px;
+        width: 60%;
+        /* Could be more or less, depending on screen size */
+    }
+
+    .modal-content p{
+        padding-top: 10px;
+        font-size: medium;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+
+<body id="container">
+
+    <!-- The Modal -->
+   
+    <div id="myBtn">
+        <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+        <div class="header">
+            <h1>
+                What is Guiville?
+            </h1>
+        </div>
+    </div>
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h1>
+                What is Guiville?
+            </h1>
+            <p>Guiville is a city within a graphical user interface. 
+                All the roads and houses are live on the web and may be moved by anyone, 
+                which is a HUGE convenience issue, because sometimes a citizen might find that all roads 
+                to their house or work may be moved, leaving them forced to walk everywhere.
+            </p>
+            <p>
+                It currently an election year in Guiville, and the citizens are voting about
+                getting rid of their monarchy. They are protests, because the ballot center 
+                is just a folder, and anyone on the internet can click on a ballot and view how a citizen voted. 
+                The political unrest in 2D Guiville has prompted the wealthy citizens to pursue the production of St. Guis, a 3D city. 
+                The entry point to St. Guis sits beyond the Great Paywall, and all property there is constrained by a polygon quota.
+            </p>
+            <p>
+                You may move the city by dragging. Double click to enlarge an element.
+            </p>
+        </div>
+    </div>
+
+    <!-- ROADS -->
+    <div>
+        <div id="intersection" class="moveable" style="top: 481px; left: 510px;">
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/road2.png" class="image" draggable="true">
+            <p>
+                road.jpg
+            </p>
+        </div>
+        <div id="intersection" class="moveable" style="top: 481px; left: 433px;">
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/intersection.png" class="image" draggable="true">
+            <p>
+                intrsct.jpg
+            </p>
+        </div>
+        <div id="road6" class="moveable" style="top: 425px; left: 449px">
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/road.png" class="image" draggable="true">
+            <p>
+                road.jpg
+            </p>
+        </div>
+        <div id="road5" class="moveable" style="top: 368px; left: 449px">
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/road.png" class="image" draggable="true">
+            <p>
+                road.jpg
+            </p>
+        </div>
+        <div id="road4" class="moveable" style="top: 311px; left: 449px">
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/road.png" class="image" draggable="true">
+            <p>
+                road.jpg
+            </p>
+        </div>
+        <div id="road3" class="moveable" style="top: 254px; left: 449px">
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/road.png" class="image" draggable="true">
+            <p>
+                road.jpg
+            </p>
+        </div>
+        <div id="road2" class="moveable" style="top: 197px; left: 449px">
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/road.png" class="image" draggable="true">
+            <p>
+                road1.jpg
+            </p>
+        </div>
+        <div id="road1" class="moveable" style="top: 140px; left: 449px">
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/road.png" class="image" draggable="true">
+            <p>
+                road2.jpg
+            </p>
+        </div>
+    </div>
+
+    <!-- FOLDERS -->
+    <div>
+        <div id="folder1" class="moveable" style="top: 80px; left: 321px">
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/folder1.png" class="image" draggable="true">
+            <p>
+                superb_valley
+            </p>
+            <!-- <div class = "embed">
+heyy
+            </div> -->
+        </div>
+        <div id="folder2" class="moveable" style="top: 420px; left: 221px">
+            <img src="img/guiville/folder2.png" class="image" draggable="true">
+            <p>
+                tabloid_heights
+            </p>
+        </div>
+        <div id="folder2" class="moveable" style="top: 220px; left: 121px">
+            <img src="img/guiville/folder2.png" class="image" draggable="true">
+            <p>
+                outer_banks
+            </p>
+        </div>
+    </div>
+
+    <!-- HOUSES -->
+    <div>
+        <div id="house1" class="moveable" style="top: 300px; left: 800px">
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/house1.png" class="image" draggable="true">
+            <p>
+                201.png
+            </p>
+        </div>
+
+        <div id="house2" class="moveable" style="top: 400px; left: 800px">
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/house2.png" class="image" draggable="true">
+            <p>
+                202.png
+            </p>
+        </div>
+
+        <div id="house3" class="moveable" style="top: 400px; left: 650px">
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/house3.png" class="image" draggable="true">
+            <p>
+                1.png
+            </p>
+        </div>
+        <div id="house3" class="moveable" style="top: 400px; left: 590px">
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/house3.png" class="image" draggable="true">
+            <p>
+                2.png
+            </p>
+        </div>
+        <div id="house3" class="moveable" style="top: 400px; left: 530px">
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/house3.png" class="image" draggable="true">
+            <p>
+                3.png
+            </p>
+        </div>
+    </div>
+
+
+    <div id="guiwood" class="moveable" style="top: 100px; left: 900px">
+        <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+        <img src="img/guiville/guiwood.png" class="image" draggable="true">
+        <p>
+            guiwood.png
+        </p>
+    </div>
+
+    <div id="bridge" class="moveable" style="top: 230px; left: 1000px">
+        <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+        <img src="img/guiville/bridge.png" class="image" draggable="true">
+        <p>
+            bridge.png
+        </p>
+    </div>
+
+    <div id="monument" class="moveable" style="top: 200px; left: 600px">
+        <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+        <img src="img/guiville/monument.png" class="image" draggable="true">
+        <p>
+            goddess.png
+        </p>
+    </div>
+</body>
+
+<script>
+    // Make the DIV element draggable:
+    var allElements = document.querySelectorAll('[class=moveable]');
+    console.log(allElements)
+
+    allElements.forEach(elem => enlargeElement(elem));
+    allElements.forEach(elem => dragElement(elem));
+
+    function enlargeElement(elmnt) {
+        elmnt.addEventListener('dblclick', function (e) {
+            elmnt.classList.toggle('large');
+        });
+    }
+
+    function dragElement(elmnt) {
+        console.log("help");
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        elmnt.onmousedown = dragMouseDown;
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            // stop moving when mouse button is released:
+            console.log(elmnt.style.left + "" + elmnt.style.top)
+            elmnt.classList.remove('large');
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+
+    //info div
+
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+    }
+</script>
+
+</html>

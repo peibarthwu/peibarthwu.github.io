@@ -3,18 +3,83 @@
 
 <head>
   <title>Pei Pei Barth Wu</title>
-  <link rel="stylesheet" href="photo.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap" rel="stylesheet">
 </head>
 
-<body>
-  <div style="text-align: center;">
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Source Code Pro', monospace;
+  }
+
+  body,
+  html {
+    overscroll-behavior: none;
+    background-color: #000000;
+    height: 100vh;
+    width: 100%;
+    color: #ffffff;
+  }
+
+  main {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+  }
+
+  .scrollable {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    will-change: transform;
+  }
+
+  .image-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  .a{
+    text-decoration: none;
+    color: white;
+  }
+
+  .a:visited{
+    text-decoration: none;
+  }
+
+  .middle{
+   text-align: center;
+   color: white;
+
+  }
+
+</style>
+<body id="container">
+  <div class="middle">
     <a href="index.html">
       <img src="img/namered.png" alt="Virtual House" style="width:20%; padding-top: 2%;">
     </a>
   </div>
   <div class = "middle">
+    <p>
+      <h1>
+        <a href="./guiville.html">
+          GUIVILLE
+        </a>
+      </h1>
+    </p>
     <p>
       <h1>
         <a href="https://waynewu.net">
