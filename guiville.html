@@ -50,9 +50,14 @@
     }
 
     .large {
-        transform: scale(5);
+        transform: scale(6);
         z-index: 10;
         color: rgba(111, 109, 226, 0.3);
+    }
+
+    .button:hover{
+        color: aqua;
+        cursor: pointer;
     }
 
 
@@ -74,9 +79,14 @@
     /* Modal Content/Box */
     .modal-content {
         background-color: #000000;
-        margin: 15% auto;
+        /* margin: 15% auto; */
         padding: 20px;
         width: 60%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
     }
 
     .modal-content p{
@@ -87,7 +97,11 @@
     /* Folder Content/Box */
     .folder-content {
         background-color: #ffffff;
-        margin: 15% auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
         padding: 20px;
         width: 60%;
     }
@@ -96,6 +110,7 @@
         padding-top: 10px;
         font-size: medium;
         color: #000000;
+        
     }
 
     /* The Close Button */
@@ -121,7 +136,7 @@
     <div id="myBtn">
         <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
         <div class="header">
-            <h1>
+            <h1  class="button">
                 What is Guiville? CLICK ME :)
             </h1>
         </div>
@@ -153,106 +168,114 @@
 
     <!-- ROADS -->
     <div>
-       
-        <div id="intersection" class="moveable" style="top: 480px; left: 876px;">   
+        <!-- Right Col -->
+        <div id="intersection" class="moveable englargeable" style="top: 480px; left: 876px;">   
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/intersection.png" class="image" draggable="true">
             <p>
                 road.jpg
             </p>
         </div>
-        <div id="road6" class="moveable" style="top: 425px; left: 876px">
+        <div id="road6" class="moveable englargeable" style="top: 425px; left: 876px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/road.png" class="image" draggable="true">
             <p>
                 road.jpg
             </p>
         </div>
-        <div id="intersection" class="moveable" style="top: 480px; left: 819px;">   
+        <div id="intersection" class="moveable englargeable" style="top: 480px; left: 819px;">   
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/road2.png" class="image" draggable="true">
             <p>
                 road.jpg
             </p>
         </div>
-        <div id="intersection" class="moveable" style="top: 480px; left: 759px;">  
+        <div id="intersection" class="moveable englargeable" style="top: 369px; left: 876px;">   
+            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+            <img src="img/guiville/intersection.png" class="image" draggable="true">
+            <p>
+                road.jpg
+            </p>
+        </div>
+        <!-- Horizonal Section -->
+        <div id="intersection" class="moveable englargeable" style="top: 480px; left: 759px;">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/road2.png" class="image" draggable="true">
             <p>
                 road.jpg
             </p>
         </div>
-        <div id="intersection" class="moveable" style="top: 480px; left: 696px;">  
+        <div id="intersection" class="moveable englargeable" style="top: 480px; left: 696px;">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/road2.png" class="image" draggable="true">
             <p>
                 road.jpg
             </p>
         </div>
-        <div id="intersection" class="moveable" style="top: 480px; left: 632px;">  
+        <div id="intersection" class="moveable englargeable" style="top: 480px; left: 632px;">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/road2.png" class="image" draggable="true">
             <p>
                 road.jpg
             </p>
         </div>
-        <div id="intersection" class="moveable" style="top: 480px; left: 571px;"> 
+        <div id="intersection" class="moveable englargeable" style="top: 480px; left: 571px;"> 
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/road2.png" class="image" draggable="true">
             <p>
                 road.jpg
             </p>
         </div>
-        <div id="intersection" class="moveable" style="top: 481px; left: 510px;">
+        <div id="intersection" class="moveable englargeable" style="top: 481px; left: 510px;">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/road2.png" class="image" draggable="true">
             <p>
                 road.jpg
             </p>
         </div>
-        <div id="intersection" class="moveable" style="top: 481px; left: 433px;">
+        <div id="intersection" class="moveable englargeable" style="top: 481px; left: 433px;">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/intersection.png" class="image" draggable="true">
             <p>
                 intrsct.jpg
             </p>
         </div>
-        <div id="road6" class="moveable" style="top: 425px; left: 449px">
+        <div id="road6" class="moveable englargeable" style="top: 425px; left: 449px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/road.png" class="image" draggable="true">
             <p>
                 road.jpg
             </p>
         </div>
-        <div id="road5" class="moveable" style="top: 368px; left: 449px">
+        <div id="road5" class="moveable englargeable" style="top: 368px; left: 449px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/road.png" class="image" draggable="true">
             <p>
                 road.jpg
             </p>
         </div>
-        <div id="road4" class="moveable" style="top: 311px; left: 449px">
+        <div id="road4" class="moveable englargeable" style="top: 311px; left: 449px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/road.png" class="image" draggable="true">
             <p>
                 road.jpg
             </p>
         </div>
-        <div id="road3" class="moveable" style="top: 254px; left: 449px">
+        <div id="road3" class="moveable englargeable" style="top: 254px; left: 449px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/road.png" class="image" draggable="true">
             <p>
                 road.jpg
             </p>
         </div>
-        <div id="road2" class="moveable" style="top: 197px; left: 449px">
+        <div id="road2" class="moveable englargeable" style="top: 197px; left: 449px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/road.png" class="image" draggable="true">
             <p>
                 road1.jpg
             </p>
         </div>
-        <div id="road1" class="moveable" style="top: 140px; left: 449px">
+        <div id="road1" class="moveable englargeable" style="top: 140px; left: 449px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/road.png" class="image" draggable="true">
             <p>
@@ -263,8 +286,7 @@
 
     <!-- FOLDERS -->
     <div>
-        <div id="folder1" class="moveable" style="top: 63px; left: 433px"> 
-            <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+        <!-- <div id="folder1" class="moveable" style="top: 63px; left: 433px"> 
             <img src="img/guiville/folder1.png" class="image" draggable="true">
             <p>
                 superb_valley
@@ -281,9 +303,9 @@
             <p>
                 outer_banks
             </p>
-        </div>
+        </div> -->
 
-        <div id="ballotbtn" class="moveable" style="top: 119px; left: 660px"> 
+        <div id="ballotbtn" class="moveable" style="top: 120px; left: 775px">  
             <img src="img/guiville/folder2.png" class="image" draggable="true">
             <p>
                 ballots
@@ -323,21 +345,21 @@
 
     <!-- HOUSES -->
     <div>
-        <div id="palace" class="moveable" style="top: 558px; left: 515px;">  
+        <div id="palace" class="moveable englargeable" style="top: 558px; left: 515px;">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/house7.png" class="image" draggable="true">
             <p>
                 6.png
             </p>
         </div>
-        <div id="palace" class="moveable" style="top: 551px; left: 447px;">  
+        <div id="palace" class="moveable englargeable" style="top: 551px; left: 447px;">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/house6.png" class="image" draggable="true">
             <p>
                 6.png
             </p>
         </div>
-        <div id="house1" class="moveable" style="top: 372px; left: 379px;">  
+        <div id="house1" class="moveable englargeable" style="top: 372px; left: 379px;">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/house1.png" class="image" draggable="true">
             <p>
@@ -345,7 +367,7 @@
             </p>
         </div>
 
-        <div id="house2" class="moveable" style="top: 296px; left: 522px"> 
+        <div id="house2" class="moveable englargeable" style="top: 296px; left: 522px"> 
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/house2.png" class="image" draggable="true">
             <p>
@@ -353,21 +375,21 @@
             </p>
         </div>
 
-        <div id="house3" class="moveable" style="top: 211px; left: 526px;"> 
+        <div id="house3" class="moveable englargeable" style="top: 211px; left: 526px;"> 
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/house3.png" class="image" draggable="true">
             <p>
                 1.png
             </p>
         </div>
-        <div id="house3" class="moveable" style="top: 141px; left: 391px;"> 
+        <div id="house3" class="moveable englargeable" style="top: 141px; left: 391px;"> 
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/house3.png" class="image" draggable="true">
             <p>
                 2.png
             </p>
         </div>
-        <div id="house3" class="moveable" style="top: 385px; left: 523px"> 
+        <div id="house3" class="moveable englargeable" style="top: 385px; left: 523px"> 
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/house3.png" class="image" draggable="true">
             <p>
@@ -375,35 +397,35 @@
             </p>
         </div>
 
-        <div id="house4" class="moveable" style="top: 296px; left: 388px"> 
+        <div id="house4" class="moveable englargeable" style="top: 296px; left: 388px"> 
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/house4.png" class="image" draggable="true">
             <p>
                 4.png
             </p>
         </div>
-        <div id="house4" class="moveable" style="top: 218px; left: 381px">
+        <div id="house4" class="moveable englargeable" style="top: 218px; left: 381px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/house5.png" class="image" draggable="true">
             <p>
                 5.png
             </p>
         </div>
-        <div id="palace" class="moveable" style="top: 95px; left: 1094px;">  
+        <div id="palace" class="moveable englargeable" style="top: 95px; left: 1094px;">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/wing.png" class="image" draggable="true">
             <p>
                 6.png
             </p>
         </div>
-        <div id="palace" class="moveable" style="top: 95px; left: 1059px;"> 
+        <div id="palace" class="moveable englargeable" style="top: 95px; left: 1059px;"> 
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/palace.png" class="image" draggable="true">
             <p>
                 6.png
             </p>
         </div>
-        <div id="palace" class="moveable" style="top: 95px; left: 1024px;"> 
+        <div id="palace" class="moveable englargeable" style="top: 95px; left: 1024px;"> 
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/wing.png" class="image" draggable="true">
             <p>
@@ -411,21 +433,21 @@
             </p>
         </div>
         
-        <div id="palace" class="moveable" style="top: 557px; left:  762px;"> 
+        <div id="palace" class="moveable englargeable" style="top: 557px; left:  762px;"> 
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/house8.png" class="image" draggable="true">
             <p>
                 8.png
             </p>
         </div>
-        <div id="palace" class="moveable" style="top: 557px; left:  826px;">  
+        <div id="palace" class="moveable englargeable" style="top: 557px; left:  826px;">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/house10.png" class="image" draggable="true">
             <p>
                 9.png
             </p>
         </div>
-        <div id="palace" class="moveable" style="top: 411px; left: 760px;">   
+        <div id="palace" class="moveable englargeable" style="top: 411px; left: 760px;">   
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/house11.png" class="image" draggable="true">
             <p>
@@ -436,7 +458,7 @@
 
     <!-- extras -->
     <div>
-        <div id="guiwood" class="moveable" style="top: 100px; left: 900px">
+        <div id="guiwood" class="moveable englargeable" style="top: 100px; left: 900px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/guiwood.png" class="image" draggable="true">
             <p>
@@ -444,7 +466,7 @@
             </p>
         </div>
     
-        <div id="bridge" class="moveable" style="top: 230px; left: 1000px">
+        <div id="bridge" class="moveable englargeable" style="top: 230px; left: 1000px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/bridge.png" class="image" draggable="true">
             <p>
@@ -452,7 +474,7 @@
             </p>
         </div>
     
-        <div id="monument" class="moveable" style="top: 200px; left: 600px">
+        <div id="monument" class="moveable englargeable" style="top: 219px; left: 862px"> 
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/monument.png" class="image" draggable="true">
             <p>
@@ -460,7 +482,7 @@
             </p>
         </div>
 
-        <div id="fountain" class="moveable" style="top: 473px; left: 376px"> 
+        <div id="fountain" class="moveable englargeable" style="top: 473px; left: 376px"> 
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/fountain.png" class="image" draggable="true">
             <p>
@@ -468,7 +490,7 @@
             </p>
         </div>
     <!-- extras -->
-        <div id="tree" class="moveable" style="top: 100px; left: 1279px"> 
+        <div id="tree" class="moveable englargeable" style="top: 100px; left: 1279px"> 
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/tree.png" class="image" draggable="true">
             <p>
@@ -479,28 +501,28 @@
 
     <!-- other buildings -->
     <div>
-        <div id="guiwood" class="moveable" style="top: 264px; left: 1174px">  
+        <div id="guiwood" class="moveable englargeable" style="top: 557px; left: 640px">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/food.png" class="image" draggable="true">
             <p>
                 yum.png
             </p>
         </div>
-        <div id="guiwood" class="moveable" style="top: 83px; left: 770px"> 
+        <div id="guiwood" class="moveable englargeable" style="top: 239px; left: 76px">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/school.png" class="image" draggable="true">
             <p>
                 school.png
             </p>
         </div>
-        <div id="guiwood" class="moveable" style="top: 581px; left: 996px">  
+        <div id="guiwood" class="moveable englargeable" style="top: 581px; left: 996px">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/court.png" class="image" draggable="true">
             <p>
                 court.png
             </p>
         </div>
-        <div id="guiwood" class="moveable" style="top: 183px; left: 770px">  
+        <div id="guiwood" class="moveable englargeable" style="top: 293px; left: 856px">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/corporate.png" class="image" draggable="true">
             <p>
@@ -511,7 +533,7 @@
 
     <!-- politics -->
     <div>
-        <div id="protest" class="moveable" style="top: 300px; left: 200px">
+        <div id="protest" class="moveable englargeable" style="top: 300px; left: 200px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/protest.png" class="image" draggable="true">
             <p>
@@ -519,7 +541,7 @@
             </p>
         </div>
 
-        <div id="protest" class="moveable" style="top: 300px; left: 200px">
+        <div id="protest" class="moveable englargeable" style="top: 300px; left: 200px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/protest.png" class="image" draggable="true">
             <p>
@@ -527,7 +549,7 @@
             </p>
         </div>
 
-        <div id="protest" class="moveable" style="top: 400px; left: 1000px">
+        <div id="protest" class="moveable englargeable" style="top: 120px; left: 660px">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/ballotbox.png" class="image" draggable="true">
             <p>
@@ -535,7 +557,7 @@
             </p>
         </div>
 
-        <div id="protest" class="moveable" style="top: 300px; left: 600px"> 
+        <div id="protest" class="moveable englargeable" style="top: 300px; left: 600px"> 
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/guillotine.png" class="image" draggable="true">
             <p>
@@ -543,7 +565,7 @@
             </p>
         </div>
 
-        <div id="decree" class="moveable" style="top: 314px; left: 784px"> 
+        <div id="decree" class="moveable englargeable" style="top: 405px; left: 958px">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/decree.png" class="image" draggable="true">
             <p>
@@ -551,11 +573,11 @@
             </p>
         </div>
 
-        <div id="decree" class="moveable" style="top: 60px; left: 80px">  
+        <div id="decree" class="moveable englargeable" style="top: 403px; left: 91px">  
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/electionnotice.png" class="image" draggable="true">
             <p>
-                arrowstocracy.png
+                election_notice.png
             </p>
         </div>
     </div>
@@ -567,21 +589,21 @@
     
      <!-- st guis -->
      <div>
-        <div id="protest" class="moveable" style="top: 576px; left: 63px">
+        <div id="protest" class="moveable englargeable" style="top: 576px; left: 63px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/billboard.png" class="image" draggable="true">
             <p>
                 billboard.png
             </p>
         </div>
-        <div id="protest" class="moveable" style="top: 172px; left: 222px">
+        <div id="protest" class="moveable englargeable" style="top: 172px; left: 222px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/billboard2.png" class="image" draggable="true">
             <p>
                 billboard2.png
             </p>
         </div>
-        <div id="protest" class="moveable" style="top: 185px; left: 901px">
+        <div id="protest" class="moveable englargeable" style="top: 233px; left: 1155px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/stguis.png" class="image" draggable="true">
             <p>
@@ -594,10 +616,11 @@
 
 <script>
     // Make the DIV element draggable and enlargable:
-    var allElements = document.querySelectorAll('[class=moveable]');
-    console.log(allElements)
+    
+    var allElements = document.querySelectorAll('.moveable');
+    var englargeable = document.querySelectorAll('.englargeable');
 
-    allElements.forEach(elem => enlargeElement(elem));
+    englargeable.forEach(elem => enlargeElement(elem));
     allElements.forEach(elem => dragElement(elem));
 
     function enlargeElement(elmnt) {
@@ -677,8 +700,6 @@
     }
     }
     
-
-    //ballots
 </script>
 
 </html>
