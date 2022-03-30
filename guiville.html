@@ -151,68 +151,100 @@
         transform: translate(-50%, -50%);
     }
 
-    .overlay{
-        position:absolute;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-        z-index:1000;
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
         display: none;
         background-color: #363088;
         opacity: 0.9;
         z-index: 10;
-        color:#ffffff;
+        color: #ffffff;
         font-size: medium;
     }
 
-    .topleft{
+    .topleft {
         position: absolute;
         top: 0;
         left: 0;
         padding: 10px;
     }
 
-    .stguisad{
+    .stguisad {
         color: #f5f5f5;
     }
 
-    .changecolor:hover{
+    .changecolor:hover {
         color: #5d31ff;
     }
-
 </style>
 
 
-<div class="overlay">
-    <div class="topleft">
-        <p>
-            Beds: 3
-        </p>
-        <p>
-            Baths: 2
-        </p>
-        <p>
-            Tris: 264
-        </p>
-        <p>
-            Amenities: Yard 
-        </p>
-        <p>
-            Location: Everything you've ever wanted 
-        </p>
-        <p>
-            Price: Negotiable 
-        </p>
-    </div>
-</div>
-<div id="ad1" class="adcontent">
-    <img src="img/guiville/imaginetext.png" style="width:100%;">
-</div>
+
 
 <body id="container">
+    <div id="overlay1" class="overlay">
+        <div class="topleft">
+            <p>
+                Beds: 3
+            </p>
+            <p>
+                Baths: 2
+            </p>
+            <p>
+                Tris: 264
+            </p>
+            <p>
+                Amenities: Yard
+            </p>
+            <p>
+                Location: Everything you've ever wanted
+            </p>
+            <p>
+                Price: Negotiable
+            </p>
+        </div>
+    </div>
+    <div id="overlay2" class="overlay">
+        <div class="topleft">
+            <p>
+                Beds: 2
+            </p>
+            <p>
+                Baths: 3
+            </p>
+            <p>
+                Tris: 300
+            </p>
+            <p>
+                Amenities: Sauna
+            </p>
+            <p>
+                Location: You pick!
+            </p>
+            <p>
+                Price: High
+            </p>
+        </div>
+    </div>
+    <div id="overlay3" class="overlay">
+        <div class="topleft">
+            <p>
+                We get it. The city can be a lot sometimes.
+            </p>
+        </div>
+    </div>
+    <div id="imagine" class="adcontent">
+        <img src="img/guiville/imaginetext.png" style="width:100%;">
+    </div>
+    <div id="expand" class="adcontent">
+        <img src="img/guiville/expandtext.png" style="width:100%;">
+    </div>
     <!-- ABOUT -->
-    <div >
+    <div>
         <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
         <div class="header">
             <h1 class="button" id="myBtn">
@@ -588,7 +620,7 @@
                 yum.png
             </p>
         </div>
-        <div id="guiwood" class="moveable englargeable" style="top: 462px; left: 1195px"> 
+        <div id="guiwood" class="moveable englargeable" style="top: 462px; left: 1195px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/school.png" class="image" draggable="true">
             <p>
@@ -666,7 +698,7 @@
     <div>
         <div id="protest" class="moveable englargeable" style="top: 562px; left: 240px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
-            <img src="img/guiville/billboard.png" class="image" draggable="true"> 
+            <img src="img/guiville/billboard.png" class="image" draggable="true">
             <p class="changecolor" id="stguisbutton">
                 billboard.png
             </p>
@@ -678,7 +710,7 @@
                 billboard2.png
             </p>
         </div>
-        <div id="protest" class="moveable englargeable" style="top: 233px; left: 1155px">
+        <div id="stguisbutton2" class="moveable englargeable" style="top: 233px; left: 1155px">
             <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
             <img src="img/guiville/stguis.png" class="image" draggable="true">
             <p>
@@ -820,7 +852,7 @@
 
     var container, controls, composer;
     var camera, scene, renderer;
-    var mesh; //the house
+    var mesh, mesh1, mesh2, mesh3; //the house
     var id = 0; //to check if we are animating
 
 
@@ -828,53 +860,83 @@
 
     $(document).ready(function () {
         $("#stguisbutton").click(function () {
-            $("#ad1").fadeIn("slow");
-            $("#three").fadeIn("slow"); 
-            $('.overlay').fadeIn('slow');
-            if(!id){
-                init("img/guiville/house1.gltf");
+            $("#imagine").fadeIn("slow");
+            $("#three").fadeIn("slow");
+            $('#overlay1').fadeIn('slow');
+            if (!id) {
+                init("house1");
+            } else {
+                changeModel("house1")
             }
             animate();
         });
 
-        // $("#stguisbutton1").click(function () {
-        //     $("#ad1").fadeIn("slow");
-        //     $("#three").fadeIn("slow"); 
-        //     $('.overlay').fadeIn('slow');
-        //     if(!id){
-        //         init("img/guiville/house2.gltf");
-        //     }
-        //     animate();
-        // });
+        $("#stguisbutton1").click(function () {
+            $("#expand").fadeIn("slow");
+            $("#three").fadeIn("slow");
+            $('#overlay2').fadeIn('slow');
+            if (!id) {
+                init("house2");
+            } else {
+                changeModel("house2")
+            }
+            animate();
+        });
 
-        $("#three").click(function() { 
-            cancelAnimationFrame( id );
+        $("#stguisbutton2").click(function () {
+            $("#expand").fadeIn("slow");
+            $("#three").fadeIn("slow");
+            $('#overlay3').fadeIn('slow');
+            if (!id) {
+                init("city");
+            } else {
+                changeModel("city")
+            }
+            animate();
+        });
+
+        $("#three").click(function () {
+            cancelAnimationFrame(id);
             console.log(id);
-            $("#ad1").fadeOut("slow"); 
-            $("#three").fadeOut("slow"); 
-            $('.overlay').fadeOut('slow');
+            $("#expand").fadeOut("slow");
+            $("#imagine").fadeOut("slow");
+            $("#three").fadeOut("slow");
+            $('#overlay1').fadeOut('slow');
+            $('#overlay2').fadeOut('slow');
+            $('#overlay3').fadeOut('slow');
             console.log("cancelled animation");
         });
     });
 
-    function init(path) {
+    function init(model) {
 
         //basics
 
         camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.25, 200);
-        camera.position.set(0, 0, 6);
+        camera.position.set(0, 0, 12);
 
         scene = new THREE.Scene();
         const material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
 
         // model
         var loader = new THREE.GLTFLoader();
-        loader.load(path, function (gltf) {
-            mesh = gltf.scene.getObjectByName("house");
+        loader.load("img/guiville/assets.gltf", function (gltf) {
+            mesh1 = gltf.scene.getObjectByName("house");
+            mesh2 = gltf.scene.getObjectByName("house1");
+            mesh3 = gltf.scene.getObjectByName("city");
+            if (model == "house1") {
+                mesh = mesh1;
+            }
+            else if (model == "house2") {
+                mesh = mesh2;
+            } 
+            else {
+                mesh = mesh3;
+            }
             mesh.material = material;
-            
             scene.add(mesh);
         });
+
 
         // renderer and controls
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -915,7 +977,7 @@
 
 
     function animate() {
-        id = requestAnimationFrame( animate );
+        id = requestAnimationFrame(animate);
         // controls.update();
         composer.render(); //render and post
         // renderer.render( scene, camera );
@@ -923,6 +985,23 @@
 
     }
 
+    /**
+     * model is the id of target model
+    **/
+    function changeModel(model) {
+        if (mesh1 && mesh && mesh2 && mesh3) {
+            if (model == "house1") {
+                mesh.geometry = mesh1.geometry;
+            } else if (model == "house2") {
+                console.log("changing to house2")
+                console.log(mesh1.geometry == mesh2.geometry);
+                mesh.geometry = mesh2.geometry;
+            }else{
+                mesh.geometry = mesh3.geometry;
+            }
+        }
+
+    }
 
 
     window.addEventListener('resize', onWindowResize, false);
