@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Project 1</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Encode+Sans+SC&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="testscene.css">
+	</head>
+	<body>
+		<div id="overlay">
+			<button id="startButton" class= "button">Enable Controls</button>
+		</div>
+		
+		<div id = "three">
+		<script src="threejs/build/three.js"></script>
+        <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
+        <script type="module">
+			// import { GUI } from '/three/dat.gui.module.js';
+			import { OrbitControls } from '/threejs/examples/jsm/controls/OrbitControls.js';
+			import { EffectComposer } from '/threejs/examples/jsm/postprocessing/EffectComposer.js';
+			import { RenderPass } from '/threejs/examples/jsm/postprocessing/RenderPass.js';
+			import { UnrealBloomPass } from '/threejs/examples/jsm/postprocessing/UnrealBloomPass.js'; 
+			import { FilmPass } from '/threejs/examples/jsm/postprocessing/FilmPass.js'; 
+
+
+			var container, controls, positions, cube, movingCube, composer;
+			var camera, scene, renderer, light, kaiju;
+			var mesh;
+			var group = [];
+
+			let mouseX = 0;
+			let mouseY = 0;
+			const mouse = new THREE.Vector2();
+
+			const raycaster = new THREE.Raycaster();
+
+			init();
+			animate();
+			function init() {
+				//basics
+				container = document.createElement('three');
+				document.body.appendChild(container);
+
+				camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.25, 200);
+				camera.position.set(0,4,0);
+
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color(0x000000);
+
+				let blueLight = new THREE.PointLight(0xffffff,1,0);
+				camera.position.set(0,-2,0);
+				scene.add(blueLight);
+
+				// const light = new THREE.HemisphereLight( 0xffffff, 0xffffff, 2 );
+				// scene.add( light );
+
+				var cubemap = new THREE.CubeTextureLoader()
+				.setPath( 'img/skybox/' )
+				.load( [
+				'px.png',
+				'nx.png',
+				'py.png',
+				'ny.png',
+				'pz.png',
+				'nz.png'
+				] );
+
+
+				
+
+
+				// model
+				var loader = new THREE.GLTFLoader();
+				loader.load("img/guiville/stguis.gltf", function (gltf) {
+					scene.environment = cubemap;
+					scene.add(gltf.scene);
+
+				});
+
+				// renderer and controls
+				renderer = new THREE.WebGLRenderer({ antialias: true });
+				renderer.setPixelRatio(window.devicePixelRatio);
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				container.appendChild(renderer.domElement);
+
+				composer = new EffectComposer( renderer );
+				const renderPass = new RenderPass( scene, camera );
+				composer.addPass( renderPass );
+	
+				// const filmPass = new FilmPass(0.4, 0.3, 600, false);
+				// composer.addPass( filmPass );
+	
+				// const unrealBloomPass = new UnrealBloomPass();
+				// unrealBloomPass.strength = 0.65;
+				// unrealBloomPass.radius = 1;
+
+				// composer.addPass( unrealBloomPass );
+
+				controls = new OrbitControls( camera, renderer.domElement );
+				controls.minDistance = 3;
+				controls.maxDistance = 5;
+			}
+			
+			/**
+			 * BUTTONS
+			**/  
+
+
+			function animate() {
+				requestAnimationFrame(animate);
+				controls.update();
+				composer.render(); //render and post
+
+				// renderer.render( scene, camera );
+				
+			}
+			
+			window.addEventListener( 'resize', onWindowResize, false );
+			function onWindowResize(){
+					camera.aspect = window.innerWidth / window.innerHeight;
+					camera.updateProjectionMatrix();
+					renderer.setSize( window.innerWidth , window.innerHeight);
+			}
+			
+			
+		</script>
+		</div>
+		
+	</body>
+</html>
