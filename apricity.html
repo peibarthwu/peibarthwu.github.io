@@ -10,22 +10,21 @@
     body {
         margin: 0px;
         font-family: 'Source Code Pro', monospace;
-        background-color: rgb(134, 251, 255);
+        color: aqua;
+        text-align: center;
+        font-size: 6px;
+    }
+    .three {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
     }
 </style>
 
 <body>
-    <p><br />
-        :::'###::::'########::'########::'####::'######::'####:'########:'##:::'##:<br />
-        ::'## ##::: ##.... ##: ##.... ##:. ##::'##... ##:. ##::... ##..::. ##:'##::<br />
-        :'##:. ##:: ##:::: ##: ##:::: ##:: ##:: ##:::..::: ##::::: ##:::::. ####:::<br />
-        '##:::.##: ########:: ########::: ##:: ##:::::::: ##::::: ##::::::. ##::::<br />
-        #########: ##.....::: ##.. ##:::: ##:: ##:::::::: ##::::: ##::::::: ##::::<br />
-        ##.... ##: ##:::::::: ##::. ##::: ##:: ##::: ##:: ##::::: ##::::::: ##::::<br />
-        ##:::: ##: ##:::::::: ##:::. ##:'####:. ######::'####:::: ##::::::: ##::::<br />
-        ..:::::..::..:::::::::..:::::..::....:::......:::....:::::..::::::::..:::::<br />
-    </p>
-    <div id="three">
+    <img src="img/apricity/apricity.png" style="padding: 10%; width: 600px;">
+    <div id="three" class="three">
         <script src="threejs/build/three.js"></script>
         <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.5/gsap.min.js"></script>
@@ -47,82 +46,83 @@
                 //basics
 
                 camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.25, 200);
-                camera.position.set(0, 0, 9);
+                camera.position.set(0, 0, 12);
 
                 scene = new THREE.Scene();
                 const material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
 
+                const light = new THREE.HemisphereLight( 0xffffff, 0xffffff, 2 );
+				scene.add( light );
+
                 // model
                 var loader = new THREE.GLTFLoader();
-                loader.load("img/guiville/assets.gltf", function (gltf) {
-                    mesh = gltf.scene.getObjectByName("house");
-                    mesh.material = material;
+                loader.load("img/apricity/flower.gltf", function (gltf) {
+                    mesh = gltf.scene.getObjectByName("flower");
                     scene.add(mesh);
                 });
 
 
-                geometry = new THREE.PlaneGeometry(30, 20, 40, 40); //
-                shadermaterial = new THREE.ShaderMaterial({
-                    uniforms: {
-                        utime: { value: 0.0 },
-                        width: { value: 30.0 },
-                        height: { value: 20.0 },
-                        uTexture: { value: new THREE.TextureLoader().load("img/mecube.png") },
-                    },
-                    vertexShader: vertexShader(),
-                    fragmentShader: clearShader(),
-                });
-                shadermaterial.transparent = true;
+                // geometry = new THREE.PlaneGeometry(30, 20, 40, 40); //
+                // shadermaterial = new THREE.ShaderMaterial({
+                //     uniforms: {
+                //         utime: { value: 0.0 },
+                //         width: { value: 30.0 },
+                //         height: { value: 20.0 },
+                //         uTexture: { value: new THREE.TextureLoader().load("img/apricity/apricity.png") },
+                //     },
+                //     vertexShader: vertexShader(),
+                //     fragmentShader: clearShader(),
+                // });
+                // shadermaterial.transparent = true;
 
 
-                plane = new THREE.Mesh(geometry, shadermaterial);
-                scene.add(plane);
-                plane.position.set(-0, -0, 0.08);
-                function vertexShader() {
-                    return `
-                    uniform float utime;
-                    uniform float width;
-                    uniform float height;
+                // plane = new THREE.Mesh(geometry, shadermaterial);
+                // scene.add(plane);
+                // plane.position.set(-0, -0, 0.08);
+                // function vertexShader() {
+                //     return `
+                //     uniform float utime;
+                //     uniform float width;
+                //     uniform float height;
 
-                    varying vec2 vUv; //x and y unit vector
-                    varying float zpos; //this will be z position after transformation
+                //     varying vec2 vUv; //x and y unit vector
+                //     varying float zpos; //this will be z position after transformation
 
-                    void main(){
-                    vUv = uv;   //for use in frag
+                //     void main(){
+                //     vUv = uv;   //for use in frag
 
-                    float dx = 2. - uv.x + width;   
-                    float dy = 8. -uv.y + height;
-                    float freq = sqrt(dx*dx + dy*dy);
-                    float amp = 0.2;
-                    float angle = -utime*3.0+freq*8.0;
+                //     float dx = 2. - uv.x + width;   
+                //     float dy = 8. -uv.y + height;
+                //     float freq = sqrt(dx*dx + dy*dy);
+                //     float amp = 0.2;
+                //     float angle = -utime*3.0+freq*8.0;
                         
-                    zpos = sin(angle)*amp;
+                //     zpos = sin(angle)*amp;
 
-                    vec3 local3 = vec3(uv.x*width, uv.y*height, zpos);
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
-                    }
-                    `
-                }
-                function clearShader() {
-                    return `
-                    uniform float utime;
-                    uniform sampler2D uTexture;
-                    varying vec2 vUv;
-                    varying float zpos;
+                //     vec3 local3 = vec3(uv.x*width, uv.y*height, zpos);
+                //     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
+                //     }
+                //     `
+                // }
+                // function clearShader() {
+                //     return `
+                //     uniform float utime;
+                //     uniform sampler2D uTexture;
+                //     varying vec2 vUv;
+                //     varying float zpos;
                 
-                    void main() {
-                        vec3 texture = texture2D(uTexture, vUv + zpos).rgb;
-                        float shadow = clamp(zpos / 1., 0., 1.);
-                        gl_FragColor = vec4(texture + shadow, 0.1);
-                        gl_FragColor.a = 0.2;
-                    }
-                `
-                }
+                //     void main() {
+                //         vec3 texture = texture2D(uTexture, vUv + zpos).rgb;
+                //         float shadow = clamp(zpos / 1., 0., 1.);
+                //         gl_FragColor = vec4(texture + shadow, 0.1);
+                //         gl_FragColor.a = 0.2;
+                //     }
+                // `
+                // }
 
 
                 // renderer and controls
-                renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-                renderer.setClearColor(0x000000, 0); // the default
+                renderer = new THREE.WebGLRenderer({ antialias: true});
                 renderer.setPixelRatio(window.devicePixelRatio);
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 document.getElementById('three').appendChild(renderer.domElement);
@@ -131,22 +131,18 @@
                 const renderPass = new RenderPass(scene, camera);
                 composer.addPass(renderPass);
 
+                const bloomPass = new UnrealBloomPass();
+                bloomPass.exposure = 0.5;
+                bloomPass.bloomThreshold = 0;
+                bloomPass.bloomStrength = 0.5;
+                bloomPass.bloomRadius = 0.5;
+
+                composer.addPass(bloomPass);
                 // controls = new OrbitControls( camera, renderer.domElement );
                 // controls.minDistance = 11;
                 // controls.maxDistance = 11;
 
-                var mouse = new THREE.Vector2(0, 0);
-                window.addEventListener('mousemove', onMouseMove);
-                function onMouseMove(event) {
-                    gsap.to(mouse, 0.5, {
-                        x: (event.clientX / window.innerWidth) * 2 - 1,
-                        y: -(event.clientY / window.innerHeight) * 2 + 1
-                    })
-                    gsap.to(mesh.rotation, 0.5, {
-                        z: mouse.y * 0.3,
-                        y: mouse.x * (Math.PI / 6)
-                    })
-                }
+               
             }
 
             /**
@@ -156,13 +152,13 @@
 
             function animate() {
                 id = requestAnimationFrame(animate);
+                mesh.rotation.y += 0.01;
                 // controls.update();
                 composer.render(); //render and post
                 // renderer.render( scene, camera );
                 console.log("rendering")
 
             }
-
 
 
             window.addEventListener('resize', onWindowResize, false);

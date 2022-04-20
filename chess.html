@@ -11,6 +11,7 @@
 		margin: 0px;
 	}
 </style>
+
 <body>
 	<div id="three">
 		<script src="threejs/build/three.js"></script>
@@ -20,21 +21,25 @@
 			import { OrbitControls } from '/threejs/examples/js/controls/OrbitControls.js';
 			import { GUI } from '/three/dat.gui.module.js';
 
-			const squareSize = 2.5;
+			const SQUARESIZE = 2.5;
+			const INTERVAL = 10;
+			
 
-			var container, controls;
+			var container, controls, clock;
 			var camera, scene, renderer, light, pawn, raycaster, intersects, chessSet;
 			var mesh;
 
-			var chessBoard = 
-			[true, true, true, true, true, true, true, true, //a8 b8 c8 d8 e8 f8 g8 h8
-			true, true, true, true, true, true, true, true, //a7 b7 c7 d7 e7 f7 g7 h7 
-			false, false, false, false, false, false, false, false, //a6 b6 c6 d6 e6 f6 g6 h6 
-			false, false, false, false, false, false, false, false,  //a5 b5 c5 d5 e5 f5 g5 h5 
-			false, false, false, false, false, false, false, false,  //a4 b4 c4 d4 e4 f4 g4 h4 
-			false, false, false, false, false, false, false, false,  //a3 b3 c3 d3 e3 f3 g3 h3 
-			true, true, true, true, true, true, true, true,  //a2 b2 c2 d2 e2 f2 g2 h2 
-			true, true, true, true, true, true, true, true]; //a1 b1 c1 d1 e1 f1 g1 h1 
+			let chessPieces = [];
+
+			var chessBoard =
+				[true, true, true, true, true, true, true, true, //a8 b8 c8 d8 e8 f8 g8 h8
+					true, true, true, true, true, true, true, true, //a7 b7 c7 d7 e7 f7 g7 h7 
+					false, false, false, false, false, false, false, false, //a6 b6 c6 d6 e6 f6 g6 h6 
+					false, false, false, false, false, false, false, false,  //a5 b5 c5 d5 e5 f5 g5 h5 
+					false, false, false, false, false, false, false, false,  //a4 b4 c4 d4 e4 f4 g4 h4 
+					false, false, false, false, false, false, false, false,  //a3 b3 c3 d3 e3 f3 g3 h3 
+					true, true, true, true, true, true, true, true,  //a2 b2 c2 d2 e2 f2 g2 h2 
+					true, true, true, true, true, true, true, true]; //a1 b1 c1 d1 e1 f1 g1 h1 
 
 			const pos1 = {
 				occupied: true,
@@ -42,7 +47,7 @@
 				forward: 1969
 			}
 			const positions = {
-				
+
 			};
 
 
@@ -61,11 +66,13 @@
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color(0x175575);
 
+				clock = new THREE.Clock();
+
 				raycaster = new THREE.Raycaster();
 				raycaster.far = 3;
 
 
-				const light = new THREE.PointLight(0xffffff,1,0);
+				const light = new THREE.PointLight(0xffffff, 1, 0);
 				light.position.set(0, 3, 0);
 				scene.add(light);
 
@@ -74,45 +81,43 @@
 				//scene.add( gridHelper );
 
 				var cubemap = new THREE.CubeTextureLoader()
-				.setPath( 'img/' )
-				.load( [
-				'px.png',
-				'nx.png',
-				'py.png',
-				'ny.png',
-				'pz.png',
-				'nz.png'
-				] );
+					.setPath('img/')
+					.load([
+						'cube.png',
+						'cube.png',
+						'cube.png',
+						'cube.png',
+						'cube.png',
+						'cube.png'
+					]);
 				cubemap.mapping = THREE.CubeRefractionMapping;
 				scene.background = cubemap;
 
 
 				//material
-				const refractionMaterial = new THREE.MeshPhongMaterial( { color: 0xffffff, envMap: cubemap, refractionRatio: 0.98 } );
+				const refractionMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, envMap: cubemap, refractionRatio: 0.98 });
 				//material
 				var ornateMaterial = new THREE.MeshStandardMaterial({ //material to for disco ball
-									metalness: 0.7,
-									roughness: 0.2,
-									color: 0x555555,
-									bumpMap: new THREE.TextureLoader().load("img/chess/ornate.png"),
-								});
+					metalness: 0.7,
+					roughness: 0.1,
+					color: 0x555555,
+					bumpMap: new THREE.TextureLoader().load("img/chess/pearl-bump.jpg"),
+				});
 
 				// model
 				var loader = new THREE.GLTFLoader();
 				loader.load("img/chess/chessweb.gltf", function (gltf) {
-					// gltf.scene.traverse(function (child) {
-					// 	if (child.isMesh) {
-					// 		console.log(child);
-					// 		mesh = child;
-					// 		mesh.material = refractionMaterial;
-					// 		scene.add(mesh);
-					// 	}
-
-					// });
+					gltf.scene.traverse(function (child) {
+						if (child.isMesh) {
+							chessPieces.push(child);
+							console.log(chessPieces)
+						}
+					});
 					pawn = gltf.scene.getObjectByName("wp4");
+					pawn.material = ornateMaterial;
 					console.log(pawn)
 					chessSet = gltf.scene;
-                    scene.add(chessSet);
+					scene.add(chessSet);
 
 				});
 
@@ -129,10 +134,34 @@
 			}
 
 
+
+
 			function animate() {
 				requestAnimationFrame(animate);
 				renderer.render(scene, camera);
+				if (clock.getDelta() % INTERVAL == 0 && chessPieces.length>0) {
+					mesh = chessPieces[getRandomInt(chessPieces.length - 1)];
+					raycaster.set(mesh.position, new THREE.Vector3(0, 1, 0));
+					intersects = raycaster.intersectObjects(chessSet.children);
+					if (intersects.length == 0) {
+						mesh.position.y += SQUARESIZE;
+					}
+				}
 			}
+
+			function getRandomInt(max) {
+				return Math.floor(Math.random() * max);
+			}
+
+			function movePiece(mesh) {
+				raycaster.set(mesh.position, new THREE.Vector3(0, 0, 1));
+				intersects = raycaster.intersectObjects(chessSet.children);
+				console.log(intersects)
+				if (intersects.length == 0) {
+					mesh.position.z += SQUARESIZE;
+				}
+			}
+
 
 			window.addEventListener('resize', onWindowResize, false);
 			function onWindowResize() {
@@ -141,9 +170,7 @@
 				renderer.setSize(window.innerWidth, window.innerHeight);
 			}
 
-			// movement - please calibrate these values
-			var xSpeed = 2.5;
-			var ySpeed = 2.5;
+			
 
 			document.addEventListener("keydown", onDocumentKeyDown, false);
 			function onDocumentKeyDown(event) {
@@ -151,44 +178,41 @@
 				console.log(keyCode);
 
 				//NOTE TO SELF!! PAWN POSITION HAS TO BE MOVED DOWN BC SOMETIMES THE RAY MISSES!!!
-				
+
 
 				if (keyCode == 39) {
 					// const dir = new THREE.Vector3( 0, 0, 1 );
-
 					// //normalize the direction vector (convert to vector of length 1)
 					// dir.normalize();
-
 					// const origin = pawn.position;
 					// const length = 3;
 					// const hex = 0xffff00;
-
 					// const arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex );
 					// scene.add( arrowHelper );
-					raycaster.set(pawn.position, new THREE.Vector3( 0, 0, 1 ));
-					intersects = raycaster.intersectObjects( chessSet.children );
+					raycaster.set(pawn.position, new THREE.Vector3(0, 0, 1));
+					intersects = raycaster.intersectObjects(chessSet.children);
 					console.log(intersects)
-					if(intersects.length == 0){
-						pawn.position.z += ySpeed;
+					if (intersects.length == 0) {
+						pawn.position.z += SQUARESIZE;
 					}
 				} else if (keyCode == 37) {
-					raycaster.set(pawn.position, new THREE.Vector3( 0, 0, -1 ));
-					intersects = raycaster.intersectObjects( chessSet.children );
-					if(intersects.length == 0){
-						pawn.position.z -= ySpeed;
+					raycaster.set(pawn.position, new THREE.Vector3(0, 0, -1));
+					intersects = raycaster.intersectObjects(chessSet.children);
+					if (intersects.length == 0) {
+						pawn.position.z -= SQUARESIZE;
 					}
 				} else if (keyCode == 40) {
-					raycaster.set(pawn.position, new THREE.Vector3( -1, 0, 0 ));
-					intersects = raycaster.intersectObjects( chessSet.children );
+					raycaster.set(pawn.position, new THREE.Vector3(-1, 0, 0));
+					intersects = raycaster.intersectObjects(chessSet.children);
 					console.log(intersects)
-					if(intersects.length == 0){
-						pawn.position.x -= xSpeed;
+					if (intersects.length == 0) {
+						pawn.position.x -= SQUARESIZE;
 					}
 				} else if (keyCode == 38) {
-					raycaster.set(pawn.position, new THREE.Vector3( 1, 0, 0 ));
-					intersects = raycaster.intersectObjects( chessSet.children );
-					if(intersects.length == 0){
-						pawn.position.x += xSpeed;
+					raycaster.set(pawn.position, new THREE.Vector3(1, 0, 0));
+					intersects = raycaster.intersectObjects(chessSet.children);
+					if (intersects.length == 0) {
+						pawn.position.x += SQUARESIZE;
 					}
 				} else if (keyCode == 32) {
 					pawn.position.set(0, 0, 0);
