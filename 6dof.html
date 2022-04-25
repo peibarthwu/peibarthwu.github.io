@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Apricity</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet">
+</head>
+<style>
+    body {
+        margin: 0px;
+        font-family: 'Titillium Web', sans-serif;
+        color: rgb(255, 17, 116);
+        text-align: center;
+        font-size: 11px;
+    }
+
+    .three {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    #content{
+        font-size: xx-large;
+        text-align: center;
+        display: none;
+        padding-top: 5%;
+    }
+
+    #blocker{
+        z-index: 2;
+    }
+
+    #button{
+        cursor: pointer;
+    }
+
+    #button:hover{
+        color: rgb(255, 255, 255);
+    }
+
+
+</style>
+
+<body>
+    <div id="blocker">
+        <div id="instructions">
+            <p id="button" style="font-size:36px">
+                Click to Play
+            </p>
+            <p>
+                Move: WASD<br />
+                Exit: ESC<br />
+                Look: MOUSE
+            </p>
+        </div>
+    </div>
+    <div id="content">
+        <i>
+            The arena, the card-table, the magic circle, the temple, the stage, the screen, the tennis court, the court of justice, etc., are all in form and function play-grounds, i.e. forbidden spots, isolated, hedged round, hallowed, within which special rules obtain. 
+        </i>
+        <p>
+            -Huizinga 1938
+        </p>
+    </div>
+    
+    <div id="three" class="three">
+        <script src="threejs/build/three.js"></script>
+        <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.5/gsap.min.js"></script>
+        <script type="module">
+            import { PointerLockControls } from '/threejs/examples/jsm/controls/PointerLockControls.js';
+
+            var container, controls, composer;
+            var camera, scene, renderer, cube;
+            var mesh, geometry, shadermaterial, plane; //the house
+            var id = 0; //to check if we are animating
+
+            let moveForward = false;
+            let moveBackward = false;
+            let moveLeft = false;
+            let moveRight = false;
+
+            let prevTime = performance.now();
+            const velocity = new THREE.Vector3();
+            const direction = new THREE.Vector3();
+            
+            let contentText = [
+                "hi",
+                "hello"
+            ];
+            let idx = 0;
+
+            init();
+            animate();
+            function init() {
+
+                //basics
+
+                camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.25, 200);
+                camera.position.set(0, 0, 12);
+
+                scene = new THREE.Scene();
+                // scene.fog = new THREE.Fog(0x333333, 5, 50);
+
+                const near = 1;
+                const far = 2;
+                scene.fog = new THREE.Fog(0x222222, 0, 30);
+
+                const light = new THREE.DirectionalLight(0xFFFFFF, 10);
+                scene.add(light);
+
+                const geometry = new THREE.BoxGeometry(1, 1, 1);
+                const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+                cube = new THREE.Mesh(geometry, material);
+                scene.add(cube);
+                cube.position.set(0, 0, 12);
+                cube.visible = false;
+                cube.add(camera);
+
+                // model
+                var loader = new THREE.GLTFLoader();
+                loader.load("img/6dof.gltf", function (gltf) {
+                    scene.add(gltf.scene);
+                });
+
+                // renderer and controls
+                renderer = new THREE.WebGLRenderer({ antialias: true });
+                renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.getElementById('three').appendChild(renderer.domElement);
+
+                controls = new PointerLockControls(camera, document.body);
+                const blocker = document.getElementById('blocker');
+                const instructions = document.getElementById('instructions');
+                const content = document.getElementById('content');
+
+                instructions.addEventListener('click', function () {
+                    controls.lock();
+                });
+
+                scene.add(controls.getObject());
+
+            }
+
+            /**
+             * BUTTONS
+            **/
+
+
+            function animate() {
+                id = requestAnimationFrame(animate);
+
+                const time = performance.now();
+
+
+                if (controls.isLocked === true) {
+
+                    const delta = (time - prevTime) / 1000;
+
+                    velocity.x -= velocity.x * 70.0 * delta;
+                    velocity.z -= velocity.z * 70.0 * delta;
+
+                    direction.z = Number(moveForward) - Number(moveBackward);
+                    direction.x = Number(moveRight) - Number(moveLeft);
+                    direction.normalize(); // this ensures consistent movements in all directions
+
+                    if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
+                    if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
+
+                    controls.moveRight(- velocity.x * delta);
+                    controls.moveForward(- velocity.z * delta);
+
+                }
+
+                prevTime = time;
+                // controls.update();
+                renderer.render(scene, camera);
+                console.log("rendering")
+
+            }
+
+
+            window.addEventListener('resize', onWindowResize, false);
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            controls.addEventListener('lock', function () {
+                instructions.style.display = 'none';
+                blocker.style.display = 'none';
+                content.style.display = 'block';
+
+            });
+
+            controls.addEventListener('unlock', function () {
+                blocker.style.display = 'block';
+                instructions.style.display = '';
+                content.style.display = 'none';
+            });
+
+            const onKeyDown = function (event) {
+                switch (event.code) {
+                    case 'ArrowUp':
+                    case 'KeyW':
+                        moveForward = true;
+                        break;
+                    case 'ArrowLeft':
+                    case 'KeyA':
+                        moveLeft = true;
+                        break;
+                    case 'ArrowDown':
+                    case 'KeyS':
+                        moveBackward = true;
+                        break;
+                    case 'ArrowRight':
+                    case 'KeyD':
+                        moveRight = true;
+                        break;
+                    case 'Space':
+                        if (idx < contentText.length - 1){
+                            idx ++;
+                        }
+                        else{
+                            idx = 0;
+                        }
+                        document.getElementById('content').innerHTML = contentText[idx];
+                    }
+            };
+
+            const onKeyUp = function (event) {
+                switch (event.code) {
+                    case 'ArrowUp':
+                    case 'KeyW':
+                        moveForward = false;
+                        break;
+                    case 'ArrowLeft':
+                    case 'KeyA':
+                        moveLeft = false;
+                        break;
+                    case 'ArrowDown':
+                    case 'KeyS':
+                        moveBackward = false;
+                        break;
+                    case 'ArrowRight':
+                    case 'KeyD':
+                        moveRight = false;
+                        break;
+                }
+            };
+
+            document.addEventListener('keydown', onKeyDown);
+            document.addEventListener('keyup', onKeyUp);
+
+        </script>
+
+    </div>
+</body>
+</html>
