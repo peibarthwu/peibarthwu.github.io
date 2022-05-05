@@ -136,13 +136,18 @@
             }
 
             function onScroll(ev){
-                const amount = ev.deltaY;            
-                if (amount>0){
-                    camera.position.z += 0.06;
-                }
-                else{
-                    camera.position.z -= 0.06;
-                }
+                const amount = ev.deltaY;    
+                    if (amount>0){
+                        if(camera.position.z < -1){
+                            camera.position.z += 0.06;
+                        }
+                    }
+                    else{
+                        if(camera.position.z > -17){
+                            camera.position.z -= 0.06;
+                        }
+                    }
+                        
             }
 
             controls.addEventListener('lock', function () {
