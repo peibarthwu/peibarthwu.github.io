@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Apricity</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
+</head>
+<style>
+    body {
+        margin: 0px;
+        font-family: 'Titillium Web', sans-serif;
+        color: rgb(255, 17, 116);
+        text-align: center;
+        font-size: large;
+        overflow: hidden;
+    }
+
+    .three {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    #content {
+        font-size: xx-large;
+        text-align: center;
+        display: none;
+        padding-top: 5%;
+    }
+
+    #blocker {
+        z-index: 2;
+    }
+
+    #button {
+        cursor: pointer;
+    }
+
+    #button:hover {
+        color: rgb(255, 255, 255);
+    }
+</style>
+
+<body>
+
+    <div id="blocker">
+        <div id="instructions">
+            <p id="button" style="font-size:36px">
+                Click to Enter
+            </p>
+            <p>
+                Exit: ESC<br />
+                Move: SCROLL<br />
+                Look: MOUSE
+            </p>
+        </div>
+    </div>
+    <div id="three" class="three">
+        <script src="threejs/build/three.js"></script>
+        <script src="threejs/examples/js/loaders/GLTFLoader.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.5/gsap.min.js"></script>
+        <script type="module">
+
+            import { PointerLockControls } from '/threejs/examples/jsm/controls/PointerLockControls.js';
+            import { OrbitControls } from '/threejs/examples/jsm/controls/OrbitControls.js';
+
+
+            var container, controls, composer;
+            var camera, scene, renderer, spotLight;
+            var ceiling, walls, shadermaterial, plane; //the house
+            var id = 0; //to check if we are animating
+
+            let raycaster, pointer;
+
+            let prevTime = performance.now();
+            const velocity = new THREE.Vector3();
+            const direction = new THREE.Vector3();
+
+            let contentText = [
+                "hi",
+                "hello"
+            ];
+            let idx = 0;
+
+            init();
+            animate();
+            function init() {
+
+                //basics
+
+                camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.25, 200);
+                camera.position.set(0, 0, -1.5);
+                camera.lookAt(3, 0, -2);
+
+                scene = new THREE.Scene();
+                const spotLight = new THREE.DirectionalLight( 0xffffff );
+                spotLight.position.set( 0, 1, -10 );
+                spotLight.castShadow = true;
+                scene.add(spotLight);
+                const light = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.8);
+                scene.add(light);
+                
+
+                var loader = new THREE.GLTFLoader();
+                loader.load("img/ms125/hallway.gltf", function (gltf) {
+                    scene.add(gltf.scene);
+                });
+
+                // renderer and controls
+                renderer = new THREE.WebGLRenderer({ antialias: true });
+                renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.getElementById('three').appendChild(renderer.domElement);
+                controls = new PointerLockControls(camera, document.body);
+                const blocker = document.getElementById('blocker');
+                const instructions = document.getElementById('instructions');
+
+                instructions.addEventListener('click', function () {
+                    controls.lock();
+                });
+
+                scene.add(controls.getObject());
+
+            }
+
+            function animate() {
+                id = requestAnimationFrame(animate);
+                // calculate objects intersecting the picking ray
+                // controls.update();
+                renderer.render(scene, camera);
+                console.log("rendering")
+            }
+
+            function onScroll(ev){
+                const amount = ev.deltaY;            
+                if (amount>0){
+                    camera.position.z += 0.07;
+                }
+                else{
+                    camera.position.z -= 0.07;
+                }
+            }
+
+            controls.addEventListener('lock', function () {
+                instructions.style.display = 'none';
+                blocker.style.display = 'none';
+                window.addEventListener('wheel', onScroll);
+
+            });
+
+            controls.addEventListener('unlock', function () {
+                blocker.style.display = 'block';
+                instructions.style.display = '';
+
+            });
+
+            window.addEventListener('resize', onWindowResize, false);
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+
+
+        </script>
+
+    </div>
+</body>
+
+</html>
