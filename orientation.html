@@ -160,11 +160,18 @@
                 requestAnimationFrame(animate);
                 controls.update();
                 composer.render(); //render and post
-                customPass.uniforms.uOrientationY.value = controls.alpha;
-                console.log(controls.alpha)
+                // customPass.uniforms.uOrientationY.value = controls.alpha;
+                // console.log(controls.alpha)
                 // renderer.render( scene, camera );
 
             }
+
+            window.addEventListener('touchend', onTouchEnd, false);
+            function onTouchEnd(event){
+                console.log(controls)
+                
+            }
+
 
             window.addEventListener('resize', onWindowResize, false);
             function onWindowResize() {
