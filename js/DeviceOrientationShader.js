@@ -133,9 +133,6 @@ class DeviceOrientationControlsShader extends EventDispatcher {
 
 				setObjectQuaternion( scope.object.quaternion, alpha, beta, gamma, orient );
 
-                console.log(alpha)
-                console.log(beta)
-                console.log(gamma)
 
 				if ( 8 * ( 1 - lastQuaternion.dot( scope.object.quaternion ) ) > EPS ) {
 
