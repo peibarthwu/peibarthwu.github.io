@@ -38,9 +38,9 @@ class DeviceOrientationControlsShader extends EventDispatcher {
 		this.deviceOrientation = {};
 		this.screenOrientation = 0;
 
-        this.alpha = 0.0;
-        this.beta = 0.0;
-        this.gamma = 0.0;
+        // this.alpha = 0.0;
+        // this.beta = 0.0;
+        // this.gamma = 0.0;
 
 
 		this.alphaOffset = 0; // radians
@@ -132,6 +132,10 @@ class DeviceOrientationControlsShader extends EventDispatcher {
 				const orient = scope.screenOrientation ? MathUtils.degToRad( scope.screenOrientation ) : 0; // O
 
 				setObjectQuaternion( scope.object.quaternion, alpha, beta, gamma, orient );
+
+                console.log(alpha)
+                console.log(beta)
+                console.log(gamma)
 
 				if ( 8 * ( 1 - lastQuaternion.dot( scope.object.quaternion ) ) > EPS ) {
 
