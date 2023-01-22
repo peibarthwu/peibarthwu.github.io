@@ -15,12 +15,12 @@ body {
 
 /* mobile */
 @media (max-width: 700px) {
-
     html,
     body {
         max-width: none;
-        margin-left: 20px;
-        margin-right: 20px;
+        /* width: 90%; */
+        margin-left: 10px;
+        margin-right: 10px;
     }
 
 }
@@ -57,7 +57,7 @@ a {
 }
 
 .heading {
-    font-size: 9rem;
+    font-size: 8rem;
 }
 
 .three-d-container {
