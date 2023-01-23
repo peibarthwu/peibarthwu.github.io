@@ -3,8 +3,8 @@
 html,
 body {
     margin: 0;
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
+    background-color: rgb(0, 0, 255);
+    color: rgb(255, 255, 255);
     font-family: 'Azeret Mono', monospace;
     max-width: 500px;
     display: block;
@@ -43,8 +43,8 @@ a {
     font-weight: 600;
     font-size:xx-large;
     margin: 0px;
-    margin-top: 30px;
-    color: red;
+    margin-top: 50px;
+    color: rgb(255, 255, 255);
 }
 
 .base, .size-fix h2 {
@@ -53,11 +53,12 @@ a {
     margin-bottom: 0px;
     padding: none;
     font-weight: 200;
+
 }
 
 .heading {
     font-size: 8rem;
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 .three-d-container {
@@ -73,8 +74,8 @@ a {
 }
 
 .emphasized {
-    background-color:rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
+    background-color:rgb(255, 255, 255);
+    color: rgb(0, 0, 255);
     font-weight: 600;
     width: fit-content;
 }
