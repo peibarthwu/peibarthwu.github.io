@@ -3,9 +3,8 @@
 html,
 body {
     margin: 0;
-    overscroll-behavior: none;
-    background-color: rgb(0, 42, 255);
-    color: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     font-family: 'Azeret Mono', monospace;
     max-width: 500px;
     display: block;
@@ -27,7 +26,6 @@ body {
 
 p {
     text-transform: uppercase;
-    margin-bottom: 8px;
     line-height: 110%;
 }
 
@@ -37,6 +35,7 @@ a {
     transition: 0.3s;
 }
 
+
 .base, .size-fix h1 {
     font-size: 3rem;
     text-transform: uppercase;
@@ -44,8 +43,8 @@ a {
     font-weight: 600;
     font-size:xx-large;
     margin: 0px;
-    margin-top: 50px;
-
+    margin-top: 30px;
+    color: red;
 }
 
 .base, .size-fix h2 {
@@ -58,6 +57,7 @@ a {
 
 .heading {
     font-size: 8rem;
+    margin-top: 30px;
 }
 
 .three-d-container {

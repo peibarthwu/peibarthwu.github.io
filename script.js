@@ -6,7 +6,6 @@ console.log("init");
 
 const node = document.getElementById("ref");
 const siteHeight = document.body.getBoundingClientRect().height;
-
 const container = document.createElement("div");
 node.append(container);
 container.classList.add("three-d-container");
@@ -23,7 +22,7 @@ const animStart = window.innerHeight / 2;
 let currentRotations = [];
 
 function init() {
-    while (pixelCounter < baseHeight) {
+    while (pixelCounter < baseHeight + 200) { //200 is hard coded padding on the bottom
         let sizeFixEle = document.createElement("div");
         sizeFixEle.classList.add("size-fix");
         sizeFixEle.style.height = `${sizeFixHeight}px`;
@@ -34,7 +33,6 @@ function init() {
             }px)`;
         sizeFixEle.append(innerContent);
         container.append(sizeFixEle);
-
         articleBits.push(sizeFixEle);
         pixelCounter += sizeFixHeight;
         console.log(pixelCounter + ", " + baseHeight)
@@ -56,6 +54,9 @@ function init() {
             articleBits[i].style.transformOrigin = "top";
         }
     }
+
+    document.body.style.height = siteHeight;
+
 }
 init();
 
