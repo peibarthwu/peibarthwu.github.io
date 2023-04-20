@@ -3,8 +3,8 @@
 html,
 body {
     margin: 0;
-    background-color: rgb(0, 0, 255);
-    color: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     font-family: 'Azeret Mono', monospace;
     max-width: 500px;
     display: block;
@@ -14,6 +14,7 @@ body {
 
 /* mobile */
 @media (max-width: 700px) {
+
     html,
     body {
         max-width: none;
@@ -36,24 +37,30 @@ a {
 }
 
 
-.base, .size-fix h1 {
-    font-size: 3rem;
+.base,
+.size-fix h1 {
+    font-size: 4rem;
     text-transform: uppercase;
     line-height: 110%;
     font-weight: 600;
-    font-size:xx-large;
+    /* font-size:xx-large; */
     margin: 0px;
     margin-top: 50px;
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
 }
 
-.base, .size-fix h2 {
-    font-size: large;
+.base,
+.size-fix h2 {
+    /* font-size: large;
     text-transform: uppercase;
     margin-bottom: 0px;
     padding: none;
-    font-weight: 200;
-
+    font-weight: 200; */
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0px;
+    line-height: 110%;
 }
 
 .heading {
@@ -74,10 +81,11 @@ a {
 }
 
 .emphasized {
-    background-color:rgb(255, 255, 255);
-    color: rgb(0, 0, 255);
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     font-weight: 600;
     width: fit-content;
+    margin-top: 50px;
 }
 
 
