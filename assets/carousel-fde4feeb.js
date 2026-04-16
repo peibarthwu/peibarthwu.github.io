@@ -1,0 +1,1 @@
+const t=document.querySelectorAll(".slide"),s=document.querySelector(".next"),d=document.querySelector(".prev");let e=0;function n(c){t.forEach(l=>l.classList.remove("active")),t[c].classList.add("active")}s.addEventListener("click",()=>{e=(e+1)%t.length,n(e)});d.addEventListener("click",()=>{e=(e-1+t.length)%t.length,n(e)});
